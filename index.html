@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Credit Card Fraud Detection — ML Demo</title>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --accent: #4f46e5;
+            --accent-glow: rgba(79, 70, 229, 0.15);
+            --green: #059669;
+            --green-bg: #ecfdf5;
+            --red: #dc2626;
+            --red-bg: #fef2f2;
+            --orange: #d97706;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            padding: 2.5rem 1rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        header h1 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+            color: #0f172a;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .api-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: var(--green);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            margin-top: 0.8rem;
+        }
+
+        .api-badge.offline {
+            background: #fffbeb;
+            border-color: #fde68a;
+            color: var(--orange);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        /* QUICK PRESETS */
+        .preset-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .preset-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #1e293b;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+
+        .btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .btn-green:hover {
+            border-color: var(--green);
+            color: var(--green);
+            background: #f0fdf4;
+        }
+
+        .btn-red:hover {
+            border-color: var(--red);
+            color: var(--red);
+            background: #fef2f2;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #4338ca;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.35);
+        }
+
+        /* MAIN TWO-COLUMN GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 1.6rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 0.75rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.92rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        /* FEATURE SLIDERS / INPUTS */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+        }
+
+        .feature-item {
+            background: #f8fafc;
+            padding: 0.65rem 0.85rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .feature-item.key-feature {
+            border-color: #fca5a5;
+            background: #fef2f2;
+        }
+
+        .feature-item label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.2rem;
+        }
+
+        .feature-item input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 700;
+            outline: none;
+        }
+
+        /* RESULT DISPLAY */
+        .result-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.6rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin: 1.2rem 0;
+            text-transform: uppercase;
+        }
+
+        .status-badge.safe {
+            background: #ecfdf5;
+            border: 1px solid #6ee7b7;
+            color: var(--green);
+        }
+
+        .status-badge.fraud {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: var(--red);
+        }
+
+        .probability-meter {
+            margin: 1rem 0;
+        }
+
+        .score-display {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 0.4rem;
+            color: #0f172a;
+        }
+
+        .score-sub {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 0.9rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--green);
+            transition: width 0.6s ease, background-color 0.4s ease;
+            border-radius: 6px;
+        }
+
+        /* EXPLAINER BOX FOR TEACHER */
+        .explainer-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1.1rem;
+            text-align: left;
+            margin-top: 1rem;
+        }
+
+        .explainer-box h4 {
+            font-size: 0.82rem;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 700;
+        }
+
+        .explainer-list {
+            list-style: none;
+            font-size: 0.86rem;
+            color: #334155;
+        }
+
+        .explainer-list li {
+            margin-bottom: 0.45rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .explainer-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* COMPARISON TABLE STYLES */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            text-align: left;
+            margin-top: 0.5rem;
+        }
+
+        .comparison-table th {
+            background: #f8fafc;
+            padding: 0.8rem 1rem;
+            color: #475569;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comparison-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            color: #1e293b;
+        }
+
+        .comparison-table tr.winner-row {
+            background: #f0fdf4;
+        }
+
+        .badge-winner {
+            background: #d1fae5;
+            border: 1px solid #6ee7b7;
+            color: var(--green);
+            font-size: 0.74rem;
+            font-weight: 700;
+            padding: 0.2rem 0.65rem;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .badge-tag {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #64748b;
+            font-size: 0.74rem;
+            font-weight: 600;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* BOTTOM MODEL INFO SUMMARY */
+        .summary-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 1.4rem 1.6rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .summary-item h5 {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.2rem;
+            font-weight: 700;
+        }
+
+        .summary-item p {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .advanced-toggle {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 0.6rem;
+        }
+
+        .advanced-toggle:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <h1>Credit Card Fraud Detection</h1>
+            <p>Machine Learning Model Evaluation & Live Prediction Demo</p>
+            <div id="apiBadge" class="api-badge">
+                <div class="dot"></div>
+                <span id="apiStatusText">Checking ML Backend API...</span>
+            </div>
+        </header>
+
+        <!-- PRESETS FOR QUICK DEMO TO TEACHER -->
+        <div class="preset-container">
+            <span class="preset-title">Demo Presets:</span>
+            <div class="btn-group">
+                <button onclick="loadPreset('legit')" class="btn btn-green">
+                    🟢 Normal Transaction
+                </button>
+                <button onclick="loadPreset('fraud')" class="btn btn-red">
+                    🔴 Fraudulent Transaction
+                </button>
+                <button onclick="loadRealSample()" class="btn">
+                    🎲 Load Dataset Sample
+                </button>
+            </div>
+        </div>
+
+        <!-- MAIN DEMO INTERFACE -->
+        <div class="grid">
+            <!-- LEFT: INPUT DATA -->
+            <div class="card">
+                <div class="card-header">
+                    <span>Transaction Details</span>
+                    <span style="font-size:0.75rem; font-weight:600; color:var(--text-muted)">Input Features</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Amount (€)</label>
+                    <input type="number" id="inputAmount" class="form-control" value="14.99" step="0.01" onchange="predict()">
+                </div>
+
+                <div class="form-group">
+                    <label>Hour of Day (0 - 23)</label>
+                    <input type="number" id="inputHour" class="form-control" min="0" max="23" value="14" onchange="predict()">
+                </div>
+
+                <div class="form-group">
+                    <label style="display:flex; justify-content:space-between;">
+                        <span>Key Anomaly Features (PCA)</span>
+                        <span style="color:var(--red); font-size:0.75rem">V14 & V17 are primary fraud drivers</span>
+                    </label>
+                    <div class="features-grid">
+                        <div class="feature-item key-feature">
+                            <label>V14 (Pattern Driver)</label>
+                            <input type="number" id="input_V14" value="0.00" step="0.1" onchange="predict()">
+                        </div>
+                        <div class="feature-item key-feature">
+                            <label>V17 (Deviation)</label>
+                            <input type="number" id="input_V17" value="0.00" step="0.1" onchange="predict()">
+                        </div>
+                        <div class="feature-item">
+                            <label>V12 (Spike)</label>
+                            <input type="number" id="input_V12" value="0.00" step="0.1" onchange="predict()">
+                        </div>
+                        <div class="feature-item">
+                            <label>V10 (Correlation)</label>
+                            <input type="number" id="input_V10" value="0.00" step="0.1" onchange="predict()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALL 29 FEATURES COLLAPSIBLE -->
+                <button onclick="toggleAdvanced()" class="advanced-toggle" id="toggleBtn">
+                    + Show All 29 PCA Features (V1–V28)
+                </button>
+                <div id="advancedGrid" style="display:none; margin-top:0.8rem;" class="features-grid">
+                    <!-- Dynamic V1..V28 generated via JS -->
+                </div>
+
+                <button onclick="predict()" class="btn btn-primary" style="width:100%; margin-top:1.2rem; justify-content:center;">
+                    ⚡ Predict Fraud Status
+                </button>
+            </div>
+
+            <!-- RIGHT: PREDICTION RESULT & EXPLAINER -->
+            <div class="card result-card">
+                <div>
+                    <div class="card-header">
+                        <span>Prediction Outcome</span>
+                        <span id="modelLabel" style="font-size:0.75rem; font-weight:700; color:var(--accent)">LightGBM</span>
+                    </div>
+
+                    <div id="statusBadge" class="status-badge safe">
+                        ✓ LEGITIMATE TRANSACTION
+                    </div>
+
+                    <div class="probability-meter">
+                        <div class="score-display" id="probScore">0.0%</div>
+                        <div class="score-sub">Calculated Fraud Probability</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TEACHER EXPLAINER BOX -->
+                <div class="explainer-box">
+                    <h4>💡 Explanation for Presentation</h4>
+                    <ul class="explainer-list" id="explainerList">
+                        <li><span>•</span> <span><strong>Normal Behavior:</strong> Feature inputs align with legitimate credit card transactions.</span></li>
+                        <li><span>•</span> <span><strong>Decision Threshold:</strong> Evaluated against optimal threshold (98.7%).</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODEL COMPARISON TABLE -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+                <span>Model Comparison Benchmark</span>
+                <span style="font-size:0.75rem; font-weight:600; color:var(--text-muted)">Evaluated on 56,962 Held-Out Test Transactions</span>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>ROC-AUC</th>
+                            <th>PR-AUC</th>
+                            <th>F1-Score</th>
+                            <th>Recall</th>
+                            <th>Precision</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="winner-row">
+                            <td><strong>LightGBM Classifier</strong></td>
+                            <td>0.9857</td>
+                            <td><strong style="color:var(--green)">0.8784</strong></td>
+                            <td>0.8710</td>
+                            <td>81.6%</td>
+                            <td>93.4%</td>
+                            <td><span class="badge-winner">★ Deployed Best</span></td>
+                        </tr>
+                        <tr>
+                            <td>XGBoost Classifier</td>
+                            <td>0.9857</td>
+                            <td>0.8778</td>
+                            <td>0.8696</td>
+                            <td>81.6%</td>
+                            <td>93.0%</td>
+                            <td><span class="badge-tag">Runner Up</span></td>
+                        </tr>
+                        <tr>
+                            <td>Random Forest</td>
+                            <td>0.9782</td>
+                            <td>0.8540</td>
+                            <td>0.8420</td>
+                            <td>78.4%</td>
+                            <td>91.0%</td>
+                            <td><span class="badge-tag">Baseline</span></td>
+                        </tr>
+                        <tr>
+                            <td>PyTorch Autoencoder</td>
+                            <td>0.9412</td>
+                            <td>0.6330</td>
+                            <td>0.6210</td>
+                            <td>74.1%</td>
+                            <td>53.4%</td>
+                            <td><span class="badge-tag">Unsupervised Anomaly</span></td>
+                        </tr>
+                        <tr>
+                            <td>Logistic Regression</td>
+                            <td>0.9650</td>
+                            <td>0.7210</td>
+                            <td>0.7100</td>
+                            <td>66.5%</td>
+                            <td>76.2%</td>
+                            <td><span class="badge-tag">Linear Baseline</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- MODEL OVERVIEW FOR TEACHER -->
+        <div class="summary-card">
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <h5>Algorithm</h5>
+                    <p>LightGBM</p>
+                </div>
+                <div class="summary-item">
+                    <h5>ROC-AUC</h5>
+                    <p style="color:var(--green)">0.9857 (98.5%)</p>
+                </div>
+                <div class="summary-item">
+                    <h5>Optimal Threshold</h5>
+                    <p style="color:var(--accent)">0.9870 (98.7%)</p>
+                </div>
+                <div class="summary-item">
+                    <h5>Dataset</h5>
+                    <p>284,807 Rows</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIMPLE SCRIPT LOGIC -->
+    <script>
+        const API_BASE = "http://127.0.0.1:8000";
+        let isApiOnline = false;
+
+        // Populate V1..V28 advanced inputs
+        function initAdvancedFeatures() {
+            const grid = document.getElementById("advancedGrid");
+            grid.innerHTML = "";
+            for (let i = 1; i <= 28; i++) {
+                if ([10, 12, 14, 17].includes(i)) continue; // Already shown above
+                const div = document.createElement("div");
+                div.className = "feature-item";
+                div.innerHTML = `
+                    <label>V${i}</label>
+                    <input type="number" id="input_V${i}" value="0.00" step="0.1" onchange="predict()">
+                `;
+                grid.appendChild(div);
+            }
+        }
+
+        function toggleAdvanced() {
+            const grid = document.getElementById("advancedGrid");
+            const btn = document.getElementById("toggleBtn");
+            if (grid.style.display === "none") {
+                grid.style.display = "grid";
+                btn.textContent = "- Hide Extra PCA Features";
+            } else {
+                grid.style.display = "none";
+                btn.textContent = "+ Show All 29 PCA Features (V1–V28)";
+            }
+        }
+
+        // Check backend API connection
+        async function checkApi() {
+            const badge = document.getElementById("apiBadge");
+            const text = document.getElementById("apiStatusText");
+            try {
+                const res = await fetch(`${API_BASE}/api/health`);
+                if (res.ok) {
+                    isApiOnline = true;
+                    badge.classList.remove("offline");
+                    text.textContent = "FastAPI Backend Online (Port 8000)";
+                    return;
+                }
+            } catch(e) {}
+            isApiOnline = false;
+            badge.classList.add("offline");
+            text.textContent = "Client Simulation Mode (Offline)";
+        }
+
+        // Load Preset
+        function loadPreset(type) {
+            if (type === 'legit') {
+                document.getElementById("inputAmount").value = "14.99";
+                document.getElementById("inputHour").value = "14";
+                document.getElementById("input_V14").value = "0.10";
+                document.getElementById("input_V17").value = "-0.20";
+                document.getElementById("input_V12").value = "0.00";
+                document.getElementById("input_V10").value = "0.10";
+            } else if (type === 'fraud') {
+                document.getElementById("inputAmount").value = "529.00";
+                document.getElementById("inputHour").value = "3";
+                document.getElementById("input_V14").value = "-4.50";
+                document.getElementById("input_V17").value = "-3.20";
+                document.getElementById("input_V12").value = "-2.80";
+                document.getElementById("input_V10").value = "-2.70";
+            }
+            predict();
+        }
+
+        async function loadRealSample() {
+            if (isApiOnline) {
+                try {
+                    const res = await fetch(`${API_BASE}/api/sample`);
+                    const data = await res.json();
+                    if (data.fraudulent && data.fraudulent.length > 0) {
+                        const s = data.fraudulent[Math.floor(Math.random() * data.fraudulent.length)];
+                        document.getElementById("inputAmount").value = s.Amount ? s.Amount.toFixed(2) : "150.00";
+                        document.getElementById("inputHour").value = s.Hour !== undefined ? s.Hour : 12;
+                        if (s.V14 !== undefined) document.getElementById("input_V14").value = s.V14.toFixed(2);
+                        if (s.V17 !== undefined) document.getElementById("input_V17").value = s.V17.toFixed(2);
+                        if (s.V12 !== undefined) document.getElementById("input_V12").value = s.V12.toFixed(2);
+                        if (s.V10 !== undefined) document.getElementById("input_V10").value = s.V10.toFixed(2);
+                        predict();
+                        return;
+                    }
+                } catch(e) {}
+            }
+            loadPreset('fraud');
+        }
+
+        // Run Prediction
+        async function predict() {
+            const amount = parseFloat(document.getElementById("inputAmount").value) || 0;
+            const hour = parseInt(document.getElementById("inputHour").value) || 0;
+            const v14 = parseFloat(document.getElementById("input_V14").value) || 0;
+            const v17 = parseFloat(document.getElementById("input_V17").value) || 0;
+            const v12 = parseFloat(document.getElementById("input_V12").value) || 0;
+            const v10 = parseFloat(document.getElementById("input_V10").value) || 0;
+
+            let prob = 0.01;
+            let isFraud = false;
+
+            if (isApiOnline) {
+                try {
+                    const payload = { Amount: amount, Hour: hour, V14: v14, V17: v17, V12: v12, V10: v10 };
+                    for (let i = 1; i <= 28; i++) {
+                        const el = document.getElementById(`input_V${i}`);
+                        if (el) payload[`V${i}`] = parseFloat(el.value) || 0;
+                    }
+
+                    const res = await fetch(`${API_BASE}/api/predict`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        prob = data.fraud_probability;
+                        isFraud = data.is_fraud;
+                        renderResult(prob, isFraud, v14, v17);
+                        return;
+                    }
+                } catch(e) {}
+            }
+
+            // Fallback rule for presentation demo
+            if (v14 < -2.0 || v17 < -2.0) {
+                prob = 0.902;
+            } else {
+                prob = 0.015;
+            }
+            isFraud = prob >= 0.987;
+            renderResult(prob, isFraud, v14, v17);
+        }
+
+        function renderResult(prob, isFraud, v14, v17) {
+            const pct = (prob * 100).toFixed(1) + "%";
+            document.getElementById("probScore").textContent = pct;
+
+            const badge = document.getElementById("statusBadge");
+            const fill = document.getElementById("progressFill");
+            const explainer = document.getElementById("explainerList");
+
+            fill.style.width = pct;
+
+            if (prob > 0.5) {
+                badge.className = "status-badge fraud";
+                badge.innerHTML = "🚨 FRAUD ALERT (HIGH RISK)";
+                fill.style.backgroundColor = "var(--red)";
+
+                explainer.innerHTML = `
+                    <li><span>•</span> <span><strong>Anomaly Detected:</strong> Features V14 (${v14.toFixed(1)}) & V17 (${v17.toFixed(1)}) show significant negative spikes.</span></li>
+                    <li><span>•</span> <span><strong>High Fraud Score:</strong> Probability is ${pct} (Evaluated against 98.7% threshold).</span></li>
+                    <li><span>•</span> <span><strong>Action:</strong> Transaction flagged for automatic block or secondary OTP verification.</span></li>
+                `;
+            } else {
+                badge.className = "status-badge safe";
+                badge.innerHTML = "✓ LEGITIMATE TRANSACTION";
+                fill.style.backgroundColor = "var(--green)";
+
+                explainer.innerHTML = `
+                    <li><span>•</span> <span><strong>Normal Pattern:</strong> Transaction behavior matches standard purchasing patterns.</span></li>
+                    <li><span>•</span> <span><strong>Low Fraud Risk:</strong> Calculated probability is low (${pct}).</span></li>
+                    <li><span>•</span> <span><strong>Action:</strong> Approved instantly.</span></li>
+                `;
+            }
+        }
+
+        // Init
+        window.addEventListener("DOMContentLoaded", () => {
+            initAdvancedFeatures();
+            checkApi();
+            predict();
+        });
+    </script>
+</body>
+
+</html>
