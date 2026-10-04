@@ -1,0 +1,441 @@
+{
+    "model_version": "2.0.0",
+    "dataset_deduplication": {
+        "initial_rows": 284807,
+        "duplicates_removed": 1081,
+        "clean_rows": 283726
+    },
+    "temporal_split": {
+        "total_rows": 283726,
+        "train": {
+            "count": 198608,
+            "fraud_count": 366,
+            "legit_count": 198242,
+            "fraud_percentage": 0.18428260694433254,
+            "min_time": 0.0,
+            "max_time": 132906.0
+        },
+        "val": {
+            "count": 42558,
+            "fraud_count": 55,
+            "legit_count": 42503,
+            "fraud_percentage": 0.1292353964002068,
+            "min_time": 132906.0,
+            "max_time": 151320.0
+        },
+        "test": {
+            "count": 42560,
+            "fraud_count": 52,
+            "legit_count": 42508,
+            "fraud_percentage": 0.12218045112781956,
+            "min_time": 151320.0,
+            "max_time": 172792.0
+        }
+    },
+    "best_config": {
+        "model_name": "Random Forest",
+        "strategy": "none",
+        "params": {
+            "n_estimators": "100",
+            "max_depth": "10",
+            "random_state": "42",
+            "n_jobs": "-1"
+        },
+        "val_pr_auc": 0.8674820380841745,
+        "val_roc_auc": 0.9828236723397066,
+        "val_f1": 0.7218045112781954,
+        "val_cost": 3800.0,
+        "val_threshold": 0.0592462311557789
+    },
+    "optimal_threshold": 0.07402010050251256,
+    "cost_parameters": {
+        "cost_FN": 500.0,
+        "cost_FP": 10.0
+    },
+    "validation_calibration_curve": {
+        "prob_true": [
+            0.00018830175356008002,
+            0.0,
+            0.2222222222222222,
+            0.3333333333333333,
+            0.3333333333333333,
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "prob_pred": [
+            0.00019583407515554686,
+            0.13943993870399696,
+            0.25950852622414955,
+            0.36505155238113685,
+            0.46229152736755247,
+            0.5516609320940742,
+            0.6495336524601455,
+            0.7234666001863194,
+            0.8745890754403967,
+            0.9612454781015501
+        ]
+    },
+    "test_metrics": {
+        "threshold": 0.07402010050251256,
+        "confusion_matrix": {
+            "tn": 42480,
+            "fp": 28,
+            "fn": 14,
+            "tp": 38
+        },
+        "precision": 0.5757575757575758,
+        "recall": 0.7307692307692307,
+        "f1": 0.6440677966101694,
+        "roc_auc": 0.9843830301626482,
+        "pr_auc": 0.7532536183135716
+    },
+    "test_cost": 7280.0,
+    "test_confidence_intervals": {
+        "precision": {
+            "mean": 0.5767359346519316,
+            "ci_lower": 0.4507042253521127,
+            "ci_upper": 0.6936339198435972
+        },
+        "recall": {
+            "mean": 0.7307726517907609,
+            "ci_lower": 0.6041487068965516,
+            "ci_upper": 0.84375
+        },
+        "f1": {
+            "mean": 0.6428415785458911,
+            "ci_lower": 0.5356877652050919,
+            "ci_upper": 0.742435064935065
+        },
+        "roc_auc": {
+            "mean": 0.9844460454893412,
+            "ci_lower": 0.9725367218527405,
+            "ci_upper": 0.9938491505161018
+        },
+        "pr_auc": {
+            "mean": 0.753105156708307,
+            "ci_lower": 0.6385269148590128,
+            "ci_upper": 0.8568107190439402
+        }
+    },
+    "benchmark_comparison": [
+        {
+            "model_name": "Logistic Regression",
+            "strategy": "none",
+            "params": {
+                "C": "1.0",
+                "max_iter": "1000",
+                "random_state": "42"
+            },
+            "val_pr_auc": 0.761647859293472,
+            "val_roc_auc": 0.9810584493500993,
+            "val_f1": 0.5697674418604651,
+            "val_cost": 3680.0,
+            "val_threshold": 0.024773869346733667
+        },
+        {
+            "model_name": "Logistic Regression",
+            "strategy": "class_weight",
+            "params": {
+                "C": "1.0",
+                "max_iter": "1000",
+                "random_state": "42"
+            },
+            "val_pr_auc": 0.8238968779906888,
+            "val_roc_auc": 0.9814733933219687,
+            "val_f1": 0.3952569169960474,
+            "val_cost": 3980.0,
+            "val_threshold": 0.9506030150753769
+        },
+        {
+            "model_name": "Logistic Regression",
+            "strategy": "random_undersampling",
+            "params": {
+                "C": "1.0",
+                "max_iter": "1000",
+                "random_state": "42"
+            },
+            "val_pr_auc": 0.27683071341477805,
+            "val_roc_auc": 0.9788583907446106,
+            "val_f1": 0.2857142857142857,
+            "val_cost": 5390.0,
+            "val_threshold": 0.99
+        },
+        {
+            "model_name": "Logistic Regression",
+            "strategy": "smote",
+            "params": {
+                "C": "1.0",
+                "max_iter": "1000",
+                "random_state": "42"
+            },
+            "val_pr_auc": 0.8411504611883149,
+            "val_roc_auc": 0.9788271630023976,
+            "val_f1": 0.5581395348837209,
+            "val_cost": 4190.0,
+            "val_threshold": 0.99
+        },
+        {
+            "model_name": "Decision Tree",
+            "strategy": "none",
+            "params": {
+                "max_depth": "6",
+                "min_samples_split": "10",
+                "random_state": "42"
+            },
+            "val_pr_auc": 0.5999385399132935,
+            "val_roc_auc": 0.7780588749885036,
+            "val_f1": 0.7551020408163265,
+            "val_cost": 9060.0,
+            "val_threshold": 0.01
+        },
+        {
+            "model_name": "Decision Tree",
+            "strategy": "class_weight",
+            "params": {
+                "max_depth": "6",
+                "min_samples_split": "10",
+                "random_state": "42"
+            },
+            "val_pr_auc": 0.17985977884467322,
+            "val_roc_auc": 0.8149959468101717,
+            "val_f1": 0.3942307692307692,
+            "val_cost": 8120.0,
+            "val_threshold": 0.9112060301507539
+        },
+        {
+            "model_name": "Decision Tree",
+            "strategy": "random_undersampling",
+            "params": {
+                "max_depth": "6",
+                "min_samples_split": "10",
+                "random_state": "42"
+            },
+            "val_pr_auc": 0.4756661815173991,
+            "val_roc_auc": 0.9468865299347853,
+            "val_f1": 0.04843304843304843,
+            "val_cost": 22000.0,
+            "val_threshold": 0.8767336683417086
+        },
+        {
+            "model_name": "Decision Tree",
+            "strategy": "smote",
+            "params": {
+                "max_depth": "6",
+                "min_samples_split": "10",
+                "random_state": "42"
+            },
+            "val_pr_auc": 0.291125025530483,
+            "val_roc_auc": 0.8683061944290561,
+            "val_f1": 0.4365482233502538,
+            "val_cost": 6990.0,
+            "val_threshold": 0.9555276381909548
+        },
+        {
+            "model_name": "Random Forest",
+            "strategy": "none",
+            "params": {
+                "n_estimators": "100",
+                "max_depth": "10",
+                "random_state": "42",
+                "n_jobs": "-1"
+            },
+            "val_pr_auc": 0.8674820380841745,
+            "val_roc_auc": 0.9828236723397066,
+            "val_f1": 0.7218045112781954,
+            "val_cost": 3800.0,
+            "val_threshold": 0.0592462311557789
+        },
+        {
+            "model_name": "Random Forest",
+            "strategy": "class_weight",
+            "params": {
+                "n_estimators": "100",
+                "max_depth": "10",
+                "random_state": "42",
+                "n_jobs": "-1"
+            },
+            "val_pr_auc": 0.8536116795835682,
+            "val_roc_auc": 0.979561228833045,
+            "val_f1": 0.5104166666666666,
+            "val_cost": 3880.0,
+            "val_threshold": 0.2463819095477387
+        },
+        {
+            "model_name": "Random Forest",
+            "strategy": "random_undersampling",
+            "params": {
+                "n_estimators": "100",
+                "max_depth": "10",
+                "random_state": "42",
+                "n_jobs": "-1"
+            },
+            "val_pr_auc": 0.8350551346834402,
+            "val_roc_auc": 0.9810928854219916,
+            "val_f1": 0.8,
+            "val_cost": 4640.0,
+            "val_threshold": 0.8619597989949749
+        },
+        {
+            "model_name": "Random Forest",
+            "strategy": "smote",
+            "params": {
+                "n_estimators": "100",
+                "max_depth": "10",
+                "random_state": "42",
+                "n_jobs": "-1"
+            },
+            "val_pr_auc": 0.8155108744433424,
+            "val_roc_auc": 0.9847779728917531,
+            "val_f1": 0.46464646464646464,
+            "val_cost": 5470.0,
+            "val_threshold": 0.4335175879396985
+        },
+        {
+            "model_name": "XGBoost",
+            "strategy": "none",
+            "params": {
+                "n_estimators": "100",
+                "max_depth": "5",
+                "learning_rate": "0.1",
+                "scale_pos_weight": "541.6448087431694",
+                "random_state": "42",
+                "n_jobs": "-1"
+            },
+            "val_pr_auc": 0.8163803720483428,
+            "val_roc_auc": 0.9861211935841961,
+            "val_f1": 0.49473684210526314,
+            "val_cost": 4880.0,
+            "val_threshold": 0.23160804020100503
+        },
+        {
+            "model_name": "XGBoost",
+            "strategy": "class_weight",
+            "params": {
+                "n_estimators": "100",
+                "max_depth": "5",
+                "learning_rate": "0.1",
+                "scale_pos_weight": "541.6448087431694",
+                "random_state": "42",
+                "n_jobs": "-1"
+            },
+            "val_pr_auc": 0.8163803720483428,
+            "val_roc_auc": 0.9861211935841961,
+            "val_f1": 0.49473684210526314,
+            "val_cost": 4880.0,
+            "val_threshold": 0.23160804020100503
+        },
+        {
+            "model_name": "XGBoost",
+            "strategy": "random_undersampling",
+            "params": {
+                "n_estimators": "100",
+                "max_depth": "5",
+                "learning_rate": "0.1",
+                "scale_pos_weight": "541.6448087431694",
+                "random_state": "42",
+                "n_jobs": "-1"
+            },
+            "val_pr_auc": 0.8309540204477355,
+            "val_roc_auc": 0.9889979958633935,
+            "val_f1": 0.0587557603686636,
+            "val_cost": 18300.0,
+            "val_threshold": 0.99
+        },
+        {
+            "model_name": "XGBoost",
+            "strategy": "smote",
+            "params": {
+                "n_estimators": "100",
+                "max_depth": "5",
+                "learning_rate": "0.1",
+                "scale_pos_weight": "541.6448087431694",
+                "random_state": "42",
+                "n_jobs": "-1"
+            },
+            "val_pr_auc": 0.7249162426024834,
+            "val_roc_auc": 0.9449861293213527,
+            "val_f1": 0.17234468937875752,
+            "val_cost": 10010.0,
+            "val_threshold": 0.9850753768844221
+        },
+        {
+            "model_name": "LightGBM",
+            "strategy": "none",
+            "params": {
+                "n_estimators": "150",
+                "max_depth": "5",
+                "num_leaves": "31",
+                "learning_rate": "0.08",
+                "scale_pos_weight": "541.6448087431694",
+                "random_state": "42",
+                "n_jobs": "-1",
+                "verbose": "-1"
+            },
+            "val_pr_auc": 0.40652014227768546,
+            "val_roc_auc": 0.8623834039522342,
+            "val_f1": 0.06682206682206682,
+            "val_cost": 17890.0,
+            "val_threshold": 0.99
+        },
+        {
+            "model_name": "LightGBM",
+            "strategy": "class_weight",
+            "params": {
+                "n_estimators": "150",
+                "max_depth": "5",
+                "num_leaves": "31",
+                "learning_rate": "0.08",
+                "scale_pos_weight": "541.6448087431694",
+                "random_state": "42",
+                "n_jobs": "-1",
+                "verbose": "-1"
+            },
+            "val_pr_auc": 0.40652014227768546,
+            "val_roc_auc": 0.8623834039522342,
+            "val_f1": 0.06682206682206682,
+            "val_cost": 17890.0,
+            "val_threshold": 0.99
+        },
+        {
+            "model_name": "LightGBM",
+            "strategy": "random_undersampling",
+            "params": {
+                "n_estimators": "150",
+                "max_depth": "5",
+                "num_leaves": "31",
+                "learning_rate": "0.08",
+                "scale_pos_weight": "541.6448087431694",
+                "random_state": "42",
+                "n_jobs": "-1",
+                "verbose": "-1"
+            },
+            "val_pr_auc": 0.787550874196897,
+            "val_roc_auc": 0.9876889973541975,
+            "val_f1": 0.05321979776476849,
+            "val_cost": 20240.0,
+            "val_threshold": 0.99
+        },
+        {
+            "model_name": "LightGBM",
+            "strategy": "smote",
+            "params": {
+                "n_estimators": "150",
+                "max_depth": "5",
+                "num_leaves": "31",
+                "learning_rate": "0.08",
+                "scale_pos_weight": "541.6448087431694",
+                "random_state": "42",
+                "n_jobs": "-1",
+                "verbose": "-1"
+            },
+            "val_pr_auc": 0.7224118948867958,
+            "val_roc_auc": 0.930519984685573,
+            "val_f1": 0.17177914110429449,
+            "val_cost": 10420.0,
+            "val_threshold": 0.9850753768844221
+        }
+    ]
+}

@@ -4,22 +4,38 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Credit Card Fraud Detection — ML Demo</title>
+    <title>Sentinel AI — Credit Card Fraud Detection & Blockchain Ledger</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --card-border: #e2e8f0;
-            --accent: #4f46e5;
-            --accent-glow: rgba(79, 70, 229, 0.15);
-            --green: #059669;
-            --green-bg: #ecfdf5;
-            --red: #dc2626;
-            --red-bg: #fef2f2;
-            --orange: #d97706;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --radius: 12px;
+            --bg-dark: #07090e;
+            --bg-card: rgba(15, 23, 42, 0.75);
+            --bg-card-hover: rgba(30, 41, 59, 0.85);
+            --border-card: rgba(255, 255, 255, 0.08);
+            --border-card-glow: rgba(99, 102, 241, 0.3);
+            
+            --accent-primary: #6366f1;
+            --accent-cyan: #38bdf8;
+            --accent-purple: #a855f7;
+            --accent-emerald: #10b981;
+            --accent-rose: #f43f5e;
+            --accent-amber: #f59e0b;
+
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+
+            --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.15);
         }
 
         * {
@@ -29,86 +45,137 @@
         }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                radial-gradient(at 90% 20%, rgba(56, 189, 248, 0.1) 0px, transparent 50%),
+                radial-gradient(at 50% 80%, rgba(168, 85, 247, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
             color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: var(--font-main);
             line-height: 1.6;
-            padding: 2.5rem 1rem;
+            padding: 2rem 1.5rem;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 980px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* HEADER */
+        /* HEADER / NAVBAR */
         header {
-            text-align: center;
-            margin-bottom: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.75rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        header h1 {
-            font-size: 2.3rem;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .brand-text h1 {
+            font-size: 1.35rem;
             font-weight: 800;
             letter-spacing: -0.5px;
-            margin-bottom: 0.5rem;
-            color: #0f172a;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        header p {
+        .brand-text p {
+            font-size: 0.78rem;
             color: var(--text-muted);
-            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        .status-badges {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
         .api-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: #ecfdf5;
-            border: 1px solid #a7f3d0;
-            color: var(--green);
-            font-size: 0.8rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--accent-emerald);
+            font-size: 0.78rem;
             font-weight: 600;
-            padding: 0.3rem 0.9rem;
-            border-radius: 20px;
-            margin-top: 0.8rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
         }
 
         .api-badge.offline {
-            background: #fffbeb;
-            border-color: #fde68a;
-            color: var(--orange);
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.3);
+            color: var(--accent-amber);
         }
 
-        .dot {
+        .pulse-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
             background: currentColor;
+            box-shadow: 0 0 10px currentColor;
+            animation: pulse-ring 2s infinite;
         }
 
-        /* QUICK PRESETS */
-        .preset-container {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius);
-            padding: 1.25rem 1.5rem;
-            margin-bottom: 1.5rem;
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.6; }
+            100% { transform: scale(0.95); opacity: 1; }
+        }
+
+        /* QUICK PRESETS BANNER */
+        .preset-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            backdrop-filter: blur(16px);
+            border-radius: var(--radius-lg);
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 1rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .preset-title {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .btn-group {
@@ -118,94 +185,117 @@
         }
 
         .btn {
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            font-size: 0.86rem;
+            padding: 0.6rem 1.15rem;
+            border-radius: var(--radius-md);
+            font-size: 0.84rem;
             font-weight: 600;
-            border: 1px solid #cbd5e1;
-            background: #ffffff;
-            color: #1e293b;
+            font-family: var(--font-main);
+            border: 1px solid var(--border-card);
+            background: rgba(30, 41, 59, 0.6);
+            color: var(--text-main);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            gap: 0.45rem;
+            outline: none;
         }
 
         .btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            border-color: var(--accent-primary);
+            background: rgba(99, 102, 241, 0.15);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
         }
 
-        .btn-green:hover {
-            border-color: var(--green);
-            color: var(--green);
-            background: #f0fdf4;
+        .btn-emerald {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.3);
+            color: #34d399;
+        }
+        .btn-emerald:hover {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: #34d399;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
 
-        .btn-red:hover {
-            border-color: var(--red);
-            color: var(--red);
-            background: #fef2f2;
+        .btn-rose {
+            background: rgba(244, 63, 94, 0.12);
+            border-color: rgba(244, 63, 94, 0.3);
+            color: #fb7185;
+        }
+        .btn-rose:hover {
+            background: rgba(244, 63, 94, 0.25);
+            border-color: #fb7185;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
         }
 
         .btn-primary {
-            background: var(--accent);
-            border-color: var(--accent);
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+            border: none;
             color: #ffffff;
-            box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
         }
-
         .btn-primary:hover {
-            background: #4338ca;
-            color: #ffffff;
-            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+            background: linear-gradient(135deg, #4f46e5, #9333ea);
         }
 
-        /* MAIN TWO-COLUMN GRID */
-        .grid {
+        /* GRID LAYOUT */
+        .grid-2col {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            gap: 1.75rem;
             margin-bottom: 2rem;
         }
 
-        @media (max-width: 768px) {
-            .grid {
+        @media (max-width: 900px) {
+            .grid-2col {
                 grid-template-columns: 1fr;
             }
         }
 
         .card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius);
-            padding: 1.6rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            backdrop-filter: blur(16px);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
         }
 
         .card-header {
             font-size: 1.05rem;
             font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 1.25rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #f1f5f9;
-            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 0.85rem;
+        }
+
+        .card-header-sub {
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: var(--text-muted);
         }
 
         .form-group {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.25rem;
         }
 
         .form-group label {
             display: block;
-            font-size: 0.84rem;
+            font-size: 0.82rem;
             font-weight: 600;
             color: var(--text-muted);
             margin-bottom: 0.4rem;
@@ -213,43 +303,44 @@
 
         .form-control {
             width: 100%;
-            padding: 0.65rem 0.85rem;
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
+            padding: 0.7rem 0.95rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-md);
             color: var(--text-main);
+            font-family: var(--font-main);
             font-size: 0.92rem;
             outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: all 0.2s ease;
         }
 
         .form-control:focus {
-            border-color: var(--accent);
-            background: #ffffff;
-            box-shadow: 0 0 0 3px var(--accent-glow);
+            border-color: var(--accent-primary);
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
         }
 
-        /* FEATURE SLIDERS / INPUTS */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.8rem;
+            gap: 0.85rem;
         }
 
         .feature-item {
-            background: #f8fafc;
-            padding: 0.65rem 0.85rem;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
+            background: rgba(30, 41, 59, 0.4);
+            padding: 0.75rem 0.9rem;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: border-color 0.2s;
         }
 
         .feature-item.key-feature {
-            border-color: #fca5a5;
-            background: #fef2f2;
+            border-color: rgba(244, 63, 94, 0.35);
+            background: rgba(244, 63, 94, 0.06);
         }
 
         .feature-item label {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 700;
             color: var(--text-muted);
             display: flex;
@@ -261,56 +352,80 @@
             width: 100%;
             background: transparent;
             border: none;
-            color: var(--text-main);
-            font-size: 0.9rem;
+            color: #ffffff;
+            font-family: var(--font-code);
+            font-size: 0.95rem;
             font-weight: 700;
             outline: none;
         }
 
-        /* RESULT DISPLAY */
+        .advanced-toggle {
+            background: none;
+            border: none;
+            color: var(--accent-cyan);
+            font-size: 0.82rem;
+            font-weight: 600;
+            font-family: var(--font-main);
+            cursor: pointer;
+            margin-top: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.2s;
+        }
+
+        .advanced-toggle:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        /* RIGHT: PREDICTION OUTCOME DISPLAY */
         .result-card {
-            text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            text-align: center;
         }
 
         .status-badge {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            padding: 0.85rem 1.6rem;
-            border-radius: 30px;
-            font-size: 1.1rem;
+            gap: 0.6rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 40px;
+            font-size: 1.05rem;
             font-weight: 800;
             letter-spacing: 0.5px;
-            margin: 1.2rem 0;
+            margin: 1.25rem 0;
             text-transform: uppercase;
+            transition: all 0.4s ease;
         }
 
         .status-badge.safe {
-            background: #ecfdf5;
-            border: 1px solid #6ee7b7;
-            color: var(--green);
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34d399;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
         }
 
         .status-badge.fraud {
-            background: #fef2f2;
-            border: 1px solid #fca5a5;
-            color: var(--red);
-        }
-
-        .probability-meter {
-            margin: 1rem 0;
+            background: rgba(244, 63, 94, 0.12);
+            border: 1px solid rgba(244, 63, 94, 0.4);
+            color: #fb7185;
+            box-shadow: 0 0 25px rgba(244, 63, 94, 0.25);
+            animation: pulse-red 2s infinite;
         }
 
         .score-display {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 900;
+            font-family: var(--font-code);
             line-height: 1;
             margin-bottom: 0.4rem;
-            color: #0f172a;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .score-sub {
@@ -320,37 +435,38 @@
         }
 
         .progress-bar {
-            height: 12px;
-            background: #e2e8f0;
-            border-radius: 6px;
+            height: 14px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 8px;
             overflow: hidden;
-            margin: 0.9rem 0;
+            margin: 1.25rem 0;
+            padding: 2px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .progress-fill {
             height: 100%;
             width: 0%;
-            background: var(--green);
-            transition: width 0.6s ease, background-color 0.4s ease;
+            background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan));
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease;
             border-radius: 6px;
         }
 
-        /* EXPLAINER BOX FOR TEACHER */
         .explainer-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 1.1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-md);
+            padding: 1.15rem;
             text-align: left;
             margin-top: 1rem;
         }
 
         .explainer-box h4 {
-            font-size: 0.82rem;
-            color: #475569;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.65rem;
             display: flex;
             align-items: center;
             gap: 0.4rem;
@@ -359,8 +475,8 @@
 
         .explainer-list {
             list-style: none;
-            font-size: 0.86rem;
-            color: #334155;
+            font-size: 0.85rem;
+            color: var(--text-muted);
         }
 
         .explainer-list li {
@@ -369,12 +485,180 @@
             align-items: flex-start;
             gap: 0.5rem;
         }
-
         .explainer-list li:last-child {
             margin-bottom: 0;
         }
+        .explainer-list strong {
+            color: var(--text-main);
+        }
 
-        /* COMPARISON TABLE STYLES */
+        /* BLOCKCHAIN SECTION STYLES */
+        .bc-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.85rem;
+            border-radius: 30px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .bc-status-badge.valid {
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+        }
+
+        .bc-status-badge.invalid {
+            background: rgba(244, 63, 94, 0.15);
+            border: 1px solid rgba(244, 63, 94, 0.4);
+            color: #fb7185;
+            animation: pulse-red 1.5s infinite;
+        }
+
+        .bc-metrics-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-md);
+            padding: 1.15rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        @media (max-width: 650px) {
+            .bc-metrics-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .bc-metric-label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .bc-metric-val {
+            font-size: 1.25rem;
+            font-weight: 800;
+            font-family: var(--font-code);
+            color: #ffffff;
+            margin-top: 0.2rem;
+        }
+
+        .bc-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .block-card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-md);
+            padding: 1.35rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .block-card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            background: rgba(30, 41, 59, 0.6);
+        }
+
+        .block-card.tampered-block {
+            border: 2px solid #f43f5e;
+            background: rgba(244, 63, 94, 0.1);
+            box-shadow: 0 0 25px rgba(244, 63, 94, 0.2);
+        }
+
+        .block-card.genesis-block {
+            border-left: 5px solid var(--accent-primary);
+        }
+
+        .block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 0.7rem;
+            margin-bottom: 0.9rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .block-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .block-hash-box {
+            font-family: var(--font-code);
+            font-size: 0.78rem;
+            background: #020617;
+            color: var(--accent-cyan);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            word-break: break-all;
+            margin-bottom: 0.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .block-hash-box .pow-prefix {
+            color: #4ade80;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .hash-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+            letter-spacing: 0.5px;
+        }
+
+        .bc-tx-item {
+            background: rgba(2, 6, 23, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 0.6rem 0.85rem;
+            margin-top: 0.5rem;
+            font-size: 0.83rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .bc-tx-hash {
+            font-family: var(--font-code);
+            font-size: 0.72rem;
+            color: var(--text-dim);
+        }
+
+        .chain-connector {
+            text-align: center;
+            color: var(--accent-primary);
+            font-size: 1.4rem;
+            margin: -0.6rem 0;
+            font-weight: bold;
+            filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.6));
+        }
+
+        /* BENCHMARK TABLE */
         .comparison-table {
             width: 100%;
             border-collapse: collapse;
@@ -384,54 +668,46 @@
         }
 
         .comparison-table th {
-            background: #f8fafc;
-            padding: 0.8rem 1rem;
-            color: #475569;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 0.85rem 1rem;
+            color: var(--text-muted);
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            border-bottom: 1px solid #e2e8f0;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .comparison-table td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #e2e8f0;
-            color: #1e293b;
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
         }
 
         .comparison-table tr.winner-row {
-            background: #f0fdf4;
+            background: rgba(16, 185, 129, 0.06);
         }
 
         .badge-winner {
-            background: #d1fae5;
-            border: 1px solid #6ee7b7;
-            color: var(--green);
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34d399;
             font-size: 0.74rem;
             font-weight: 700;
             padding: 0.2rem 0.65rem;
-            border-radius: 4px;
+            border-radius: 6px;
             display: inline-block;
         }
 
         .badge-tag {
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            color: #64748b;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
             font-size: 0.74rem;
             font-weight: 600;
             padding: 0.2rem 0.55rem;
-            border-radius: 4px;
+            border-radius: 6px;
             display: inline-block;
-        }
-
-        /* BOTTOM MODEL INFO SUMMARY */
-        .summary-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius);
-            padding: 1.4rem 1.6rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .summary-grid {
@@ -448,31 +724,18 @@
         }
 
         .summary-item h5 {
-            font-size: 0.76rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-bottom: 0.2rem;
             font-weight: 700;
         }
 
         .summary-item p {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 800;
-            color: #0f172a;
-        }
-
-        .advanced-toggle {
-            background: none;
-            border: none;
-            color: var(--accent);
-            font-size: 0.82rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 0.6rem;
-        }
-
-        .advanced-toggle:hover {
-            text-decoration: underline;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -480,25 +743,33 @@
 <body>
 
     <div class="container">
-        <!-- HEADER -->
+        <!-- TOP NAVBAR / HEADER -->
         <header>
-            <h1>Credit Card Fraud Detection</h1>
-            <p>Machine Learning Model Evaluation & Live Prediction Demo</p>
-            <div id="apiBadge" class="api-badge">
-                <div class="dot"></div>
-                <span id="apiStatusText">Checking ML Backend API...</span>
+            <div class="brand">
+                <div class="brand-icon">⚡</div>
+                <div class="brand-text">
+                    <h1>Sentinel Fraud AI</h1>
+                    <p>Machine Learning Risk Engine + Blockchain Audit Ledger</p>
+                </div>
+            </div>
+
+            <div class="status-badges">
+                <div id="apiBadge" class="api-badge">
+                    <div class="pulse-dot"></div>
+                    <span id="apiStatusText">Connecting to FastAPI ML Engine...</span>
+                </div>
             </div>
         </header>
 
-        <!-- PRESETS FOR QUICK DEMO TO TEACHER -->
-        <div class="preset-container">
-            <span class="preset-title">Demo Presets:</span>
+        <!-- DEMO PRESET TOOLBAR -->
+        <div class="preset-banner">
+            <span class="preset-title">⚡ Quick Evaluation Presets:</span>
             <div class="btn-group">
-                <button onclick="loadPreset('legit')" class="btn btn-green">
+                <button onclick="loadPreset('legit')" class="btn btn-emerald">
                     🟢 Normal Transaction
                 </button>
-                <button onclick="loadPreset('fraud')" class="btn btn-red">
-                    🔴 Fraudulent Transaction
+                <button onclick="loadPreset('fraud')" class="btn btn-rose">
+                    🔴 High-Risk Fraud Tx
                 </button>
                 <button onclick="loadRealSample()" class="btn">
                     🎲 Load Dataset Sample
@@ -506,13 +777,13 @@
             </div>
         </div>
 
-        <!-- MAIN DEMO INTERFACE -->
-        <div class="grid">
-            <!-- LEFT: INPUT DATA -->
+        <!-- MAIN 2-COLUMN DEMO INTERFACE -->
+        <div class="grid-2col">
+            <!-- LEFT: INPUT DATA WORKBENCH -->
             <div class="card">
                 <div class="card-header">
-                    <span>Transaction Details</span>
-                    <span style="font-size:0.75rem; font-weight:600; color:var(--text-muted)">Input Features</span>
+                    <span>Transaction Parameters</span>
+                    <span class="card-header-sub">LightGBM Model Inputs</span>
                 </div>
 
                 <div class="form-group">
@@ -528,7 +799,7 @@
                 <div class="form-group">
                     <label style="display:flex; justify-content:space-between;">
                         <span>Key Anomaly Features (PCA)</span>
-                        <span style="color:var(--red); font-size:0.75rem">V14 & V17 are primary fraud drivers</span>
+                        <span style="color:var(--accent-rose); font-size:0.75rem">V14 & V17 Driver Indicators</span>
                     </label>
                     <div class="features-grid">
                         <div class="feature-item key-feature">
@@ -554,52 +825,132 @@
                 <button onclick="toggleAdvanced()" class="advanced-toggle" id="toggleBtn">
                     + Show All 29 PCA Features (V1–V28)
                 </button>
-                <div id="advancedGrid" style="display:none; margin-top:0.8rem;" class="features-grid">
+                <div id="advancedGrid" style="display:none; margin-top:0.9rem;" class="features-grid">
                     <!-- Dynamic V1..V28 generated via JS -->
                 </div>
 
-                <button onclick="predict()" class="btn btn-primary" style="width:100%; margin-top:1.2rem; justify-content:center;">
-                    ⚡ Predict Fraud Status
+                <button onclick="predict()" class="btn btn-primary" style="width:100%; margin-top:1.5rem; justify-content:center; padding:0.85rem;">
+                    ⚡ Evaluate Fraud Risk & Record On-Chain
                 </button>
             </div>
 
-            <!-- RIGHT: PREDICTION RESULT & EXPLAINER -->
+            <!-- RIGHT: PREDICTION RISK RADAR -->
             <div class="card result-card">
                 <div>
                     <div class="card-header">
-                        <span>Prediction Outcome</span>
-                        <span id="modelLabel" style="font-size:0.75rem; font-weight:700; color:var(--accent)">LightGBM</span>
+                        <span>Risk Intelligence Outcome</span>
+                        <span id="modelLabel" style="font-size:0.78rem; font-weight:700; color:var(--accent-cyan)">LightGBM (Optimal Threshold: 98.7%)</span>
                     </div>
 
                     <div id="statusBadge" class="status-badge safe">
                         ✓ LEGITIMATE TRANSACTION
                     </div>
 
-                    <div class="probability-meter">
+                    <div style="margin: 1.25rem 0;">
                         <div class="score-display" id="probScore">0.0%</div>
-                        <div class="score-sub">Calculated Fraud Probability</div>
+                        <div class="score-sub">Calculated Fraud Probability Score</div>
                         <div class="progress-bar">
                             <div class="progress-fill" id="progressFill"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- TEACHER EXPLAINER BOX -->
+                <!-- EXPLAINER / ACTION RECOMMENDER -->
                 <div class="explainer-box">
-                    <h4>💡 Explanation for Presentation</h4>
+                    <h4>💡 Automated Risk Analysis</h4>
                     <ul class="explainer-list" id="explainerList">
-                        <li><span>•</span> <span><strong>Normal Behavior:</strong> Feature inputs align with legitimate credit card transactions.</span></li>
+                        <li><span>•</span> <span><strong>Normal Pattern:</strong> Transaction inputs match legitimate credit card profiles.</span></li>
                         <li><span>•</span> <span><strong>Decision Threshold:</strong> Evaluated against optimal threshold (98.7%).</span></li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- MODEL COMPARISON TABLE -->
-        <div class="card" style="margin-bottom: 1.5rem;">
+        <!-- BLOCKCHAIN AUDIT LEDGER CARD -->
+        <div class="card" style="margin-bottom: 2rem;">
             <div class="card-header">
-                <span>Model Comparison Benchmark</span>
-                <span style="font-size:0.75rem; font-weight:600; color:var(--text-muted)">Evaluated on 56,962 Held-Out Test Transactions</span>
+                <div style="display:flex; align-items:center; gap:0.65rem;">
+                    <span style="font-size:1.3rem;">⛓️</span>
+                    <span>Immutable Blockchain Audit Ledger</span>
+                </div>
+                <div id="bcValidityBadge" class="bc-status-badge valid">
+                    <span class="pulse-dot"></span>
+                    <span id="bcValidityText">Checking Ledger Integrity...</span>
+                </div>
+            </div>
+
+            <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:1.3rem;">
+                Every transaction processed by the AI model is cryptographically hashed (SHA-256) and logged onto an append-only Proof-of-Work blockchain ledger.
+            </p>
+
+            <!-- BLOCKCHAIN METRICS BAR -->
+            <div class="bc-metrics-bar">
+                <div class="bc-metric-item">
+                    <span class="bc-metric-label">Total Blocks Mined</span>
+                    <span class="bc-metric-val" id="bcBlockCount">1</span>
+                </div>
+                <div class="bc-metric-item">
+                    <span class="bc-metric-label">On-Chain Transactions</span>
+                    <span class="bc-metric-val" id="bcTxCount">0</span>
+                </div>
+                <div class="bc-metric-item">
+                    <span class="bc-metric-label">Pending Tx Pool</span>
+                    <span class="bc-metric-val" id="bcPendingCount" style="color:var(--accent-cyan)">0</span>
+                </div>
+                <div class="bc-metric-item">
+                    <span class="bc-metric-label">Consensus Protocol</span>
+                    <span class="bc-metric-val" style="font-size:0.95rem; color:var(--accent-purple)">Proof-of-Work (PoW)</span>
+                </div>
+            </div>
+
+            <!-- CONTROLS TOOLBAR -->
+            <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-bottom:1.5rem; justify-content:space-between; align-items:center;">
+                <div class="btn-group">
+                    <button onclick="minePendingBlock()" class="btn btn-primary" id="btnMine">
+                        ⛏️ Mine Pending Block
+                    </button>
+                    <button onclick="validateBlockchain()" class="btn">
+                        🔍 Verify SHA-256 Hashes
+                    </button>
+                    <button onclick="repairBlockchain()" class="btn btn-emerald">
+                        🔄 Repair & Re-Mine Chain
+                    </button>
+                </div>
+                <button onclick="toggleTamperPanel()" class="btn btn-rose">
+                    ⚠️ Simulate Tamper Attack (Demo)
+                </button>
+            </div>
+
+            <!-- TAMPER ATTACK PANEL -->
+            <div id="tamperPanel" style="display:none; background:rgba(244, 63, 94, 0.1); border:1px solid rgba(244, 63, 94, 0.3); border-radius:var(--radius-md); padding:1.15rem; margin-bottom:1.5rem;">
+                <h4 style="color:#fb7185; font-size:0.9rem; font-weight:700; margin-bottom:0.4rem;">⚠️ Attack Simulation: Data Tampering on Mined Block</h4>
+                <p style="font-size:0.83rem; color:var(--text-muted); margin-bottom:0.9rem;">
+                    Demonstrates how changing even 1 cent of a transaction in a historical block invalidates its SHA-256 hash and breaks all subsequent block links!
+                </p>
+                <div style="display:flex; gap:0.85rem; align-items:center; flex-wrap:wrap;">
+                    <label style="font-size:0.82rem; font-weight:700; color:#ffffff;">Select Block #:</label>
+                    <select id="tamperBlockIndex" class="form-control" style="width:130px; padding:0.45rem;"></select>
+                    
+                    <label style="font-size:0.82rem; font-weight:700; color:#ffffff;">Tampered Amount (€):</label>
+                    <input type="number" id="tamperNewAmount" class="form-control" style="width:130px; padding:0.45rem;" value="9999.00">
+                    
+                    <button onclick="executeTamperAttack()" class="btn btn-rose" style="padding:0.5rem 1.1rem;">
+                        💥 Corrupt Data & Test Chain Break
+                    </button>
+                </div>
+            </div>
+
+            <!-- BLOCK TIMELINE EXPLORER -->
+            <div id="blockchainTimeline" class="bc-timeline">
+                <!-- Blocks rendered dynamically -->
+            </div>
+        </div>
+
+        <!-- BENCHMARK EVALUATION TABLE -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <span>Model Benchmark Performance</span>
+                <span class="card-header-sub">Evaluated on 56,962 Held-Out Test Transactions</span>
             </div>
             <div style="overflow-x:auto;">
                 <table class="comparison-table">
@@ -616,9 +967,9 @@
                     </thead>
                     <tbody>
                         <tr class="winner-row">
-                            <td><strong>LightGBM Classifier</strong></td>
+                            <td><strong style="color:#ffffff">LightGBM Classifier</strong></td>
                             <td>0.9857</td>
-                            <td><strong style="color:var(--green)">0.8784</strong></td>
+                            <td><strong style="color:var(--accent-emerald)">0.8784</strong></td>
                             <td>0.8710</td>
                             <td>81.6%</td>
                             <td>93.4%</td>
@@ -649,7 +1000,7 @@
                             <td>0.6210</td>
                             <td>74.1%</td>
                             <td>53.4%</td>
-                            <td><span class="badge-tag">Unsupervised Anomaly</span></td>
+                            <td><span class="badge-tag">Unsupervised</span></td>
                         </tr>
                         <tr>
                             <td>Logistic Regression</td>
@@ -665,8 +1016,8 @@
             </div>
         </div>
 
-        <!-- MODEL OVERVIEW FOR TEACHER -->
-        <div class="summary-card">
+        <!-- MODEL SUMMARY CARD -->
+        <div class="card" style="margin-bottom: 2rem;">
             <div class="summary-grid">
                 <div class="summary-item">
                     <h5>Algorithm</h5>
@@ -674,11 +1025,11 @@
                 </div>
                 <div class="summary-item">
                     <h5>ROC-AUC</h5>
-                    <p style="color:var(--green)">0.9857 (98.5%)</p>
+                    <p style="color:var(--accent-emerald)">0.9857 (98.5%)</p>
                 </div>
                 <div class="summary-item">
                     <h5>Optimal Threshold</h5>
-                    <p style="color:var(--accent)">0.9870 (98.7%)</p>
+                    <p style="color:var(--accent-cyan)">0.9870 (98.7%)</p>
                 </div>
                 <div class="summary-item">
                     <h5>Dataset</h5>
@@ -688,7 +1039,7 @@
         </div>
     </div>
 
-    <!-- SIMPLE SCRIPT LOGIC -->
+    <!-- JAVASCRIPT APP LOGIC -->
     <script>
         const API_BASE = "http://127.0.0.1:8000";
         let isApiOnline = false;
@@ -810,6 +1161,8 @@
                         prob = data.fraud_probability;
                         isFraud = data.is_fraud;
                         renderResult(prob, isFraud, v14, v17);
+                        // Refresh Blockchain Explorer
+                        fetchBlockchainChain();
                         return;
                     }
                 } catch(e) {}
@@ -838,31 +1191,237 @@
             if (prob > 0.5) {
                 badge.className = "status-badge fraud";
                 badge.innerHTML = "🚨 FRAUD ALERT (HIGH RISK)";
-                fill.style.backgroundColor = "var(--red)";
+                fill.style.background = "linear-gradient(90deg, #f43f5e, #e11d48)";
 
                 explainer.innerHTML = `
                     <li><span>•</span> <span><strong>Anomaly Detected:</strong> Features V14 (${v14.toFixed(1)}) & V17 (${v17.toFixed(1)}) show significant negative spikes.</span></li>
                     <li><span>•</span> <span><strong>High Fraud Score:</strong> Probability is ${pct} (Evaluated against 98.7% threshold).</span></li>
-                    <li><span>•</span> <span><strong>Action:</strong> Transaction flagged for automatic block or secondary OTP verification.</span></li>
+                    <li><span>•</span> <span><strong>Automated Action:</strong> Transaction flagged for immediate block & OTP verification.</span></li>
                 `;
             } else {
                 badge.className = "status-badge safe";
-                badge.innerHTML = "✓ LEGITIMATE TRANSACTION";
-                fill.style.backgroundColor = "var(--green)";
+                badge.innerHTML = "✓ APPROVED (LOW RISK)";
+                fill.style.background = "linear-gradient(90deg, #10b981, #38bdf8)";
 
                 explainer.innerHTML = `
-                    <li><span>•</span> <span><strong>Normal Pattern:</strong> Transaction behavior matches standard purchasing patterns.</span></li>
+                    <li><span>•</span> <span><strong>Normal Pattern:</strong> Transaction behavior matches standard purchasing profiles.</span></li>
                     <li><span>•</span> <span><strong>Low Fraud Risk:</strong> Calculated probability is low (${pct}).</span></li>
-                    <li><span>•</span> <span><strong>Action:</strong> Approved instantly.</span></li>
+                    <li><span>•</span> <span><strong>Automated Action:</strong> Approved instantly.</span></li>
                 `;
             }
         }
 
+        // ==========================================
+        // BLOCKCHAIN AUDIT LEDGER JS LOGIC
+        // ==========================================
+        async function fetchBlockchainChain() {
+            if (!isApiOnline) return;
+            try {
+                const res = await fetch(`${API_BASE}/api/blockchain/chain`);
+                if (res.ok) {
+                    const data = await res.json();
+                    renderBlockchain(data);
+                }
+            } catch(e) {
+                console.error("Error fetching blockchain:", e);
+            }
+        }
+
+        function renderBlockchain(data) {
+            document.getElementById("bcBlockCount").textContent = data.length;
+            document.getElementById("bcTxCount").textContent = data.total_transactions;
+            document.getElementById("bcPendingCount").textContent = data.pending_count;
+
+            const badge = document.getElementById("bcValidityBadge");
+            const text = document.getElementById("bcValidityText");
+
+            if (data.validation.is_valid) {
+                badge.className = "bc-status-badge valid";
+                text.textContent = "🟢 Ledger 100% Cryptographically Valid";
+            } else {
+                badge.className = "bc-status-badge invalid";
+                text.textContent = `🔴 ${data.validation.message}`;
+            }
+
+            // Update tamper dropdown options (exclude genesis block #0)
+            const select = document.getElementById("tamperBlockIndex");
+            select.innerHTML = "";
+            data.chain.forEach(b => {
+                if (b.index > 0) {
+                    const opt = document.createElement("option");
+                    opt.value = b.index;
+                    opt.textContent = `Block #${b.index} (${b.tx_count} Txs)`;
+                    select.appendChild(opt);
+                }
+            });
+
+            // Render block cards timeline
+            const timeline = document.getElementById("blockchainTimeline");
+            timeline.innerHTML = "";
+
+            data.chain.forEach((block, idx) => {
+                if (idx > 0) {
+                    const connector = document.createElement("div");
+                    connector.className = "chain-connector";
+                    connector.innerHTML = "⛓️";
+                    timeline.appendChild(connector);
+                }
+
+                const isGenesis = block.index === 0;
+                const isCorrupted = !data.validation.is_valid && data.validation.error_block_index === block.index;
+
+                const card = document.createElement("div");
+                card.className = `block-card ${isGenesis ? 'genesis-block' : ''} ${isCorrupted ? 'tampered-block' : ''}`;
+
+                let txsHtml = "";
+                block.transactions.forEach(tx => {
+                    const isFraud = tx.is_fraud;
+                    const amountStr = tx.amount !== undefined ? `€${tx.amount.toFixed(2)}` : '€0.00';
+                    const probStr = tx.fraud_percentage !== undefined ? `${tx.fraud_percentage}%` : '0%';
+                    const riskTag = tx.risk_level ? `<span style="font-size:0.7rem; font-weight:700; padding:0.15rem 0.45rem; border-radius:4px; background:${isFraud ? 'rgba(244, 63, 94, 0.2)' : 'rgba(16, 185, 129, 0.2)'}; color:${isFraud ? '#fb7185' : '#34d399'}">${tx.risk_level}</span>` : '';
+
+                    txsHtml += `
+                        <div class="bc-tx-item">
+                            <div>
+                                <strong style="color:#ffffff;">${tx.tx_id || 'TX_GENESIS'}</strong> — <span style="color:var(--accent-cyan); font-weight:700;">${amountStr}</span>
+                                ${riskTag}
+                                <div style="font-size:0.73rem; color:var(--text-muted);">${tx.feature_summary || tx.note || ''}</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-size:0.76rem; font-weight:700; color:${isFraud ? 'var(--accent-rose)' : 'var(--accent-emerald)'}">
+                                    AI Score: ${probStr}
+                                </div>
+                                ${tx.tx_hash ? `<div class="bc-tx-hash" title="${tx.tx_hash}">Tx Hash: ${tx.tx_hash.substring(0, 16)}...</div>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // Format leading zeros in block hash for Proof-of-Work visual contrast
+                const hashVal = block.hash;
+                const powPrefix = hashVal.substring(0, data.difficulty);
+                const restHash = hashVal.substring(data.difficulty);
+
+                card.innerHTML = `
+                    <div class="block-header">
+                        <div class="block-title">
+                            <span>📦 Block #${block.index}</span>
+                            ${isGenesis ? '<span style="font-size:0.72rem; background:rgba(99, 102, 241, 0.2); color:var(--accent-cyan); padding:0.15rem 0.5rem; border-radius:4px; font-weight:700;">GENESIS</span>' : ''}
+                            ${isCorrupted ? '<span style="font-size:0.72rem; background:rgba(244, 63, 94, 0.2); color:#fb7185; padding:0.15rem 0.5rem; border-radius:4px; font-weight:700;">⚠️ CORRUPTED</span>' : ''}
+                        </div>
+                        <div style="font-size:0.78rem; color:var(--text-muted);">
+                            🕒 ${block.timestamp_formatted || 'Timestamp'} | 🔑 Nonce: <strong style="color:#ffffff;">${block.proof}</strong>
+                        </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.85rem; margin-bottom:0.85rem;">
+                        <div>
+                            <div class="hash-label">Previous Block Hash</div>
+                            <div class="block-hash-box" style="color:var(--text-muted);">
+                                ${block.previous_hash.substring(0, 32)}...
+                            </div>
+                        </div>
+                        <div>
+                            <div class="hash-label">Current Block Hash (SHA-256)</div>
+                            <div class="block-hash-box">
+                                <span class="pow-prefix">${powPrefix}</span>${restHash.substring(0, 30)}...
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="hash-label">Transactions in Block (${block.tx_count})</div>
+                        ${txsHtml}
+                    </div>
+                `;
+
+                timeline.appendChild(card);
+            });
+        }
+
+        async function minePendingBlock() {
+            if (!isApiOnline) return alert("FastAPI Backend required for mining!");
+            const btn = document.getElementById("btnMine");
+            btn.disabled = true;
+            btn.textContent = "⛏️ Mining Block (PoW)...";
+            try {
+                const res = await fetch(`${API_BASE}/api/blockchain/mine`, { method: 'POST' });
+                if (res.ok) {
+                    const data = await res.json();
+                    renderBlockchain(data.chain_data);
+                }
+            } catch(e) {
+                alert("Failed to mine block.");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "⛏️ Mine Pending Block";
+            }
+        }
+
+        async function validateBlockchain() {
+            if (!isApiOnline) return alert("FastAPI Backend required for validation!");
+            try {
+                const res = await fetch(`${API_BASE}/api/blockchain/validate`);
+                if (res.ok) {
+                    const val = await res.json();
+                    alert(val.message);
+                    fetchBlockchainChain();
+                }
+            } catch(e) {
+                alert("Validation request failed.");
+            }
+        }
+
+        function toggleTamperPanel() {
+            const panel = document.getElementById("tamperPanel");
+            panel.style.display = panel.style.display === "none" ? "block" : "none";
+        }
+
+        async function executeTamperAttack() {
+            if (!isApiOnline) return alert("FastAPI Backend required for tamper attack simulation!");
+            const blockIndex = parseInt(document.getElementById("tamperBlockIndex").value) || 1;
+            const newAmount = parseFloat(document.getElementById("tamperNewAmount").value) || 9999.0;
+
+            try {
+                const res = await fetch(`${API_BASE}/api/blockchain/tamper`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ block_index: blockIndex, new_amount: newAmount, flip_fraud: true })
+                });
+
+                if (res.ok) {
+                    alert(`💥 Tamper attack executed on Block #${blockIndex}! SHA-256 hashes are now broken.`);
+                    fetchBlockchainChain();
+                } else {
+                    const err = await res.json();
+                    alert("Tamper failed: " + (err.detail || "Unknown error"));
+                }
+            } catch(e) {
+                alert("Tamper attack request failed.");
+            }
+        }
+
+        async function repairBlockchain() {
+            if (!isApiOnline) return alert("FastAPI Backend required!");
+            try {
+                const res = await fetch(`${API_BASE}/api/blockchain/repair`, { method: 'POST' });
+                if (res.ok) {
+                    alert("🔄 Blockchain repaired! Hashes recalculated & PoW nonces re-mined.");
+                    fetchBlockchainChain();
+                }
+            } catch(e) {
+                alert("Repair failed.");
+            }
+        }
+
         // Init
-        window.addEventListener("DOMContentLoaded", () => {
+        window.addEventListener("DOMContentLoaded", async () => {
             initAdvancedFeatures();
-            checkApi();
+            await checkApi();
             predict();
+            if (isApiOnline) {
+                fetchBlockchainChain();
+            }
         });
     </script>
 </body>

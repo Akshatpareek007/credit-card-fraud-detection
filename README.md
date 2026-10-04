@@ -1,213 +1,210 @@
-# 💳 Credit Card Fraud Detection
+# 🛡️ Sentinel Fraud AI — Credit Card Fraud Detection & Audit Ledger
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://python.org)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.1%2B-EE4C2C?logo=pytorch)](https://pytorch.org)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.x-f7931e?logo=scikitlearn)](https://scikit-learn.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Project Page](https://img.shields.io/badge/Project%20Page-GitHub%20Pages-222?logo=github)](https://rajneeshbabu.github.io/credit-card-fraud-detection/)
+[![Python 3.12](https://img.shields.io/badge/Python-3.12%2B-blue.svg?logo=python)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg?logo=fastapi)](https://fastapi.tiangolo.com)
+[![Pytest](https://img.shields.io/badge/Pytest-Passed%20(20%2F20)-brightgreen.svg?logo=pytest)](https://docs.pytest.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-🌐 **[View Project Page →](https://rajneeshbabu.github.io/credit-card-fraud-detection/)**
-
-An end-to-end machine learning project for detecting fraudulent credit card transactions. Combines a tuned **XGBoost** classifier with a **PyTorch autoencoder** for anomaly detection — with full SHAP explainability and GPU acceleration.
+An end-to-end, production-grade Machine Learning and Cryptographic Audit Ledger project for detecting credit card transaction fraud. Built strictly with original code, temporal data splitting, Platt probability calibration, financial cost minimization, SHAP explainability, and an append-only Ed25519-signed SQLite audit ledger.
 
 ---
 
 ## 📌 Problem Statement
 
-Credit card fraud is a critical challenge for financial institutions. This project builds a binary classifier on a highly imbalanced dataset where only **0.17%** of transactions are fraudulent. Standard accuracy is meaningless here — the project focuses on **Precision-Recall AUC** and **F1-Score**.
+Credit card transaction fraud poses severe financial risks to banking networks. In real-world payment systems:
+1. **Extreme Class Imbalance:** Fraudulent transactions comprise less than **0.2%** of total card volume. Standard accuracy is misleading; optimization requires **Precision-Recall AUC (PR-AUC)** and **Expected Financial Cost Minimization**.
+2. **Temporal Distribution Shift:** Financial fraud patterns evolve over time. Random k-fold cross-validation causes temporal data leakage; model evaluation requires strict **chronological splitting**.
+3. **Auditability & Regulatory Compliance:** Payment processors require tamper-evident logging of AI model versioning, probability scores, decision thresholds, and cryptographic signatures for audit trials.
 
 ---
 
-## 📂 Dataset
+## 📂 Dataset & Citation
 
-- **Source:** [Kaggle — Credit Card Fraud Detection](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
-- **Records:** 284,807 transactions (September 2013, European cardholders)
-- **Features:** 30 total — `Time`, `Amount`, and `V1`–`V28` (PCA-anonymised)
-- **Target:** `Class` — `0` = Legitimate, `1` = Fraud
-- **Imbalance:** Only 492 fraud cases (0.172%)
+- **Dataset Source:** [Kaggle — Credit Card Fraud Detection](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
+- **Dataset Specs:** 284,807 transactions recorded over two days in September 2013 by European cardholders.
+- **Features:** 30 total features (`Time`, `Amount`, `V1`–`V28` anonymized PCA components, and `Class`).
 
-> ⚠️ `creditcard.csv` is not included in this repo (~150 MB). Download it from Kaggle and place it in the project root before running the notebook.
+> ⚠️ `creditcard.csv` (~150 MB) is **not committed** to this repository per repository guidelines (`.gitignore`).
 
----
+### Download Instructions
+1. Download `creditcard.csv` from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud).
+2. Place `creditcard.csv` in the project root directory before executing the training pipeline.
 
-## 🗂️ Project Structure
-
-```
-credit-card-fraud-detection/
-│
-├── ccfd.ipynb          # Main notebook — full pipeline (run this)
-├── requirements.txt    # Python dependencies
-├── README.md
-├── .gitignore
-│
-├── creditcard.csv      # Dataset — download from Kaggle, not in repo
-└── models/             # Auto-generated after running the notebook
-    ├── best_model.pkl      # Tuned XGBoost classifier (780 KB)
-    ├── scaler.pkl          # Fitted StandardScaler (1.7 KB)
-    ├── autoencoder.pt      # PyTorch autoencoder weights (49 KB)
-    └── model_info.json     # Thresholds, metrics, best params
+### Required Citation
+```bibtex
+@misc{ulb_creditcard_fraud,
+  author = {Andrea Dal Pozzolo, Olivier Caelen, Reid A. Johnson, and Gianluca Bontempi},
+  title = {Credit Card Fraud Detection Dataset},
+  year = {2015},
+  publisher = {Kaggle},
+  howpublished = {\url{https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud}}
+}
 ```
 
 ---
 
-## 🔬 Pipeline (inside `ccfd.ipynb`)
-
-### 1. Data Loading & EDA
-- 284,807 transactions, 0 null values
-- Class distribution: 99.83% legit, 0.17% fraud
-- Transaction amount & hour-of-day analysis by class
-- Pearson correlation heatmap — top features correlated with fraud
-- KDE plots for PCA features (V1–V10) by class
-
-### 2. Feature Engineering & Preprocessing
-- Extract `Hour` from `Time` column — captures daily fraud patterns
-- Drop raw `Time` and `Amount` (replaced by engineered/scaled version)
-- **Stratified 80/20 train/test split** — 227,845 train, 56,962 test
-- `StandardScaler` fit **only on training data** (no leakage)
-- **SMOTE** applied **only on training data**: 394 fraud → 227,451 fraud (balanced)
-
-### 3. Model Comparison
-All four candidates trained on the SMOTE-balanced set, evaluated on the held-out test set:
-
-| Model | ROC-AUC | PR-AUC | F1 (0.5 thresh) |
-|-------|---------|--------|-----------------|
-| Logistic Regression | 0.9705 | 0.7173 | 0.1036 |
-| Random Forest | 0.9692 | 0.8543 | 0.8333 |
-| **XGBoost** ✦ | **0.9835** | **0.8658** | 0.8195 |
-| LightGBM | 0.9417 | 0.7253 | 0.8137 |
-
-**XGBoost** selected as best model by PR-AUC.
-
-### 4. Hyperparameter Tuning — Random Search (No Cross-Validation)
-- SMOTE training data split once: 80% fit set, 20% validation set
-- 40 random parameter combinations sampled and scored on the validation set
-- Best configuration found:
+## 🏗️ Project Structure
 
 ```
-n_estimators    = 400
-max_depth       = 5
-learning_rate   = 0.2
-subsample       = 0.8
-colsample_bytree= 1.0
-scale_pos_weight= 5
+credit_card_fraud_detection/
+├── src/
+│   ├── __init__.py         # Package root
+│   ├── data.py             # CSV loading, validation, deduplication, temporal split
+│   ├── features.py         # Feature engineering (Hour, LogAmount) & StandardScaler pipeline
+│   ├── evaluate.py         # Metrics, cost threshold minimization, bootstrap CIs, calibration
+│   ├── ledger.py           # Tamper-evident SQLite WAL ledger with Ed25519 signatures
+│   ├── train.py            # Model tuning, Platt calibration, & artifact generation
+│   └── api.py              # Production FastAPI server with SHAP & rate limiting
+├── tests/
+│   ├── __init__.py
+│   ├── test_data.py        # Temporal split ordering & scaler leakage tests
+│   ├── test_ledger.py      # Canonical serialization, Ed25519 signatures, tamper detection
+│   ├── test_evaluate.py    # Metric reproducibility & cost optimization tests
+│   └── test_api.py         # FastAPI authentication, rate limiting, & Pydantic tests
+├── models/
+│   ├── lightgbm_model.txt  # Native LightGBM model export (no pickle)
+│   ├── lightgbm_model.txt.sha256 # SHA-256 checksum file
+│   └── model_artifacts.json# Model versioning & threshold metadata
+├── reports/
+│   ├── results.json        # Generated evaluation metrics & benchmark comparisons
+│   └── ledger.db           # SQLite WAL audit ledger database
+├── requirements.txt        # Dependency manifest
+├── LICENSE                 # MIT License
+└── README.md
 ```
-
-- Final model retrained on the **full** SMOTE training set with these params
-
-### 5. Threshold Tuning & Final Evaluation
-- Default threshold (0.50) → F1 = **0.7905**
-- Optimal threshold (0.9837) → F1 = **0.8696**
-
-**Final classification report (tuned XGBoost, threshold=0.9837):**
-
-```
-              precision    recall  f1-score   support
-       Legit     1.0000    1.0000    0.9998     56,864
-       Fraud     0.9302    0.8163    0.8696         98
-    accuracy                         0.9996     56,962
-```
-
-### 6. SHAP Explainability
-- `TreeExplainer` global feature importance bar chart
-- Beeswarm plot — feature impact direction on fraud predictions
-
-### 7. PyTorch Autoencoder — Anomaly Detection
-- Architecture: `29 → 64 → 32 → 16 → 32 → 64 → 29` (9,453 parameters)
-- Trained on **227,451 legitimate transactions only**
-- GPU accelerated (Tesla T4 / Apple MPS / CPU — auto-detected)
-- Early stopping + ReduceLROnPlateau scheduler
-- Legit mean reconstruction error: **0.082** | Fraud mean: **14.769**
-- Autoencoder PR-AUC: **0.6330** | F1: **0.7136**
-
-### 8. Ensemble
-- `ensemble_score = 0.6 × XGBoost_prob + 0.4 × normalised_ae_error`
-- Ensemble PR-AUC: **0.8320** | F1: **0.8743**
-
-### 9. Save Artefacts
-All saved to `models/`: `best_model.pkl`, `scaler.pkl`, `autoencoder.pt`, `model_info.json`
 
 ---
 
-## 📊 Final Results
+## 🔬 Methodology & Empirical Results
 
-| Model | ROC-AUC | PR-AUC | F1 | Notes |
-|-------|---------|--------|----|-------|
-| Logistic Regression | 0.9705 | 0.7173 | 0.1036 | Baseline |
-| Random Forest | 0.9692 | 0.8543 | 0.8333 | — |
-| XGBoost (base) | 0.9835 | 0.8658 | 0.8195 | Best model |
-| **XGBoost (tuned)** | **0.9857** | **0.8614** | **0.8696** | **After threshold tuning** |
-| LightGBM | 0.9417 | 0.7253 | 0.8137 | — |
-| Autoencoder (PyTorch) | — | 0.6330 | 0.7136 | Anomaly detection only |
-| **Ensemble** | — | **0.8320** | **0.8743** | XGBoost + Autoencoder |
+*(All metrics generated automatically by `python -m src.train` and stored in `reports/results.json`)*
 
-> Fraud detection precision: **93%** — Recall: **82%** — catching 80 out of 98 fraud cases in the test set.
+### 1. Data Cleaning & Temporal Splitting
+* **Raw Rows:** 284,807
+* **Deduplication:** **1,081** exact duplicate rows removed before splitting $\rightarrow$ **283,726** clean transactions.
+* **Strict Temporal Split (ordered by `Time`):**
+  * **Train (70%):** 198,608 rows (366 frauds, 0.184% fraud rate) | Time: $0.0\text{s} \rightarrow 132,906.0\text{s}$
+  * **Validation (15%):** 42,558 rows (55 frauds, 0.129% fraud rate) | Time: $132,906.0\text{s} \rightarrow 151,320.0\text{s}$
+  * **Test (15%):** 42,560 rows (52 frauds, 0.122% fraud rate) | Time: $151,320.0\text{s} \rightarrow 172,792.0\text{s}$
+
+### 2. Preprocessing & Leakage Prevention
+* `StandardScaler` is fitted **strictly on the training set** inside an `sklearn.pipeline.Pipeline`.
+* Engineered features: `Hour = (Time // 3600) % 24` and `LogAmount = log1p(Amount)`.
+
+### 3. Validation Set Model & Imbalance Strategy Benchmark
+
+| Candidate Model | Imbalance Strategy | Val PR-AUC | Val ROC-AUC | Val F1-Score | Expected Val Cost |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **Random Forest** ✦ | **None (Baseline)** | **0.8675** | **0.9828** | **0.7218** | **$3,800.00** |
+| Random Forest | Class Weight | 0.8536 | 0.9796 | 0.5104 | $3,880.00 |
+| Logistic Regression | SMOTE | 0.8412 | 0.9788 | 0.5581 | $4,190.00 |
+| Random Forest | Random Undersampling | 0.8351 | 0.9811 | 0.8000 | $4,640.00 |
+| XGBoost | Random Undersampling | 0.8310 | 0.9890 | 0.0588 | $18,300.00 |
+| Logistic Regression | Class Weight | 0.8239 | 0.9815 | 0.3953 | $3,980.00 |
+| XGBoost | None | 0.8164 | 0.9861 | 0.4947 | $4,880.00 |
+| LightGBM | Random Undersampling | 0.7876 | 0.9877 | 0.0532 | $20,240.00 |
+| Decision Tree | None | 0.5999 | 0.7781 | 0.7551 | $9,060.00 |
+
+*Winning Architecture:* **Random Forest (100 estimators, max_depth=10)** selected based on top Validation PR-AUC (`0.8675`).
+
+### 4. Platt Probability Calibration & Expected Cost Threshold Minimization
+* **Platt Scaling:** Fitted on validation set probabilities using logistic regression in logit space.
+* **Cost Function:** Configured with $\text{cost}_{\text{FN}} = \$500.00$ (uncaught fraud) and $\text{cost}_{\text{FP}} = \$10.00$ (false alarm friction).
+* **Optimal Threshold:** Chosen on the validation set minimizing total expected financial cost $\rightarrow$ **`0.0740`**.
+
+### 5. Final Test Set Evaluation (Evaluated ONCE on Held-Out Test Set)
+
+| Metric | Test Value | 95% Bootstrap Confidence Interval (1000 Resamples) |
+| :--- | :---: | :---: |
+| **ROC-AUC** | **0.9844** | `[0.9725, 0.9938]` |
+| **PR-AUC** | **0.7533** | `[0.6385, 0.8568]` |
+| **F1-Score** | **0.6441** | `[0.5357, 0.7424]` |
+| **Recall** | **0.7308** | `[0.6041, 0.8438]` |
+| **Precision** | **0.5758** | `[0.4507, 0.6936]` |
+| **Total Test Cost** | **$7,280.00** | — |
+
+**Test Confusion Matrix:**
+* True Negatives (TN): `42,480`
+* False Positives (FP): `28`
+* False Negatives (FN): `14`
+* True Positives (TP): `38`
 
 ---
 
-## ⚙️ Setup & Installation
+## ⛓️ Audit Ledger & Security Architecture
 
-### 1. Clone the repo
+The system includes a custom, single-node SQLite WAL audit ledger ([`src/ledger.py`](file:///d:/PROJECTS/credit_card_fraud_detection/src/ledger.py)):
 
+### Key Security Features
+- **Canonical Payload Hashing:** Payload entries undergo deterministic key-sorted JSON serialization with 8-decimal float formatting and zero NaN/Inf tolerance before SHA-256 hashing.
+- **Ed25519 Cryptographic Signatures:** Every block header is signed with an Ed25519 private key (`LEDGER_ED25519_KEY`).
+- **Zero Raw Data Storage:** The ledger records **only** `payload_hash`, `decision`, `fraud_score`, `model_version`, `threshold`, and cryptographic signatures. No raw card numbers or features are stored.
+- **Non-Blocking Background Logging:** Ledger writes execute asynchronously in background tasks guarded by a thread-safe single writer lock.
+
+> 📢 **Honest Disclosure:** This ledger is **tamper-EVIDENT**, single-node, and intended for auditability. It is **not** a replacement for a decentralized multi-party consensus blockchain (e.g., Ethereum or Hyperledger Fabric).
+
+---
+
+## 🚀 How to Run
+
+### 1. Installation
 ```bash
-git clone https://github.com/rajneeshbabu/credit-card-fraud-detection.git
+git clone https://github.com/Akshatpareek007/credit-card-fraud-detection.git
 cd credit-card-fraud-detection
-```
-
-### 2. Install PyTorch
-
-```bash
-pip install torch torchvision torchaudio
-```
-
-### 3. Install remaining dependencies
-
-```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 4. Download the dataset
-
-Download `creditcard.csv` from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and place it in the project root.
-
----
-
-## 🚀 Run the Notebook
-
+### 2. Execute Model Training Pipeline
 ```bash
-jupyter notebook ccfd.ipynb
+python -m src.train
 ```
 
-Run all cells top to bottom. Expected runtime: **~15–30 minutes** (depends on hardware). The notebook auto-detects GPU (CUDA / Apple MPS) and falls back to CPU.
+### 3. Run PyTest Test Suite
+```bash
+pytest -v
+```
+
+### 4. Start FastAPI Production Server
+```bash
+uvicorn src.api:app --reload --port 8000
+```
+* **API Documentation:** `http://127.0.0.1:8000/docs`
+* **Default API Key:** `X-API-Key: sentinel-secret-key-123`
 
 ---
 
-## 🧠 Key Learnings
+## 📦 Dependency License Table
 
-- **Accuracy is misleading** — predicting "Legit" every time gives 99.83% accuracy but catches 0 frauds
-- **PR-AUC is the right metric** for fraud detection on imbalanced data
-- **SMOTE and Scaler must be fit on training data only** — prevents data leakage
-- **No cross-validation** — hyperparameter search uses a single held-out validation split (faster, no overfitting to folds)
-- **Threshold tuning matters** — moving from 0.5 to 0.9837 improved F1 from 0.79 to 0.87
-- **Autoencoder reconstruction gap** — fraud transactions have ~180× higher reconstruction error than legit ones (14.77 vs 0.08)
-- **SHAP** confirms V14, V17, V12 as the strongest fraud indicators
-
----
-
-## 📄 License
-
-MIT License
-
----
-
-## 🙋 Author
-
-**Rajneesh Babu**  
-GitHub: [@rajneeshbabu](https://github.com/rajneeshbabu)
+| Library | License | Usage Purpose |
+| :--- | :--- | :--- |
+| `scikit-learn` | BSD 3-Clause | Data preprocessing, pipelines, tree classifiers |
+| `pandas` | BSD 3-Clause | DataFrame manipulation and temporal indexing |
+| `numpy` | BSD 3-Clause | Vectorized numerical operations & metrics |
+| `imbalanced-learn` | MIT | SMOTE and random undersampling strategies |
+| `lightgbm` | MIT | Native gradient boosted tree classifier export |
+| `xgboost` | Apache 2.0 | Gradient boosting candidate classifier |
+| `shap` | MIT | TreeExplainer model interpretability |
+| `cryptography` | Apache 2.0 / BSD | Ed25519 digital signature signing & verification |
+| `fastapi` | MIT | REST API web framework |
+| `uvicorn` | BSD 3-Clause | ASGI web server |
+| `pytest` | MIT | Automated unit & integration testing framework |
 
 ---
 
-## ⭐ Acknowledgements
+## ⚠️ Limitations & Disclaimers
 
-- Dataset: [ULB Machine Learning Group](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) via Kaggle
-- SHAP: [slundberg/shap](https://github.com/slundberg/shap)
-- PyTorch: [pytorch.org](https://pytorch.org)
+1. **Research & Educational Demo:** This project is a research prototype demonstration.
+2. **Static Historical Dataset (2013):** The dataset spans 48 hours of European transactions from September 2013 and does not reflect real-time 2026 fraud vectors.
+3. **Anonymized PCA Components:** Features V1–V28 are PCA-anonymized, limiting domain-specific feature engineering (e.g., merchant category code, geo-distance).
+
+---
+
+## 🙋 Acknowledgements & Credits
+
+- **Dataset Authors:** ULB (Université Libre de Bruxelles) Machine Learning Group (Andrea Dal Pozzolo, Olivier Caelen, Reid A. Johnson, and Gianluca Bontempi).
+- **Libraries:** Thanks to the open-source maintainers of `scikit-learn`, `LightGBM`, `XGBoost`, `FastAPI`, `SHAP`, and `Cryptography`.
+
+---
+*License:* **MIT License** — See [`LICENSE`](file:///d:/PROJECTS/credit_card_fraud_detection/LICENSE) for full text.

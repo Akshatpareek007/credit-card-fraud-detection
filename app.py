@@ -11,10 +11,11 @@ import pandas as pd
 import os
 import time
 import io
+from blockchain import Blockchain
 
 app = FastAPI(
     title="Credit Card Fraud Detection API",
-    description="Real-time ML API using LightGBM & StandardScaler for credit card transaction fraud classification",
+    description="Real-time ML API using LightGBM & StandardScaler with Blockchain Ledger Integration",
     version="1.0.0"
 )
 
@@ -41,6 +42,10 @@ model_info = {}
 FEATURE_NAMES = [f"V{i}" for i in range(1, 29)] + ["Hour"]
 OPTIMAL_THRESHOLD = 0.9870245620674087
 
+# Global Blockchain Instance
+blockchain = Blockchain(difficulty=2)
+
+
 
 def load_artifacts():
     global model, scaler, model_info, OPTIMAL_THRESHOLD
@@ -65,6 +70,13 @@ def read_root():
 @app.on_event("startup")
 def startup_event():
     load_artifacts()
+    # Seed initial transactions into blockchain for demonstration
+    if len(blockchain.chain) == 1:  # Only genesis block exists
+        blockchain.add_transaction(amount=14.99, fraud_probability=0.002, is_fraud=False, risk_level="LOW", hour=3, feature_summary="Online Subscription Payment")
+        blockchain.add_transaction(amount=529.00, fraud_probability=0.991, is_fraud=True, risk_level="CRITICAL", hour=0, feature_summary="High-risk Anomalous Withdrawal")
+        blockchain.add_transaction(amount=75.50, fraud_probability=0.015, is_fraud=False, risk_level="LOW", hour=14, feature_summary="Grocery Supermarket Store")
+        # Pending txs reach 3, auto-mining creates Block #1!
+
 
 
 class TransactionInput(BaseModel):
@@ -185,6 +197,16 @@ def predict_single(tx: TransactionInput):
     contributions = compute_feature_contributions(raw_vec, scaled_vec)
     latency_ms = round((time.time() - start_time) * 1000, 2)
 
+    # Log transaction to Blockchain Ledger
+    bc_log = blockchain.add_transaction(
+        amount=tx.Amount or 0.0,
+        fraud_probability=fraud_prob,
+        is_fraud=is_fraud,
+        risk_level=risk_level,
+        hour=int(raw_vec[0][-1]),
+        feature_summary=f"Top Driver: {contributions[0]['feature']}" if contributions else "Standard Vector"
+    )
+
     return {
         "fraud_probability": fraud_prob,
         "fraud_percentage": round(fraud_prob * 100, 2),
@@ -195,8 +217,16 @@ def predict_single(tx: TransactionInput):
         "amount": tx.Amount,
         "hour": raw_vec[0][-1],
         "top_feature_drivers": contributions,
-        "latency_ms": latency_ms
+        "latency_ms": latency_ms,
+        "blockchain": {
+            "tx_id": bc_log["transaction"]["tx_id"],
+            "tx_hash": bc_log["transaction"]["tx_hash"],
+            "status": "MINED_IN_BLOCK" if bc_log["mined_block"] else "QUEUED_IN_PENDING_POOL",
+            "block_index": bc_log["mined_block"]["index"] if bc_log["mined_block"] else None,
+            "pending_count": bc_log["pending_count"]
+        }
     }
+
 
 
 @app.post("/api/predict-batch")
@@ -315,6 +345,64 @@ def get_sample_transactions():
     }
 
 
+class TamperRequest(BaseModel):
+    block_index: int = Field(default=1, description="Index of block to tamper")
+    transaction_index: int = Field(default=0, description="Index of transaction inside block")
+    new_amount: float = Field(default=9999.0, description="Tampered transaction amount")
+    flip_fraud: bool = Field(default=True, description="Whether to flip fraud status")
+
+
+@app.get("/api/blockchain/chain")
+def get_blockchain_chain():
+    """Retrieve full blockchain ledger, pending transaction pool, and validation status."""
+    return blockchain.get_chain_data()
+
+
+@app.post("/api/blockchain/mine")
+def mine_block():
+    """Mine pending transactions into a new Block using Proof-of-Work."""
+    mined_block = blockchain.mine_pending_transactions()
+    return {
+        "message": f"Block #{mined_block.index} mined successfully!",
+        "mined_block": mined_block.to_dict(),
+        "chain_data": blockchain.get_chain_data()
+    }
+
+
+@app.get("/api/blockchain/validate")
+def validate_blockchain():
+    """Validate SHA-256 cryptographic hashes and block linkages across the whole chain."""
+    return blockchain.validate_chain()
+
+
+@app.post("/api/blockchain/tamper")
+def tamper_blockchain(req: TamperRequest):
+    """Simulate a cyber attack tampering with transaction data in a block to test detection."""
+    result = blockchain.simulate_tamper(
+        block_index=req.block_index,
+        transaction_index=req.transaction_index,
+        new_amount=req.new_amount,
+        flip_fraud=req.flip_fraud
+    )
+    if not result.get("success"):
+        raise HTTPException(status_code=400, detail=result.get("message"))
+    return {
+        "result": result,
+        "validation_status": blockchain.validate_chain()
+    }
+
+
+@app.post("/api/blockchain/repair")
+def repair_blockchain():
+    """Repair tampered hashes and re-mine PoW nonces to restore blockchain validity."""
+    result = blockchain.repair_chain()
+    return {
+        "result": result,
+        "validation_status": blockchain.validate_chain()
+    }
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)
+
