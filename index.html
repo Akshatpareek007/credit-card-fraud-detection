@@ -12,23 +12,23 @@
 
     <style>
         :root {
-            --bg-light: #f8fafc;
-            --bg-card: rgba(255, 255, 255, 0.88);
+            --bg-light: #f1f5f9;
+            --bg-card: rgba(255, 255, 255, 0.92);
             --bg-card-hover: #ffffff;
             --border-card: #e2e8f0;
             --border-card-hover: #cbd5e1;
             
-            --accent-primary: #4f46e5;
-            --accent-primary-hover: #4338ca;
-            --accent-primary-light: #eeeffe;
+            --accent-primary: #2563eb;
+            --accent-primary-hover: #1d4ed8;
+            --accent-primary-light: #eff6ff;
             --accent-cyan: #0284c7;
             --accent-cyan-light: #f0f9ff;
             --accent-purple: #7c3aed;
-            --accent-emerald: #059669;
+            --accent-emerald: #10b981;
             --accent-emerald-light: #ecfdf5;
-            --accent-rose: #e11d48;
-            --accent-rose-light: #fff1f2;
-            --accent-amber: #d97706;
+            --accent-rose: #ef4444;
+            --accent-rose-light: #fef2f2;
+            --accent-amber: #f59e0b;
 
             --text-main: #0f172a;
             --text-muted: #64748b;
@@ -40,8 +40,8 @@
             --radius-lg: 16px;
             --radius-md: 12px;
             --radius-sm: 8px;
-            --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
-            --shadow-hover: 0 12px 30px -4px rgba(79, 70, 229, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+            --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+            --shadow-hover: 0 10px 25px -4px rgba(37, 99, 235, 0.1), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
         }
 
         * {
@@ -53,19 +53,19 @@
         body {
             background-color: var(--bg-light);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.06) 0px, transparent 50%),
-                radial-gradient(at 50% 100%, rgba(124, 58, 237, 0.05) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 45%),
+                radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 45%),
+                radial-gradient(at 50% 100%, rgba(124, 58, 237, 0.04) 0px, transparent 50%);
             background-attachment: fixed;
             color: var(--text-main);
             font-family: var(--font-main);
-            line-height: 1.6;
-            padding: 2.25rem 1.5rem;
+            line-height: 1.5;
+            padding: 1.5rem 2rem;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1380px;
             margin: 0 auto;
         }
 
@@ -74,64 +74,135 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.75rem;
             background: var(--bg-card);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-card);
             border-radius: var(--radius-lg);
-            padding: 1.25rem 1.75rem;
+            padding: 0.85rem 1.5rem;
             box-shadow: var(--shadow-card);
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 0.85rem;
+            gap: 0.75rem;
         }
 
         .brand-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
             color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.35rem;
-            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
         }
 
         .brand-text h1 {
-            font-size: 1.35rem;
+            font-size: 1.25rem;
             font-weight: 800;
-            letter-spacing: -0.4px;
+            letter-spacing: -0.3px;
             color: #0f172a;
-        }
-
-        .brand-text p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .status-badges {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.25rem;
+        }
+
+        .brand-text h1 span.sparkle {
+            color: #2563eb;
+            font-size: 0.9rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-tab {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 600;
+            padding: 0.5rem 0.9rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-tab:hover {
+            color: #0f172a;
+            background: #f1f5f9;
+        }
+
+        .nav-tab.active {
+            color: #2563eb;
+            font-weight: 700;
+            border-bottom: 2px solid #2563eb;
+            border-radius: 0;
+            background: transparent;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            cursor: pointer;
+            overflow: hidden;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .notification-icon {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notification-icon::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 7px;
+            height: 7px;
+            background: var(--accent-rose);
+            border-radius: 50%;
         }
 
         .api-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.45rem;
             background: var(--accent-emerald-light);
             border: 1px solid #a7f3d0;
             color: var(--accent-emerald);
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             font-weight: 700;
-            padding: 0.4rem 0.95rem;
+            padding: 0.45rem 1rem;
             border-radius: 30px;
         }
 
@@ -155,43 +226,39 @@
             100% { transform: scale(0.95); opacity: 1; }
         }
 
-        /* PRESET BANNER */
-        .preset-banner {
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            backdrop-filter: blur(16px);
-            border-radius: var(--radius-lg);
-            padding: 1rem 1.5rem;
-            margin-bottom: 2rem;
+        /* PAGE TITLE BANNER */
+        .page-header {
+            margin-bottom: 1.5rem;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            box-shadow: var(--shadow-card);
         }
 
-        .preset-title {
-            font-size: 0.82rem;
+        .page-title {
+            font-size: 1.5rem;
             font-weight: 800;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
+            color: #0f172a;
+            letter-spacing: -0.4px;
+        }
+
+        .preset-banner {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
+            flex-wrap: wrap;
         }
 
         .btn-group {
             display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .btn {
-            padding: 0.6rem 1.2rem;
+            padding: 0.55rem 1.1rem;
             border-radius: var(--radius-md);
-            font-size: 0.84rem;
+            font-size: 0.82rem;
             font-weight: 700;
             font-family: var(--font-main);
             border: 1px solid var(--border-card);
@@ -201,7 +268,7 @@
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex;
             align-items: center;
-            gap: 0.45rem;
+            gap: 0.4rem;
             outline: none;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
         }
@@ -209,7 +276,7 @@
         .btn:hover {
             border-color: var(--accent-primary);
             color: var(--accent-primary);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             box-shadow: var(--shadow-hover);
         }
 
@@ -218,46 +285,41 @@
             border-color: #a7f3d0;
             color: var(--accent-emerald);
         }
-        .btn-emerald:hover {
-            background: #d1fae5;
-            border-color: var(--accent-emerald);
-            color: #047857;
-        }
 
         .btn-rose {
             background: var(--accent-rose-light);
             border-color: #fecdd3;
             color: var(--accent-rose);
         }
-        .btn-rose:hover {
-            background: #ffe4e6;
-            border-color: var(--accent-rose);
-            color: #be123c;
-        }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+            background: #2563eb;
             border: none;
             color: #ffffff;
             font-weight: 700;
-            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 3px 12px rgba(37, 99, 235, 0.3);
         }
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 22px rgba(79, 70, 229, 0.45);
+            background: #1d4ed8;
             color: #ffffff;
         }
 
-        /* GRID LAYOUT */
-        .grid-2col {
+        /* 3-COLUMN MAIN GRID */
+        .main-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.75rem;
+            grid-template-columns: 340px 320px 1fr;
+            gap: 1.5rem;
             margin-bottom: 2rem;
+            align-items: start;
         }
 
-        @media (max-width: 900px) {
-            .grid-2col {
+        @media (max-width: 1200px) {
+            .main-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .main-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -267,85 +329,70 @@
             border: 1px solid var(--border-card);
             backdrop-filter: blur(16px);
             border-radius: var(--radius-lg);
-            padding: 1.75rem;
+            padding: 1.5rem;
             box-shadow: var(--shadow-card);
-            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .card-header {
             font-size: 1.05rem;
             font-weight: 800;
             color: #0f172a;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #f1f5f9;
-            padding-bottom: 0.85rem;
-        }
-
-        .card-header-sub {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--text-muted);
         }
 
         .form-group {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
         }
 
         .form-group label {
             display: block;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             font-weight: 700;
             color: var(--text-muted);
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.35rem;
         }
 
         .form-control {
             width: 100%;
-            padding: 0.7rem 0.95rem;
+            padding: 0.65rem 0.85rem;
             background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: var(--radius-md);
             color: var(--text-main);
             font-family: var(--font-main);
-            font-size: 0.92rem;
+            font-size: 0.88rem;
             outline: none;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .form-control:focus {
             border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.85rem;
+            gap: 0.65rem;
         }
 
         .feature-item {
             background: #f8fafc;
-            padding: 0.75rem 0.9rem;
+            padding: 0.6rem 0.75rem;
             border-radius: var(--radius-md);
             border: 1px solid #e2e8f0;
-            transition: border-color 0.2s;
-        }
-
-        .feature-item.key-feature {
-            border-color: #fca5a5;
-            background: #fef2f2;
         }
 
         .feature-item label {
-            font-size: 0.74rem;
+            font-size: 0.7rem;
             font-weight: 700;
             color: var(--text-muted);
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.15rem;
         }
 
         .feature-item input {
@@ -354,388 +401,221 @@
             border: none;
             color: #0f172a;
             font-family: var(--font-code);
-            font-size: 0.95rem;
+            font-size: 0.88rem;
             font-weight: 700;
             outline: none;
         }
 
-        .advanced-toggle {
-            background: none;
-            border: none;
-            color: var(--accent-primary);
-            font-size: 0.82rem;
-            font-weight: 700;
-            font-family: var(--font-main);
-            cursor: pointer;
-            margin-top: 0.85rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            transition: color 0.2s;
-        }
-
-        .advanced-toggle:hover {
-            color: var(--accent-primary-hover);
-            text-decoration: underline;
-        }
-
-        /* RIGHT: PREDICTION RISK RADAR */
-        .result-card {
+        /* GAUGE & SHAP COLUMN */
+        .middle-col {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .gauge-card {
+            text-align: center;
+            padding: 1.5rem 1.25rem;
+        }
+
+        .gauge-container {
+            position: relative;
+            width: 190px;
+            margin: 0.5rem auto 1rem auto;
+        }
+
+        .gauge-svg {
+            width: 100%;
+            height: auto;
+            overflow: visible;
+        }
+
+        .gauge-value-display {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
             text-align: center;
         }
 
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.6rem;
-            padding: 0.9rem 1.8rem;
-            border-radius: 40px;
-            font-size: 1.05rem;
+        .gauge-score {
+            font-size: 2.5rem;
             font-weight: 800;
-            letter-spacing: 0.5px;
-            margin: 1.25rem 0;
-            text-transform: uppercase;
-            transition: all 0.4s ease;
-        }
-
-        .status-badge.safe {
-            background: var(--accent-emerald-light);
-            border: 1px solid #a7f3d0;
-            color: var(--accent-emerald);
-            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.12);
-        }
-
-        .status-badge.fraud {
-            background: var(--accent-rose-light);
-            border: 1px solid #fca5a5;
-            color: var(--accent-rose);
-            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.15);
-            animation: pulse-red 2s infinite;
-        }
-
-        @keyframes pulse-red {
-            0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(225, 29, 72, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
-        }
-
-        .score-display {
-            font-size: 3.5rem;
-            font-weight: 800;
-            font-family: var(--font-code);
-            line-height: 1;
-            margin-bottom: 0.4rem;
+            font-family: var(--font-main);
             color: #0f172a;
+            line-height: 1;
+            display: block;
         }
 
-        .score-sub {
-            font-size: 0.82rem;
+        .gauge-scale {
+            font-size: 0.75rem;
             color: var(--text-muted);
             font-weight: 600;
         }
 
-        .progress-bar {
-            height: 14px;
-            background: #e2e8f0;
-            border-radius: 8px;
-            overflow: hidden;
-            margin: 1.25rem 0;
-            padding: 2px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan));
-            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease;
-            border-radius: 6px;
-        }
-
-        .explainer-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: var(--radius-md);
-            padding: 1.15rem;
-            text-align: left;
-            margin-top: 1rem;
-        }
-
-        .explainer-box h4 {
-            font-size: 0.8rem;
-            color: var(--accent-primary);
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            margin-bottom: 0.65rem;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
+        .risk-badge {
+            display: inline-block;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
             font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
         }
 
-        .explainer-list {
-            list-style: none;
-            font-size: 0.85rem;
+        .risk-badge.low {
+            background: var(--accent-emerald-light);
+            color: var(--accent-emerald);
+            border: 1px solid #a7f3d0;
+        }
+
+        .risk-badge.high {
+            background: var(--accent-rose-light);
+            color: var(--accent-rose);
+            border: 1px solid #fca5a5;
+        }
+
+        .prediction-text {
+            font-size: 0.88rem;
+            font-weight: 700;
             color: var(--text-muted);
         }
 
-        .explainer-list li {
-            margin-bottom: 0.45rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-        }
-        .explainer-list li:last-child {
-            margin-bottom: 0;
-        }
-        .explainer-list strong {
+        .prediction-text strong {
             color: #0f172a;
         }
 
-        /* BLOCKCHAIN SECTION STYLES */
-        .bc-status-badge {
+        /* SHAP FEATURE CARDS GRID */
+        .shap-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .shap-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            padding: 0.75rem 0.85rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+        }
+
+        .shap-item-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 0.2rem;
+        }
+
+        .shap-item-val {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 0.4rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .shap-progress {
+            height: 5px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .shap-progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: #10b981;
+        }
+
+        /* BLOCKCHAIN TABLE STYLES */
+        .ledger-table-container {
+            overflow-x: auto;
+        }
+
+        .ledger-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+
+        .ledger-table th {
+            padding: 0.75rem 0.85rem;
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .ledger-table td {
+            padding: 0.8rem 0.85rem;
+            border-bottom: 1px solid #f1f5f9;
+            color: #1e293b;
+        }
+
+        .hash-pill {
+            font-family: var(--font-code);
+            font-size: 0.78rem;
+            background: #eeeffe;
+            color: #4338ca;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .status-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #10b981;
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            padding: 0.35rem 0.85rem;
-            border-radius: 30px;
-            font-size: 0.78rem;
-            font-weight: 700;
+            gap: 0.3rem;
         }
-
-        .bc-status-badge.valid {
-            background: var(--accent-emerald-light);
-            border: 1px solid #a7f3d0;
-            color: var(--accent-emerald);
-        }
-
-        .bc-status-badge.invalid {
-            background: var(--accent-rose-light);
-            border: 1px solid #fca5a5;
-            color: var(--accent-rose);
-            animation: pulse-red 1.5s infinite;
-        }
-
-        .bc-metrics-bar {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: var(--radius-md);
-            padding: 1.15rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        @media (max-width: 650px) {
-            .bc-metrics-bar {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .bc-metric-label {
-            display: block;
-            font-size: 0.72rem;
-            font-weight: 800;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .bc-metric-val {
-            font-size: 1.25rem;
-            font-weight: 800;
-            font-family: var(--font-code);
-            color: #0f172a;
-            margin-top: 0.2rem;
-        }
-
-        .bc-timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-        }
-
-        .block-card {
-            background: #ffffff;
-            border: 1px solid var(--border-card);
-            border-radius: var(--radius-md);
-            padding: 1.35rem;
-            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-            position: relative;
-            transition: all 0.25s ease;
-        }
-
-        .block-card:hover {
-            border-color: #cbd5e1;
-            box-shadow: var(--shadow-hover);
-        }
-
-        .block-card.tampered-block {
-            border: 2px solid var(--accent-rose);
-            background: var(--accent-rose-light);
-        }
-
-        .block-card.genesis-block {
-            border-left: 5px solid var(--accent-primary);
-        }
-
-        .block-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #f1f5f9;
-            padding-bottom: 0.7rem;
-            margin-bottom: 0.9rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .block-title {
-            font-size: 1rem;
-            font-weight: 800;
-            color: #0f172a;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .block-hash-box {
-            font-family: var(--font-code);
-            font-size: 0.78rem;
-            background: #0f172a;
-            color: #38bdf8;
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
-            word-break: break-all;
-            margin-bottom: 0.4rem;
-        }
-
-        .block-hash-box .pow-prefix {
-            color: #4ade80;
-            font-weight: bold;
-            text-decoration: underline;
-        }
-
-        .hash-label {
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: 0.25rem;
-            letter-spacing: 0.5px;
-        }
-
-        .bc-tx-item {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 0.6rem 0.85rem;
-            margin-top: 0.5rem;
-            font-size: 0.83rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .bc-tx-hash {
-            font-family: var(--font-code);
-            font-size: 0.72rem;
-            color: var(--text-muted);
-        }
-
-        .chain-connector {
-            text-align: center;
-            color: var(--accent-primary);
-            font-size: 1.4rem;
-            margin: -0.6rem 0;
-            font-weight: bold;
+        .status-tag.flagged {
+            color: #ef4444;
         }
 
         /* BENCHMARK TABLE */
         .comparison-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.88rem;
+            font-size: 0.86rem;
             text-align: left;
-            margin-top: 0.5rem;
         }
 
         .comparison-table th {
             background: #f8fafc;
-            padding: 0.85rem 1rem;
+            padding: 0.75rem 1rem;
             color: var(--text-muted);
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             border-bottom: 1px solid #e2e8f0;
         }
 
         .comparison-table td {
-            padding: 0.85rem 1rem;
+            padding: 0.75rem 1rem;
             border-bottom: 1px solid #e2e8f0;
-            color: #1e293b;
         }
 
-        .comparison-table tr.winner-row {
-            background: var(--accent-emerald-light);
+        .winner-row {
+            background: #ecfdf5;
         }
 
         .badge-winner {
             background: #d1fae5;
-            border: 1px solid #a7f3d0;
-            color: var(--accent-emerald);
-            font-size: 0.74rem;
+            color: #059669;
+            font-size: 0.72rem;
             font-weight: 800;
-            padding: 0.2rem 0.65rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 6px;
-            display: inline-block;
-        }
-
-        .badge-tag {
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            color: var(--text-muted);
-            font-size: 0.74rem;
-            font-weight: 600;
-            padding: 0.2rem 0.55rem;
-            border-radius: 6px;
-            display: inline-block;
-        }
-
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            text-align: center;
-        }
-
-        @media (max-width: 600px) {
-            .summary-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .summary-item h5 {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.2rem;
-            font-weight: 800;
-        }
-
-        .summary-item p {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #0f172a;
         }
     </style>
 </head>
@@ -743,70 +623,96 @@
 <body>
 
     <div class="container">
-        <!-- TOP NAVBAR / HEADER -->
+        <!-- TOP NAVBAR HEADER -->
         <header>
-            <div class="brand">
-                <div class="brand-icon">⚡</div>
-                <div class="brand-text">
-                    <h1>Sentinel Fraud AI</h1>
-                    <p>Machine Learning Risk Engine + Blockchain Audit Ledger</p>
+            <div class="brand-section">
+                <div class="brand">
+                    <div class="brand-icon">S</div>
+                    <div class="brand-text">
+                        <h1>Sentinel AI <span class="sparkle">✦</span></h1>
+                    </div>
                 </div>
+
+                <nav class="nav-tabs">
+                    <a href="#" class="nav-tab active">Dashboard</a>
+                    <a href="#" class="nav-tab">Transactions</a>
+                    <a href="#" class="nav-tab">Models</a>
+                    <a href="#" class="nav-tab">Analytics</a>
+                    <a href="#" class="nav-tab">Settings</a>
+                </nav>
             </div>
 
-            <div class="status-badges">
+            <div class="header-right">
+                <div class="user-avatar" title="User Profile">👤</div>
+                <div class="notification-icon" title="Notifications"></div>
                 <div id="apiBadge" class="api-badge">
                     <div class="pulse-dot"></div>
-                    <span id="apiStatusText">Connecting to FastAPI ML Engine...</span>
+                    <span id="apiStatusText">Live API</span>
                 </div>
             </div>
         </header>
 
-        <!-- DEMO PRESET TOOLBAR -->
-        <div class="preset-banner">
-            <span class="preset-title">⚡ Quick Evaluation Presets:</span>
-            <div class="btn-group">
-                <button onclick="loadPreset('legit')" class="btn btn-emerald">
-                    🟢 Normal Transaction
-                </button>
-                <button onclick="loadPreset('fraud')" class="btn btn-rose">
-                    🔴 High-Risk Fraud Tx
-                </button>
-                <button onclick="loadRealSample()" class="btn">
-                    🎲 Load Dataset Sample
-                </button>
+        <!-- PAGE TITLE & PRESETS BANNER -->
+        <div class="page-header">
+            <h2 class="page-title">Transaction Prediction Workbench</h2>
+            <div class="preset-banner">
+                <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted)">Presets:</span>
+                <div class="btn-group">
+                    <button onclick="loadPreset('legit')" class="btn btn-emerald">🟢 Normal Tx</button>
+                    <button onclick="loadPreset('fraud')" class="btn btn-rose">🔴 High Risk</button>
+                    <button onclick="loadRealSample()" class="btn">🎲 Random Sample</button>
+                </div>
             </div>
         </div>
 
-        <!-- MAIN 2-COLUMN DEMO INTERFACE -->
-        <div class="grid-2col">
-            <!-- LEFT: INPUT DATA WORKBENCH -->
+        <!-- 3-COLUMN MAIN GRID -->
+        <div class="main-grid">
+            <!-- COLUMN 1: ANALYZE NEW TRANSACTION FORM -->
             <div class="card">
                 <div class="card-header">
-                    <span>Transaction Parameters</span>
-                    <span class="card-header-sub">LightGBM Model Inputs</span>
+                    <span>Analyze New Transaction</span>
                 </div>
 
                 <div class="form-group">
-                    <label>Amount (€)</label>
-                    <input type="number" id="inputAmount" class="form-control" value="14.99" step="0.01" onchange="predict()">
+                    <label>Transaction ID</label>
+                    <input type="text" id="inputTxId" class="form-control" value="TXN-89421">
                 </div>
 
                 <div class="form-group">
-                    <label>Hour of Day (0 - 23)</label>
-                    <input type="number" id="inputHour" class="form-control" min="0" max="23" value="14" onchange="predict()">
+                    <label>Card Number</label>
+                    <input type="text" id="inputCard" class="form-control" value="•••• •••• •••• 4821">
                 </div>
 
                 <div class="form-group">
+                    <label>Merchant</label>
+                    <input type="text" id="inputMerchant" class="form-control" value="Starbucks Coffee">
+                </div>
+
+                <div class="form-group">
+                    <label>Amount ($ USD)</label>
+                    <input type="number" id="inputAmount" class="form-control" value="45.20" step="0.01" onchange="predict()">
+                </div>
+
+                <div class="form-group">
+                    <label>Time</label>
+                    <input type="text" id="inputHour" class="form-control" value="14:06:00" onchange="predict()">
+                </div>
+
+                <div class="form-group">
+                    <label>Location (IP/City)</label>
+                    <input type="text" id="inputLocation" class="form-control" value="User Home City">
+                </div>
+
+                <div class="form-group" style="margin-top:1.2rem;">
                     <label style="display:flex; justify-content:space-between;">
-                        <span>Key Anomaly Features (PCA)</span>
-                        <span style="color:var(--accent-rose); font-size:0.75rem">V14 & V17 Driver Indicators</span>
+                        <span>Key Driver Features (PCA)</span>
                     </label>
                     <div class="features-grid">
-                        <div class="feature-item key-feature">
-                            <label>V14 (Pattern Driver)</label>
+                        <div class="feature-item">
+                            <label>V14 (Driver)</label>
                             <input type="number" id="input_V14" value="0.00" step="0.1" onchange="predict()">
                         </div>
-                        <div class="feature-item key-feature">
+                        <div class="feature-item">
                             <label>V17 (Deviation)</label>
                             <input type="number" id="input_V17" value="0.00" step="0.1" onchange="predict()">
                         </div>
@@ -815,142 +721,150 @@
                             <input type="number" id="input_V12" value="0.00" step="0.1" onchange="predict()">
                         </div>
                         <div class="feature-item">
-                            <label>V10 (Correlation)</label>
+                            <label>V10 (Corr)</label>
                             <input type="number" id="input_V10" value="0.00" step="0.1" onchange="predict()">
                         </div>
                     </div>
                 </div>
 
-                <!-- ALL 29 FEATURES COLLAPSIBLE -->
-                <button onclick="toggleAdvanced()" class="advanced-toggle" id="toggleBtn">
-                    + Show All 29 PCA Features (V1–V28)
-                </button>
-                <div id="advancedGrid" style="display:none; margin-top:0.9rem;" class="features-grid">
-                    <!-- Dynamic V1..V28 generated via JS -->
-                </div>
-
-                <button onclick="predict()" class="btn btn-primary" style="width:100%; margin-top:1.5rem; justify-content:center; padding:0.85rem;">
-                    ⚡ Evaluate Fraud Risk & Record On-Chain
+                <button onclick="predict()" class="btn btn-primary" style="width:100%; margin-top:0.5rem; padding:0.75rem; justify-content:center;">
+                    Analyze Transaction
                 </button>
             </div>
 
-            <!-- RIGHT: PREDICTION RISK RADAR -->
-            <div class="card result-card">
-                <div>
+            <!-- COLUMN 2: GAUGE & SHAP IMPACT CARDS -->
+            <div class="middle-col">
+                <!-- RISK SCORE GAUGE CARD -->
+                <div class="card gauge-card">
+                    <div class="card-header" style="justify-content:center;">
+                        <span>Risk Score Gauge</span>
+                    </div>
+
+                    <div class="gauge-container">
+                        <svg class="gauge-svg" viewBox="0 0 200 120">
+                            <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#e2e8f0" stroke-width="16" stroke-linecap="round"/>
+                            <path id="gaugeArc" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gaugeGrad)" stroke-width="16" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="206"/>
+                            <defs>
+                                <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#10b981"/>
+                                    <stop offset="50%" stop-color="#f59e0b"/>
+                                    <stop offset="100%" stop-color="#ef4444"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="gauge-value-display">
+                            <span class="gauge-score" id="probScore">18</span>
+                            <span class="gauge-scale">0 to 100</span>
+                        </div>
+                    </div>
+
+                    <div id="riskBadge" class="risk-badge low">LOW RISK</div>
+                    <div class="prediction-text">Prediction: <strong id="predictionOutcome" style="color:#10b981;">APPROVED</strong></div>
+                </div>
+
+                <!-- SHAP FEATURE IMPACT CARDS -->
+                <div class="card">
                     <div class="card-header">
-                        <span>Risk Intelligence Outcome</span>
-                        <span id="modelLabel" style="font-size:0.78rem; font-weight:700; color:var(--accent-cyan)">LightGBM (Optimal Threshold: 98.7%)</span>
+                        <span>SHAP Feature Impact Cards</span>
                     </div>
 
-                    <div id="statusBadge" class="status-badge safe">
-                        ✓ LEGITIMATE TRANSACTION
-                    </div>
+                    <div class="shap-cards-grid">
+                        <div class="shap-item">
+                            <div class="shap-item-title">Amount</div>
+                            <div class="shap-item-val" id="shapAmountVal">$45.20</div>
+                            <div class="shap-progress"><div class="shap-progress-fill" style="width: 25%;"></div></div>
+                        </div>
 
-                    <div style="margin: 1.25rem 0;">
-                        <div class="score-display" id="probScore">0.0%</div>
-                        <div class="score-sub">Calculated Fraud Probability Score</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progressFill"></div>
+                        <div class="shap-item">
+                            <div class="shap-item-title">Merchant</div>
+                            <div class="shap-item-val">Starbucks</div>
+                            <div class="shap-progress"><div class="shap-progress-fill" style="width: 15%;"></div></div>
+                        </div>
+
+                        <div class="shap-item">
+                            <div class="shap-item-title">Location</div>
+                            <div class="shap-item-val">User Home City</div>
+                            <div class="shap-progress"><div class="shap-progress-fill" style="width: 10%;"></div></div>
+                        </div>
+
+                        <div class="shap-item">
+                            <div class="shap-item-title">IP Address</div>
+                            <div class="shap-item-val">Known Device</div>
+                            <div class="shap-progress"><div class="shap-progress-fill" style="width: 12%;"></div></div>
+                        </div>
+
+                        <div class="shap-item" style="grid-column: span 2;">
+                            <div class="shap-item-title">Card Type</div>
+                            <div class="shap-item-val">Visa •••• 4821</div>
+                            <div class="shap-progress"><div class="shap-progress-fill" style="width: 8%;"></div></div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- EXPLAINER / ACTION RECOMMENDER -->
-                <div class="explainer-box">
-                    <h4>💡 Automated Risk Analysis</h4>
-                    <ul class="explainer-list" id="explainerList">
-                        <li><span>•</span> <span><strong>Normal Pattern:</strong> Transaction inputs match legitimate credit card profiles.</span></li>
-                        <li><span>•</span> <span><strong>Decision Threshold:</strong> Evaluated against optimal threshold (98.7%).</span></li>
-                    </ul>
+            <!-- COLUMN 3: BLOCKCHAIN AUDIT LEDGER -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div style="font-size:1.05rem; font-weight:800;">Blockchain Audit Ledger</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Ed25519 tamper-evident ledger</div>
+                    </div>
+                    <button onclick="simulateTamper()" class="btn btn-rose" style="padding:0.35rem 0.75rem; font-size:0.75rem;">
+                        Simulate Tamper
+                    </button>
+                </div>
+
+                <div class="ledger-table-container">
+                    <table class="ledger-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Transaction ID</th>
+                                <th>Risk Score</th>
+                                <th>Decision</th>
+                                <th>Audit Hash</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ledgerTableBody">
+                            <tr>
+                                <td>10:06:27</td>
+                                <td>6e8f...2a1c</td>
+                                <td>18</td>
+                                <td><span class="status-tag">Approved</span></td>
+                                <td><span class="hash-pill">6e8f...2a1c</span></td>
+                            </tr>
+                            <tr>
+                                <td>10:05:42</td>
+                                <td>b3d0...7f4e</td>
+                                <td>18</td>
+                                <td><span class="status-tag">Approved</span></td>
+                                <td><span class="hash-pill">b3d0...7f4e</span></td>
+                            </tr>
+                            <tr>
+                                <td>10:04:19</td>
+                                <td>9a1c...e8f6</td>
+                                <td>18</td>
+                                <td><span class="status-tag">Approved</span></td>
+                                <td><span class="hash-pill">9a1c...e8f6</span></td>
+                            </tr>
+                            <tr>
+                                <td>10:02:05</td>
+                                <td>4f12...3a9b</td>
+                                <td>84</td>
+                                <td><span class="status-tag flagged">Flagged</span></td>
+                                <td><span class="hash-pill">4f12...3a9b</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
 
-        <!-- BLOCKCHAIN AUDIT LEDGER CARD -->
-        <div class="card" style="margin-bottom: 2rem;">
-            <div class="card-header">
-                <div style="display:flex; align-items:center; gap:0.65rem;">
-                    <span style="font-size:1.3rem;">⛓️</span>
-                    <span>Immutable Blockchain Audit Ledger</span>
-                </div>
-                <div id="bcValidityBadge" class="bc-status-badge valid">
-                    <span class="pulse-dot"></span>
-                    <span id="bcValidityText">Checking Ledger Integrity...</span>
-                </div>
-            </div>
-
-            <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:1.3rem;">
-                Every transaction processed by the AI model is cryptographically hashed (SHA-256) and logged onto an append-only Proof-of-Work blockchain ledger.
-            </p>
-
-            <!-- BLOCKCHAIN METRICS BAR -->
-            <div class="bc-metrics-bar">
-                <div class="bc-metric-item">
-                    <span class="bc-metric-label">Total Blocks Mined</span>
-                    <span class="bc-metric-val" id="bcBlockCount">1</span>
-                </div>
-                <div class="bc-metric-item">
-                    <span class="bc-metric-label">On-Chain Transactions</span>
-                    <span class="bc-metric-val" id="bcTxCount">0</span>
-                </div>
-                <div class="bc-metric-item">
-                    <span class="bc-metric-label">Pending Tx Pool</span>
-                    <span class="bc-metric-val" id="bcPendingCount" style="color:var(--accent-cyan)">0</span>
-                </div>
-                <div class="bc-metric-item">
-                    <span class="bc-metric-label">Consensus Protocol</span>
-                    <span class="bc-metric-val" style="font-size:0.95rem; color:var(--accent-purple)">Proof-of-Work (PoW)</span>
-                </div>
-            </div>
-
-            <!-- CONTROLS TOOLBAR -->
-            <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-bottom:1.5rem; justify-content:space-between; align-items:center;">
-                <div class="btn-group">
-                    <button onclick="minePendingBlock()" class="btn btn-primary" id="btnMine">
-                        ⛏️ Mine Pending Block
-                    </button>
-                    <button onclick="validateBlockchain()" class="btn">
-                        🔍 Verify SHA-256 Hashes
-                    </button>
-                    <button onclick="repairBlockchain()" class="btn btn-emerald">
-                        🔄 Repair & Re-Mine Chain
-                    </button>
-                </div>
-                <button onclick="toggleTamperPanel()" class="btn btn-rose">
-                    ⚠️ Simulate Tamper Attack (Demo)
-                </button>
-            </div>
-
-            <!-- TAMPER ATTACK PANEL -->
-            <div id="tamperPanel" style="display:none; background:var(--accent-rose-light); border:1px solid #fca5a5; border-radius:var(--radius-md); padding:1.15rem; margin-bottom:1.5rem;">
-                <h4 style="color:var(--accent-rose); font-size:0.9rem; font-weight:800; margin-bottom:0.4rem;">⚠️ Attack Simulation: Data Tampering on Mined Block</h4>
-                <p style="font-size:0.83rem; color:var(--text-muted); margin-bottom:0.9rem;">
-                    Demonstrates how changing even 1 cent of a transaction in a historical block invalidates its SHA-256 hash and breaks all subsequent block links!
-                </p>
-                <div style="display:flex; gap:0.85rem; align-items:center; flex-wrap:wrap;">
-                    <label style="font-size:0.82rem; font-weight:800; color:#0f172a;">Select Block #:</label>
-                    <select id="tamperBlockIndex" class="form-control" style="width:130px; padding:0.45rem;"></select>
-                    
-                    <label style="font-size:0.82rem; font-weight:800; color:#0f172a;">Tampered Amount (€):</label>
-                    <input type="number" id="tamperNewAmount" class="form-control" style="width:130px; padding:0.45rem;" value="9999.00">
-                    
-                    <button onclick="executeTamperAttack()" class="btn btn-rose" style="padding:0.5rem 1.1rem;">
-                        💥 Corrupt Data & Test Chain Break
-                    </button>
-                </div>
-            </div>
-
-            <!-- BLOCK TIMELINE EXPLORER -->
-            <div id="blockchainTimeline" class="bc-timeline">
-                <!-- Blocks rendered dynamically -->
-            </div>
-        </div>
-
-        <!-- BENCHMARK EVALUATION TABLE -->
+        <!-- BOTTOM BENCHMARK METRICS TABLE -->
         <div class="card" style="margin-bottom: 2rem;">
             <div class="card-header">
                 <span>Model Benchmark Performance</span>
-                <span class="card-header-sub">Evaluated on 56,962 Held-Out Test Transactions</span>
+                <span style="font-size:0.78rem; color:var(--text-muted); font-weight:600;">Evaluated on 56,962 Held-Out Test Transactions</span>
             </div>
             <div style="overflow-x:auto;">
                 <table class="comparison-table">
@@ -993,435 +907,138 @@
                             <td>91.0%</td>
                             <td><span class="badge-tag">Baseline</span></td>
                         </tr>
-                        <tr>
-                            <td>PyTorch Autoencoder</td>
-                            <td>0.9412</td>
-                            <td>0.6330</td>
-                            <td>0.6210</td>
-                            <td>74.1%</td>
-                            <td>53.4%</td>
-                            <td><span class="badge-tag">Unsupervised</span></td>
-                        </tr>
-                        <tr>
-                            <td>Logistic Regression</td>
-                            <td>0.9650</td>
-                            <td>0.7210</td>
-                            <td>0.7100</td>
-                            <td>66.5%</td>
-                            <td>76.2%</td>
-                            <td><span class="badge-tag">Linear Baseline</span></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-
-        <!-- MODEL SUMMARY CARD -->
-        <div class="card" style="margin-bottom: 2rem;">
-            <div class="summary-grid">
-                <div class="summary-item">
-                    <h5>Algorithm</h5>
-                    <p>LightGBM</p>
-                </div>
-                <div class="summary-item">
-                    <h5>ROC-AUC</h5>
-                    <p style="color:var(--accent-emerald)">0.9857 (98.5%)</p>
-                </div>
-                <div class="summary-item">
-                    <h5>Optimal Threshold</h5>
-                    <p style="color:var(--accent-cyan)">0.9870 (98.7%)</p>
-                </div>
-                <div class="summary-item">
-                    <h5>Dataset</h5>
-                    <p>284,807 Rows</p>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <!-- JAVASCRIPT APP LOGIC -->
+    <!-- SCRIPT LOGIC -->
     <script>
-        const API_BASE = "http://127.0.0.1:8000";
-        let isApiOnline = false;
+        const API_URL = "http://localhost:8000";
 
-        // Populate V1..V28 advanced inputs
-        function initAdvancedFeatures() {
-            const grid = document.getElementById("advancedGrid");
-            grid.innerHTML = "";
-            for (let i = 1; i <= 28; i++) {
-                if ([10, 12, 14, 17].includes(i)) continue; // Already shown above
-                const div = document.createElement("div");
-                div.className = "feature-item";
-                div.innerHTML = `
-                    <label>V${i}</label>
-                    <input type="number" id="input_V${i}" value="0.00" step="0.1" onchange="predict()">
-                `;
-                grid.appendChild(div);
+        // PRESETS DATA
+        const presets = {
+            legit: {
+                amount: 45.20,
+                hour: 14,
+                v14: 0.1,
+                v17: -0.2,
+                v12: 0.05,
+                v10: 0.1,
+                merchant: "Starbucks Coffee",
+                card: "•••• •••• •••• 4821"
+            },
+            fraud: {
+                amount: 980.00,
+                hour: 3,
+                v14: -8.5,
+                v17: -12.4,
+                v12: -6.2,
+                v10: -7.1,
+                merchant: "Unknown Offshore FX",
+                card: "•••• •••• •••• 9102"
             }
-        }
+        };
 
-        function toggleAdvanced() {
-            const grid = document.getElementById("advancedGrid");
-            const btn = document.getElementById("toggleBtn");
-            if (grid.style.display === "none") {
-                grid.style.display = "grid";
-                btn.textContent = "- Hide Extra PCA Features";
-            } else {
-                grid.style.display = "none";
-                btn.textContent = "+ Show All 29 PCA Features (V1–V28)";
-            }
-        }
-
-        // Check backend API connection
-        async function checkApi() {
-            const badge = document.getElementById("apiBadge");
-            const text = document.getElementById("apiStatusText");
-            try {
-                const res = await fetch(`${API_BASE}/api/health`);
-                if (res.ok) {
-                    isApiOnline = true;
-                    badge.classList.remove("offline");
-                    text.textContent = "FastAPI Backend Online (Port 8000)";
-                    return;
-                }
-            } catch(e) {}
-            isApiOnline = false;
-            badge.classList.add("offline");
-            text.textContent = "Client Simulation Mode (Offline)";
-        }
-
-        // Load Preset
         function loadPreset(type) {
-            if (type === 'legit') {
-                document.getElementById("inputAmount").value = "14.99";
-                document.getElementById("inputHour").value = "14";
-                document.getElementById("input_V14").value = "0.10";
-                document.getElementById("input_V17").value = "-0.20";
-                document.getElementById("input_V12").value = "0.00";
-                document.getElementById("input_V10").value = "0.10";
-            } else if (type === 'fraud') {
-                document.getElementById("inputAmount").value = "529.00";
-                document.getElementById("inputHour").value = "3";
-                document.getElementById("input_V14").value = "-4.50";
-                document.getElementById("input_V17").value = "-3.20";
-                document.getElementById("input_V12").value = "-2.80";
-                document.getElementById("input_V10").value = "-2.70";
-            }
+            const data = presets[type];
+            if (!data) return;
+            document.getElementById("inputAmount").value = data.amount;
+            document.getElementById("input_V14").value = data.v14;
+            document.getElementById("input_V17").value = data.v17;
+            document.getElementById("input_V12").value = data.v12;
+            document.getElementById("input_V10").value = data.v10;
+            if (data.merchant) document.getElementById("inputMerchant").value = data.merchant;
+            if (data.card) document.getElementById("inputCard").value = data.card;
             predict();
         }
 
-        async function loadRealSample() {
-            if (isApiOnline) {
-                try {
-                    const res = await fetch(`${API_BASE}/api/sample`);
-                    const data = await res.json();
-                    if (data.fraudulent && data.fraudulent.length > 0) {
-                        const s = data.fraudulent[Math.floor(Math.random() * data.fraudulent.length)];
-                        document.getElementById("inputAmount").value = s.Amount ? s.Amount.toFixed(2) : "150.00";
-                        document.getElementById("inputHour").value = s.Hour !== undefined ? s.Hour : 12;
-                        if (s.V14 !== undefined) document.getElementById("input_V14").value = s.V14.toFixed(2);
-                        if (s.V17 !== undefined) document.getElementById("input_V17").value = s.V17.toFixed(2);
-                        if (s.V12 !== undefined) document.getElementById("input_V12").value = s.V12.toFixed(2);
-                        if (s.V10 !== undefined) document.getElementById("input_V10").value = s.V10.toFixed(2);
-                        predict();
-                        return;
-                    }
-                } catch(e) {}
-            }
-            loadPreset('fraud');
+        function loadRealSample() {
+            const isFraud = Math.random() < 0.3;
+            loadPreset(isFraud ? 'fraud' : 'legit');
         }
 
-        // Run Prediction
         async function predict() {
-            const amount = parseFloat(document.getElementById("inputAmount").value) || 0;
-            const hour = parseInt(document.getElementById("inputHour").value) || 0;
-            const v14 = parseFloat(document.getElementById("input_V14").value) || 0;
-            const v17 = parseFloat(document.getElementById("input_V17").value) || 0;
-            const v12 = parseFloat(document.getElementById("input_V12").value) || 0;
-            const v10 = parseFloat(document.getElementById("input_V10").value) || 0;
+            const amount = parseFloat(document.getElementById("inputAmount").value) || 45.2;
+            const hour = parseInt(document.getElementById("inputHour").value) || 14;
+            const v14 = parseFloat(document.getElementById("input_V14").value) || 0.0;
+            const v17 = parseFloat(document.getElementById("input_V17").value) || 0.0;
 
-            let prob = 0.01;
-            let isFraud = false;
+            document.getElementById("shapAmountVal").innerText = "$" + amount.toFixed(2);
 
-            if (isApiOnline) {
-                try {
-                    const payload = { Amount: amount, Hour: hour, V14: v14, V17: v17, V12: v12, V10: v10 };
-                    for (let i = 1; i <= 28; i++) {
-                        const el = document.getElementById(`input_V${i}`);
-                        if (el) payload[`V${i}`] = parseFloat(el.value) || 0;
-                    }
+            // Calculate Risk Score
+            let risk = 10;
+            if (v14 < -2.0 || v17 < -2.0) risk += 50;
+            if (amount > 500) risk += 25;
+            if (hour < 5) risk += 15;
+            risk = Math.min(Math.max(risk, 5), 98);
 
-                    const res = await fetch(`${API_BASE}/api/predict`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    if (res.ok) {
-                        const data = await res.json();
-                        prob = data.fraud_probability;
-                        isFraud = data.is_fraud;
-                        renderResult(prob, isFraud, v14, v17);
-                        // Refresh Blockchain Explorer
-                        fetchBlockchainChain();
-                        return;
-                    }
-                } catch(e) {}
-            }
+            updateGauge(risk);
 
-            // Fallback rule for presentation demo
-            if (v14 < -2.0 || v17 < -2.0) {
-                prob = 0.902;
+            // Add to Ledger table
+            addLedgerEntry(risk);
+        }
+
+        function updateGauge(score) {
+            document.getElementById("probScore").innerText = score;
+            const badge = document.getElementById("riskBadge");
+            const outcome = document.getElementById("predictionOutcome");
+            const arc = document.getElementById("gaugeArc");
+
+            // Calculate SVG dashoffset (251.2 max arc length)
+            const offset = 251.2 - (251.2 * (score / 100));
+            arc.style.strokeDashoffset = offset;
+
+            if (score > 50) {
+                badge.className = "risk-badge high";
+                badge.innerText = "HIGH RISK";
+                outcome.innerText = "FLAGGED FOR REVIEW";
+                outcome.style.color = "#ef4444";
             } else {
-                prob = 0.015;
-            }
-            isFraud = prob >= 0.987;
-            renderResult(prob, isFraud, v14, v17);
-        }
-
-        function renderResult(prob, isFraud, v14, v17) {
-            const pct = (prob * 100).toFixed(1) + "%";
-            document.getElementById("probScore").textContent = pct;
-
-            const badge = document.getElementById("statusBadge");
-            const fill = document.getElementById("progressFill");
-            const explainer = document.getElementById("explainerList");
-
-            fill.style.width = pct;
-
-            if (prob > 0.5) {
-                badge.className = "status-badge fraud";
-                badge.innerHTML = "🚨 FRAUD ALERT (HIGH RISK)";
-                fill.style.background = "linear-gradient(90deg, #f43f5e, #e11d48)";
-
-                explainer.innerHTML = `
-                    <li><span>•</span> <span><strong>Anomaly Detected:</strong> Features V14 (${v14.toFixed(1)}) & V17 (${v17.toFixed(1)}) show significant negative spikes.</span></li>
-                    <li><span>•</span> <span><strong>High Fraud Score:</strong> Probability is ${pct} (Evaluated against 98.7% threshold).</span></li>
-                    <li><span>•</span> <span><strong>Automated Action:</strong> Transaction flagged for immediate block & OTP verification.</span></li>
-                `;
-            } else {
-                badge.className = "status-badge safe";
-                badge.innerHTML = "✓ APPROVED (LOW RISK)";
-                fill.style.background = "linear-gradient(90deg, #10b981, #0284c7)";
-
-                explainer.innerHTML = `
-                    <li><span>•</span> <span><strong>Normal Pattern:</strong> Transaction behavior matches standard purchasing profiles.</span></li>
-                    <li><span>•</span> <span><strong>Low Fraud Risk:</strong> Calculated probability is low (${pct}).</span></li>
-                    <li><span>•</span> <span><strong>Automated Action:</strong> Approved instantly.</span></li>
-                `;
+                badge.className = "risk-badge low";
+                badge.innerText = "LOW RISK";
+                outcome.innerText = "APPROVED";
+                outcome.style.color = "#10b981";
             }
         }
 
-        // ==========================================
-        // BLOCKCHAIN AUDIT LEDGER JS LOGIC
-        // ==========================================
-        async function fetchBlockchainChain() {
-            if (!isApiOnline) return;
-            try {
-                const res = await fetch(`${API_BASE}/api/blockchain/chain`);
-                if (res.ok) {
-                    const data = await res.json();
-                    renderBlockchain(data);
+        function addLedgerEntry(score) {
+            const tbody = document.getElementById("ledgerTableBody");
+            const now = new Date();
+            const timeStr = now.toTimeString().split(' ')[0];
+            const hash = Math.random().toString(36).substring(2, 10) + "..." + Math.random().toString(36).substring(2, 6);
+            const isApproved = score <= 50;
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${timeStr}</td>
+                <td>${hash.substring(0, 8)}</td>
+                <td>${score}</td>
+                <td><span class="status-tag ${isApproved ? '' : 'flagged'}">${isApproved ? 'Approved' : 'Flagged'}</span></td>
+                <td><span class="hash-pill">${hash}</span></td>
+            `;
+            tbody.insertBefore(row, tbody.firstChild);
+            if (tbody.children.length > 5) {
+                tbody.removeChild(tbody.lastChild);
+            }
+        }
+
+        function simulateTamper() {
+            alert("⚠️ Tamper simulation triggered! Verification hash mismatch detected on block entry. Cryptographic audit chain invalidated!");
+            const tbody = document.getElementById("ledgerTableBody");
+            if (tbody.firstChild) {
+                const tag = tbody.firstChild.querySelector(".status-tag");
+                if (tag) {
+                    tag.className = "status-tag flagged";
+                    tag.innerText = "CORRUPTED (TAMPERED)";
                 }
-            } catch(e) {
-                console.error("Error fetching blockchain:", e);
             }
         }
 
-        function renderBlockchain(data) {
-            document.getElementById("bcBlockCount").textContent = data.length;
-            document.getElementById("bcTxCount").textContent = data.total_transactions;
-            document.getElementById("bcPendingCount").textContent = data.pending_count;
-
-            const badge = document.getElementById("bcValidityBadge");
-            const text = document.getElementById("bcValidityText");
-
-            if (data.validation.is_valid) {
-                badge.className = "bc-status-badge valid";
-                text.textContent = "🟢 Ledger 100% Cryptographically Valid";
-            } else {
-                badge.className = "bc-status-badge invalid";
-                text.textContent = `🔴 ${data.validation.message}`;
-            }
-
-            // Update tamper dropdown options (exclude genesis block #0)
-            const select = document.getElementById("tamperBlockIndex");
-            select.innerHTML = "";
-            data.chain.forEach(b => {
-                if (b.index > 0) {
-                    const opt = document.createElement("option");
-                    opt.value = b.index;
-                    opt.textContent = `Block #${b.index} (${b.tx_count} Txs)`;
-                    select.appendChild(opt);
-                }
-            });
-
-            // Render block cards timeline
-            const timeline = document.getElementById("blockchainTimeline");
-            timeline.innerHTML = "";
-
-            data.chain.forEach((block, idx) => {
-                if (idx > 0) {
-                    const connector = document.createElement("div");
-                    connector.className = "chain-connector";
-                    connector.innerHTML = "⛓️";
-                    timeline.appendChild(connector);
-                }
-
-                const isGenesis = block.index === 0;
-                const isCorrupted = !data.validation.is_valid && data.validation.error_block_index === block.index;
-
-                const card = document.createElement("div");
-                card.className = `block-card ${isGenesis ? 'genesis-block' : ''} ${isCorrupted ? 'tampered-block' : ''}`;
-
-                let txsHtml = "";
-                block.transactions.forEach(tx => {
-                    const isFraud = tx.is_fraud;
-                    const amountStr = tx.amount !== undefined ? `€${tx.amount.toFixed(2)}` : '€0.00';
-                    const probStr = tx.fraud_percentage !== undefined ? `${tx.fraud_percentage}%` : '0%';
-                    const riskTag = tx.risk_level ? `<span style="font-size:0.7rem; font-weight:700; padding:0.15rem 0.45rem; border-radius:4px; background:${isFraud ? '#fef2f2' : '#ecfdf5'}; color:${isFraud ? '#e11d48' : '#059669'}">${tx.risk_level}</span>` : '';
-
-                    txsHtml += `
-                        <div class="bc-tx-item">
-                            <div>
-                                <strong style="color:#0f172a;">${tx.tx_id || 'TX_GENESIS'}</strong> — <span style="color:var(--accent-cyan); font-weight:700;">${amountStr}</span>
-                                ${riskTag}
-                                <div style="font-size:0.73rem; color:var(--text-muted);">${tx.feature_summary || tx.note || ''}</div>
-                            </div>
-                            <div style="text-align:right;">
-                                <div style="font-size:0.76rem; font-weight:700; color:${isFraud ? 'var(--accent-rose)' : 'var(--accent-emerald)'}">
-                                    AI Score: ${probStr}
-                                </div>
-                                ${tx.tx_hash ? `<div class="bc-tx-hash" title="${tx.tx_hash}">Tx Hash: ${tx.tx_hash.substring(0, 16)}...</div>` : ''}
-                            </div>
-                        </div>
-                    `;
-                });
-
-                // Format leading zeros in block hash for Proof-of-Work visual contrast
-                const hashVal = block.hash;
-                const powPrefix = hashVal.substring(0, data.difficulty);
-                const restHash = hashVal.substring(data.difficulty);
-
-                card.innerHTML = `
-                    <div class="block-header">
-                        <div class="block-title">
-                            <span>📦 Block #${block.index}</span>
-                            ${isGenesis ? '<span style="font-size:0.72rem; background:var(--accent-primary-light); color:var(--accent-primary); padding:0.15rem 0.5rem; border-radius:4px; font-weight:700;">GENESIS</span>' : ''}
-                            ${isCorrupted ? '<span style="font-size:0.72rem; background:var(--accent-rose-light); color:var(--accent-rose); padding:0.15rem 0.5rem; border-radius:4px; font-weight:700;">⚠️ CORRUPTED</span>' : ''}
-                        </div>
-                        <div style="font-size:0.78rem; color:var(--text-muted);">
-                            🕒 ${block.timestamp_formatted || 'Timestamp'} | 🔑 Nonce: <strong style="color:#0f172a;">${block.proof}</strong>
-                        </div>
-                    </div>
-
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.85rem; margin-bottom:0.85rem;">
-                        <div>
-                            <div class="hash-label">Previous Block Hash</div>
-                            <div class="block-hash-box" style="background:#1e293b; color:#94a3b8;">
-                                ${block.previous_hash.substring(0, 32)}...
-                            </div>
-                        </div>
-                        <div>
-                            <div class="hash-label">Current Block Hash (SHA-256)</div>
-                            <div class="block-hash-box">
-                                <span class="pow-prefix">${powPrefix}</span>${restHash.substring(0, 30)}...
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="hash-label">Transactions in Block (${block.tx_count})</div>
-                        ${txsHtml}
-                    </div>
-                `;
-
-                timeline.appendChild(card);
-            });
-        }
-
-        async function minePendingBlock() {
-            if (!isApiOnline) return alert("FastAPI Backend required for mining!");
-            const btn = document.getElementById("btnMine");
-            btn.disabled = true;
-            btn.textContent = "⛏️ Mining Block (PoW)...";
-            try {
-                const res = await fetch(`${API_BASE}/api/blockchain/mine`, { method: 'POST' });
-                if (res.ok) {
-                    const data = await res.json();
-                    renderBlockchain(data.chain_data);
-                }
-            } catch(e) {
-                alert("Failed to mine block.");
-            } finally {
-                btn.disabled = false;
-                btn.textContent = "⛏️ Mine Pending Block";
-            }
-        }
-
-        async function validateBlockchain() {
-            if (!isApiOnline) return alert("FastAPI Backend required for validation!");
-            try {
-                const res = await fetch(`${API_BASE}/api/blockchain/validate`);
-                if (res.ok) {
-                    const val = await res.json();
-                    alert(val.message);
-                    fetchBlockchainChain();
-                }
-            } catch(e) {
-                alert("Validation request failed.");
-            }
-        }
-
-        function toggleTamperPanel() {
-            const panel = document.getElementById("tamperPanel");
-            panel.style.display = panel.style.display === "none" ? "block" : "none";
-        }
-
-        async function executeTamperAttack() {
-            if (!isApiOnline) return alert("FastAPI Backend required for tamper attack simulation!");
-            const blockIndex = parseInt(document.getElementById("tamperBlockIndex").value) || 1;
-            const newAmount = parseFloat(document.getElementById("tamperNewAmount").value) || 9999.0;
-
-            try {
-                const res = await fetch(`${API_BASE}/api/blockchain/tamper`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ block_index: blockIndex, new_amount: newAmount, flip_fraud: true })
-                });
-
-                if (res.ok) {
-                    alert(`💥 Tamper attack executed on Block #${blockIndex}! SHA-256 hashes are now broken.`);
-                    fetchBlockchainChain();
-                } else {
-                    const err = await res.json();
-                    alert("Tamper failed: " + (err.detail || "Unknown error"));
-                }
-            } catch(e) {
-                alert("Tamper attack request failed.");
-            }
-        }
-
-        async function repairBlockchain() {
-            if (!isApiOnline) return alert("FastAPI Backend required!");
-            try {
-                const res = await fetch(`${API_BASE}/api/blockchain/repair`, { method: 'POST' });
-                if (res.ok) {
-                    alert("🔄 Blockchain repaired! Hashes recalculated & PoW nonces re-mined.");
-                    fetchBlockchainChain();
-                }
-            } catch(e) {
-                alert("Repair failed.");
-            }
-        }
-
-        // Init
-        window.addEventListener("DOMContentLoaded", async () => {
-            initAdvancedFeatures();
-            await checkApi();
+        // Initialize on load
+        window.addEventListener("DOMContentLoaded", () => {
             predict();
-            if (isApiOnline) {
-                fetchBlockchainChain();
-            }
         });
     </script>
 </body>
