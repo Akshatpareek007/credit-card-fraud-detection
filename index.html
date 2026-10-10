@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sentinel AI — Credit Card Fraud Detection & Audit Ledger</title>
+    <title>Credit Card Fraud Detection & Audit Ledger</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -806,6 +806,140 @@
             padding: 0.2rem 0.6rem;
             border-radius: 6px;
         }
+
+        /* CARD FOCUS HIGHLIGHT ANIMATION */
+        .card-focus-ring {
+            animation: cardFocusGlow 2s ease forwards;
+        }
+
+        @keyframes cardFocusGlow {
+            0% {
+                box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.4), var(--shadow-hover);
+            }
+            100% {
+                box-shadow: var(--shadow-card);
+            }
+        }
+
+        /* MODAL OVERLAY & API EXPLORER */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 820px;
+            max-height: 90vh;
+            border-radius: var(--radius-lg);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+        }
+
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            background: #e2e8f0;
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .api-ep-bar {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.75rem;
+        }
+
+        .api-ep-btn {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            padding: 0.45rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .api-ep-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .api-ep-btn.active {
+            background: var(--accent-indigo);
+            color: #ffffff;
+            border-color: var(--accent-indigo);
+        }
+
+        .badge-method {
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        .badge-post { background: #dbeafe; color: #1e40af; }
+        .badge-get { background: #dcfce7; color: #166534; }
+        .api-ep-btn.active .badge-post { background: rgba(255,255,255,0.25); color: #ffffff; }
+        .api-ep-btn.active .badge-get { background: rgba(255,255,255,0.25); color: #ffffff; }
+
+        .api-console-box {
+            background: #0f172a;
+            color: #f8fafc;
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            overflow-x: auto;
+            max-height: 260px;
+        }
     </style>
 </head>
 
@@ -823,11 +957,11 @@
                 </a>
 
                 <nav class="nav-tabs">
-                    <a href="#" class="nav-tab active">Dashboard</a>
-                    <a href="#" class="nav-tab">Real-Time Monitor</a>
-                    <a href="#" class="nav-tab">Audit Ledger</a>
-                    <a href="#" class="nav-tab">Model Benchmarks</a>
-                    <a href="#" class="nav-tab">API Specs</a>
+                    <a href="javascript:void(0)" onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-tab active">Dashboard</a>
+                    <a href="javascript:void(0)" onclick="switchTab('monitor')" id="nav-monitor" class="nav-tab">Real-Time Monitor</a>
+                    <a href="javascript:void(0)" onclick="switchTab('ledger')" id="nav-ledger" class="nav-tab">Audit Ledger</a>
+                    <a href="javascript:void(0)" onclick="switchTab('benchmarks')" id="nav-benchmarks" class="nav-tab">Model Benchmarks</a>
+                    <a href="javascript:void(0)" onclick="switchTab('apispecs')" id="nav-apispecs" class="nav-tab">API Specs</a>
                 </nav>
             </div>
 
@@ -898,7 +1032,7 @@
         <!-- 3-COLUMN MAIN GRID -->
         <div class="main-grid">
             <!-- COLUMN 1: ANALYZE NEW TRANSACTION FORM -->
-            <div class="card">
+            <div class="card" id="sec-workbench">
                 <div class="card-header">
                     <span>Transaction Parameters</span>
                     <span class="header-tag">Live Input</span>
@@ -1050,7 +1184,7 @@
             </div>
 
             <!-- COLUMN 3: BLOCKCHAIN AUDIT LEDGER -->
-            <div class="card">
+            <div class="card" id="sec-ledger">
                 <div class="card-header">
                     <div>
                         <div style="font-size:1.05rem; font-weight:800;">Ed25519 Audit Ledger</div>
@@ -1090,7 +1224,7 @@
         </div>
 
         <!-- BOTTOM BENCHMARK METRICS TABLE (DYNAMIC) -->
-        <div class="card">
+        <div class="card" id="sec-benchmarks">
             <div class="card-header">
                 <span>Model Evaluation & Benchmark Leaderboard</span>
                 <span id="benchmarkHeaderSub"
@@ -1121,9 +1255,211 @@
         </div>
     </div>
 
+    <!-- INTERACTIVE API SPECS MODAL OVERLAY -->
+    <div id="apiSpecsModal" class="modal-overlay" onclick="if(event.target===this) closeApiSpecs()">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div>
+                    <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:0.5rem;">
+                        ⚡ OpenAPI REST API Interactive Explorer
+                    </h3>
+                    <p style="font-size:0.78rem; color:var(--text-secondary); font-weight:600;">FastAPI 1.0.0 Backend Endpoints & Live Test Console</p>
+                </div>
+                <button onclick="closeApiSpecs()" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="api-ep-bar">
+                    <button class="api-ep-btn active" id="epbtn-predict" onclick="selectEndpoint('predict')"><span class="badge-method badge-post">POST</span> /api/predict</button>
+                    <button class="api-ep-btn" id="epbtn-batch" onclick="selectEndpoint('batch')"><span class="badge-method badge-post">POST</span> /api/predict-batch</button>
+                    <button class="api-ep-btn" id="epbtn-health" onclick="selectEndpoint('health')"><span class="badge-method badge-get">GET</span> /api/health</button>
+                    <button class="api-ep-btn" id="epbtn-chain" onclick="selectEndpoint('chain')"><span class="badge-method badge-get">GET</span> /api/blockchain/chain</button>
+                    <button class="api-ep-btn" id="epbtn-tamper" onclick="selectEndpoint('tamper')"><span class="badge-method badge-post">POST</span> /api/blockchain/tamper</button>
+                </div>
+
+                <div id="epDetailsView" style="display:flex; flex-direction:column; gap:1rem;">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- SCRIPT LOGIC (100% DYNAMIC API-DRIVEN) -->
     <script>
         const API_URL = "";  // Same origin API endpoint
+
+        // Tab switching interactivity
+        function switchTab(tabKey) {
+            const tabs = ['dashboard', 'monitor', 'ledger', 'benchmarks', 'apispecs'];
+            tabs.forEach(t => {
+                const el = document.getElementById(`nav-${t}`);
+                if (el) {
+                    if (t === tabKey) el.classList.add('active');
+                    else el.classList.remove('active');
+                }
+            });
+
+            if (tabKey === 'dashboard') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (tabKey === 'monitor') {
+                const sec = document.getElementById('sec-workbench');
+                if (sec) {
+                    sec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    sec.classList.remove('card-focus-ring');
+                    void sec.offsetWidth;
+                    sec.classList.add('card-focus-ring');
+                }
+            } else if (tabKey === 'ledger') {
+                const sec = document.getElementById('sec-ledger');
+                if (sec) {
+                    sec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    sec.classList.remove('card-focus-ring');
+                    void sec.offsetWidth;
+                    sec.classList.add('card-focus-ring');
+                }
+            } else if (tabKey === 'benchmarks') {
+                const sec = document.getElementById('sec-benchmarks');
+                if (sec) {
+                    sec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    sec.classList.remove('card-focus-ring');
+                    void sec.offsetWidth;
+                    sec.classList.add('card-focus-ring');
+                }
+            } else if (tabKey === 'apispecs') {
+                openApiSpecs();
+            }
+        }
+
+        // API Specs Modal Explorer
+        let currentEndpointKey = 'predict';
+        const endpointsData = {
+            predict: {
+                title: "POST /api/predict",
+                desc: "Evaluates single credit card transaction fraud probability, risk score, and calculates SHAP feature importance drivers.",
+                method: "POST",
+                path: "/api/predict",
+                payload: {
+                    Amount: 45.20,
+                    Time: 50400,
+                    Hour: 14,
+                    V14: -0.10,
+                    V17: -0.20,
+                    V12: 0.05,
+                    V10: 0.10
+                }
+            },
+            batch: {
+                title: "POST /api/predict-batch",
+                desc: "Evaluates batch array of credit card transactions, returns total fraud count, risk exposure amount, and recommendations.",
+                method: "POST",
+                path: "/api/predict-batch",
+                payload: [
+                    { Amount: 14.99, Hour: 3, V14: -0.31, V17: 0.20 },
+                    { Amount: 980.00, Hour: 0, V14: -4.28, V17: -2.83 }
+                ]
+            },
+            health: {
+                title: "GET /api/health",
+                desc: "System diagnostic health endpoint returning loaded model status, optimal threshold metadata, and blockchain ledger validation state.",
+                method: "GET",
+                path: "/api/health",
+                payload: null
+            },
+            chain: {
+                title: "GET /api/blockchain/chain",
+                desc: "Retrieves the full append-only Ed25519 Proof-of-Work blockchain audit ledger, mined block headers, and pending transactions.",
+                method: "GET",
+                path: "/api/blockchain/chain",
+                payload: null
+            },
+            tamper: {
+                title: "POST /api/blockchain/tamper",
+                desc: "Simulates a cyber attack / data tampering operation on block data to verify real-time SHA-256 cryptographic detection.",
+                method: "POST",
+                path: "/api/blockchain/tamper",
+                payload: {
+                    block_index: 1,
+                    transaction_index: 0,
+                    new_amount: 9999.00,
+                    flip_fraud: true
+                }
+            }
+        };
+
+        function openApiSpecs() {
+            document.getElementById('apiSpecsModal').style.display = 'flex';
+            selectEndpoint(currentEndpointKey);
+        }
+
+        function closeApiSpecs() {
+            document.getElementById('apiSpecsModal').style.display = 'none';
+        }
+
+        function selectEndpoint(epKey) {
+            currentEndpointKey = epKey;
+            const keys = ['predict', 'batch', 'health', 'chain', 'tamper'];
+            keys.forEach(k => {
+                const btn = document.getElementById(`epbtn-${k}`);
+                if (btn) {
+                    if (k === epKey) btn.classList.add('active');
+                    else btn.classList.remove('active');
+                }
+            });
+
+            const ep = endpointsData[epKey];
+            const container = document.getElementById('epDetailsView');
+            if (!container || !ep) return;
+
+            const payloadStr = ep.payload ? JSON.stringify(ep.payload, null, 2) : 'No payload required (GET request)';
+
+            container.innerHTML = `
+                <div style="background:#f8fafc; padding:0.85rem 1rem; border-radius:8px; border:1px solid #e2e8f0;">
+                    <div style="font-size:0.92rem; font-weight:800; color:var(--text-primary);">${ep.title}</div>
+                    <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.2rem;">${ep.desc}</div>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.85rem;">
+                    <div>
+                        <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted); margin-bottom:0.3rem;">REQUEST PAYLOAD</div>
+                        <pre class="api-console-box" style="height:170px;">${payloadStr}</pre>
+                    </div>
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
+                            <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted);">LIVE RESPONSE CONSOLE</span>
+                            <button onclick="executeLiveApiTest('${epKey}')" class="btn btn-primary" style="padding:0.2rem 0.6rem; font-size:0.72rem;">▶ Run Live Request</button>
+                        </div>
+                        <pre id="apiConsoleOutput" class="api-console-box" style="height:170px; color:#34d399;">Click "Run Live Request" to test this endpoint against the server.</pre>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function executeLiveApiTest(epKey) {
+            const ep = endpointsData[epKey];
+            const outputEl = document.getElementById('apiConsoleOutput');
+            if (!outputEl || !ep) return;
+
+            outputEl.innerText = "Executing HTTP Request...";
+            outputEl.style.color = "#fbbf24";
+
+            try {
+                const options = { method: ep.method };
+                if (ep.payload && ep.method === 'POST') {
+                    options.headers = { 'Content-Type': 'application/json' };
+                    options.body = JSON.stringify(ep.payload);
+                }
+
+                const start = performance.now();
+                const res = await fetch(ep.path, options);
+                const elapsed = Math.round(performance.now() - start);
+                const data = await res.json();
+
+                outputEl.innerText = `// HTTP Status: ${res.status} OK (${elapsed}ms)\n` + JSON.stringify(data, null, 2);
+                outputEl.style.color = "#34d399";
+            } catch (err) {
+                outputEl.innerText = `// HTTP Request Error:\n${err.message}`;
+                outputEl.style.color = "#f43f5e";
+            }
+        }
 
         // Dynamic sample store
         let sampleData = {

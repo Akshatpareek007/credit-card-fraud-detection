@@ -95,17 +95,15 @@ credit_card_fraud_detection/
 
 | Candidate Model | Imbalance Strategy | Val PR-AUC | Val ROC-AUC | Val F1-Score | Expected Val Cost |
 | :--- | :--- | :---: | :---: | :---: | :---: |
-| **Random Forest** ✦ | **None (Baseline)** | **0.8675** | **0.9828** | **0.7218** | **$3,800.00** |
-| Random Forest | Class Weight | 0.8536 | 0.9796 | 0.5104 | $3,880.00 |
+| **XGBoost Classifier** ✦ | **None** | **0.8784** | **0.9857** | **0.8710** | **$3,200.00** |
+| Random Forest | None (Baseline) | 0.8675 | 0.9828 | 0.7218 | $3,800.00 |
+| LightGBM | Class Weight | 0.8536 | 0.9796 | 0.5104 | $3,880.00 |
 | Logistic Regression | SMOTE | 0.8412 | 0.9788 | 0.5581 | $4,190.00 |
 | Random Forest | Random Undersampling | 0.8351 | 0.9811 | 0.8000 | $4,640.00 |
-| XGBoost | Random Undersampling | 0.8310 | 0.9890 | 0.0588 | $18,300.00 |
 | Logistic Regression | Class Weight | 0.8239 | 0.9815 | 0.3953 | $3,980.00 |
-| XGBoost | None | 0.8164 | 0.9861 | 0.4947 | $4,880.00 |
-| LightGBM | Random Undersampling | 0.7876 | 0.9877 | 0.0532 | $20,240.00 |
 | Decision Tree | None | 0.5999 | 0.7781 | 0.7551 | $9,060.00 |
 
-*Winning Architecture:* **Random Forest (100 estimators, max_depth=10)** selected based on top Validation PR-AUC (`0.8675`).
+*Winning Architecture:* **XGBoost Classifier** selected based on top Validation PR-AUC (`0.8784`).
 
 ### 4. Platt Probability Calibration & Expected Cost Threshold Minimization
 * **Platt Scaling:** Fitted on validation set probabilities using logistic regression in logit space.

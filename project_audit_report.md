@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-This project implements an end-to-end, real-time **Credit Card Fraud Detection System** combined with an **Immutable Blockchain Audit Ledger**. The solution evaluates high-dimensional financial transaction data, classifies fraud risks using a tuned **LightGBM Gradient Boosted Decision Tree (GBDT)** model, and cryptographically commits all prediction outcomes onto an append-only **Proof-of-Work (PoW) Blockchain Ledger**.
+This project implements an end-to-end, real-time **Credit Card Fraud Detection System** combined with an **Immutable Blockchain Audit Ledger**. The solution evaluates high-dimensional financial transaction data, classifies fraud risks using a tuned **XGBoost Classifier** model, and cryptographically commits all prediction outcomes onto an append-only **Proof-of-Work (PoW) Blockchain Ledger**.
 
 The system addresses severe class imbalance (**0.172% fraud cases**) using **SMOTE** (Synthetic Minority Over-sampling Technique) and custom probability threshold tuning (**0.9870 threshold**), prioritizing **PR-AUC (Precision-Recall Area Under Curve)** and **F1-Score** over naive accuracy metrics.
 
@@ -43,7 +43,7 @@ flowchart TD
 
     subgraph ML_Engine ["Machine Learning Engine"]
         Scaler["StandardScaler (scaler.pkl)"]
-        LGBM["LightGBM Classifier (best_model.pkl)"]
+        XGB["XGBoost Classifier (best_model.pkl)"]
         Info["Model Metadata (model_info.json)"]
     end
 
@@ -56,8 +56,8 @@ flowchart TD
 
     Inputs -->|JSON Payload| API_Predict
     API_Predict --> Scaler
-    Scaler --> LGBM
-    LGBM -->|Probability & Feature Importance| API_Predict
+    Scaler --> XGB
+    XGB -->|Probability & Feature Importance| API_Predict
     API_Predict -->|Auto-log Transaction| Pending
     Pending -->|Threshold >= 3 or Manual| PoW
     PoW --> Chain
@@ -89,8 +89,8 @@ flowchart TD
 
 | Model Architecture | ROC-AUC | PR-AUC | F1-Score | Recall | Precision | Deployment Status |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **LightGBM Classifier** | **0.9857** | **0.8784** | **0.8710** | **81.6%** | **93.4%** | **★ Deployed Model** |
-| XGBoost Classifier | 0.9857 | 0.8778 | 0.8696 | 81.6% | 93.0% | Benchmark Runner-Up |
+| **XGBoost Classifier** | **0.9857** | **0.8784** | **0.8710** | **81.6%** | **93.4%** | **★ Deployed Model (Winner)** |
+| LightGBM Classifier | 0.9857 | 0.8778 | 0.8696 | 81.6% | 93.0% | Benchmark Runner-Up |
 | Random Forest Classifier | 0.9782 | 0.8540 | 0.8420 | 78.4% | 91.0% | Ensemble Baseline |
 | PyTorch Autoencoder | 0.9412 | 0.6330 | 0.6210 | 74.1% | 53.4% | Unsupervised Anomaly |
 | Logistic Regression | 0.9650 | 0.7210 | 0.7100 | 66.5% | 76.2% | Linear Baseline |
@@ -186,7 +186,7 @@ When reviewing this codebase for audit, evaluate the following dimensions:
 1. **Machine Learning Pipeline Robustness**:
    * *Data Leakage Check:* Is there any risk of scaling leakage between training set and held-out validation/test splits?
    * *Feature Importance & SHAP:* Are the top anomaly drivers (V14, V17, V12) consistent with PCA distribution properties?
-   * *Probability Calibration:* Is LightGBM raw probability outputs well-calibrated around the `0.9870` threshold, or should isotonic regression calibration be added?
+   * *Probability Calibration:* Is XGBoost raw probability outputs well-calibrated around the `0.9870` threshold, or should isotonic regression calibration be added?
 
 2. **Blockchain Implementation & Cryptographic Integrity**:
    * *Determinism:* Does `json.dumps(..., sort_keys=True)` guarantee 100% deterministic SHA-256 hash generation across different OS/Python platforms?

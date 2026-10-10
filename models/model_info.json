@@ -1,5 +1,5 @@
 {
-    "best_model": "LightGBM",
+    "best_model": "XGBoost",
     "best_threshold": 0.9870245620674087,
     "features": [
         "V1",

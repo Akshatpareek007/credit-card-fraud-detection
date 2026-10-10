@@ -73,7 +73,7 @@ def get_model_candidates() -> Dict[str, List[Dict[str, Any]]]:
             {"n_estimators": 100, "max_depth": 10, "random_state": RANDOM_SEED, "n_jobs": -1},
         ],
         "XGBoost": [
-            {"n_estimators": 100, "max_depth": 5, "learning_rate": 0.1, "scale_pos_weight": pos_scale, "random_state": RANDOM_SEED, "n_jobs": -1},
+            {"n_estimators": 200, "max_depth": 6, "learning_rate": 0.05, "subsample": 0.8, "colsample_bytree": 0.8, "scale_pos_weight": pos_scale, "random_state": RANDOM_SEED, "n_jobs": -1},
         ],
         "LightGBM": [
             {"n_estimators": 150, "max_depth": 5, "num_leaves": 31, "learning_rate": 0.08, "scale_pos_weight": pos_scale, "random_state": RANDOM_SEED, "n_jobs": -1, "verbose": -1},
