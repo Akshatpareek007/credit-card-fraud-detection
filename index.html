@@ -790,12 +790,6 @@
                 </nav>
             </div>
 
-            <div class="header-right">
-                <div id="apiBadge" class="api-badge">
-                    <div class="pulse-dot"></div>
-                    <span id="apiStatusText">API Online • 14ms</span>
-                </div>
-            </div>
         </header>
 
         <!-- TOP STATS OVERVIEW BAR (DYNAMIC) -->
@@ -1104,8 +1098,10 @@
                 }
             } catch (err) {
                 console.error("Health check error:", err);
-                document.getElementById("apiStatusText").innerText = "API Offline";
-                document.getElementById("apiBadge").className = "api-badge offline";
+                const statusText = document.getElementById("apiStatusText");
+                const badge = document.getElementById("apiBadge");
+                if (statusText) statusText.innerText = "API Offline";
+                if (badge) badge.className = "api-badge offline";
             }
         }
 
