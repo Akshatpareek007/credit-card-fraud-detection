@@ -765,127 +765,6 @@
             border-radius: 6px;
         }
 
-        /* VIVA PRESENTATION MODAL STYLES */
-        .viva-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(15, 23, 42, 0.4);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.25s ease;
-        }
-        .viva-modal-card {
-            background: #ffffff;
-            width: 92%;
-            max-width: 920px;
-            max-height: 88vh;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
-            border: 1px solid #e2e8f0;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        .viva-modal-header {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #ffffff;
-            padding: 1.2rem 1.75rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .viva-modal-header h3 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            color: #ffffff;
-        }
-        .viva-modal-close {
-            background: rgba(255, 255, 255, 0.15);
-            border: none;
-            color: #ffffff;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: 800;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-        .viva-modal-close:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
-        .viva-modal-body {
-            padding: 1.5rem 1.75rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-        }
-        .viva-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.1rem;
-        }
-        @media (max-width: 768px) {
-            .viva-grid { grid-template-columns: 1fr; }
-        }
-        .viva-card-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 1.15rem;
-            transition: all 0.2s ease;
-        }
-        .viva-card-box:hover {
-            border-color: #c7d2fe;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.05);
-            transform: translateY(-2px);
-        }
-        .viva-card-box h4 {
-            font-size: 0.95rem;
-            font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 0.4rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .viva-card-box p {
-            font-size: 0.83rem;
-            color: #475569;
-            line-height: 1.5;
-        }
-        .viva-card-box ul {
-            margin-top: 0.5rem;
-            padding-left: 1.2rem;
-            font-size: 0.82rem;
-            color: #475569;
-        }
-        .viva-card-box li {
-            margin-bottom: 0.3rem;
-        }
-        .viva-badge-tag {
-            background: var(--accent-indigo-light);
-            color: var(--accent-indigo);
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 0.2rem 0.55rem;
-            border-radius: 12px;
-        }
     </style>
 </head>
 
@@ -904,7 +783,7 @@
 
                 <nav class="nav-tabs">
                     <a href="#" class="nav-tab active">Dashboard</a>
-                    <a href="#" class="nav-tab" onclick="toggleVivaModal(true)">Viva Defense Guide</a>
+                    <a href="#" class="nav-tab">Real-Time Monitor</a>
                     <a href="#" class="nav-tab">Audit Ledger</a>
                     <a href="#" class="nav-tab">Model Benchmarks</a>
                     <a href="#" class="nav-tab">API Specs</a>
@@ -912,9 +791,6 @@
             </div>
 
             <div class="header-right">
-                <button onclick="toggleVivaModal(true)" class="btn" style="background: linear-gradient(135deg, #4f46e5, #6366f1); color: #ffffff; border: none; border-radius: 30px; padding: 0.5rem 1.15rem; font-weight: 700; box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);">
-                    🎓 Viva Presentation Guide
-                </button>
                 <div id="apiBadge" class="api-badge">
                     <div class="pulse-dot"></div>
                     <span id="apiStatusText">API Online • 14ms</span>
@@ -1512,14 +1388,6 @@
             }
         }
 
-        // 9. Viva Modal Toggle
-        function toggleVivaModal(show) {
-            const modal = document.getElementById("vivaModal");
-            if (modal) {
-                modal.style.display = show ? "flex" : "none";
-            }
-        }
-
         // Initialize on DOM ready
         window.addEventListener("DOMContentLoaded", () => {
             fetchSystemHealth();
@@ -1528,84 +1396,6 @@
             predict();
         });
     </script>
-
-    <!-- VIVA EVALUATION & ARCHITECTURE MODAL -->
-    <div id="vivaModal" class="viva-modal-overlay" onclick="if(event.target===this) toggleVivaModal(false)">
-        <div class="viva-modal-card">
-            <div class="viva-modal-header">
-                <h3>🎓 Project Architecture & External Viva Defense Guide</h3>
-                <button onclick="toggleVivaModal(false)" class="viva-modal-close">✕</button>
-            </div>
-            <div class="viva-modal-body">
-                <div style="background:#e0e7ff; border:1px solid #c7d2fe; border-radius:12px; padding:0.85rem 1.1rem; color:#3730a3; font-size:0.85rem; font-weight:600; display:flex; align-items:center; gap:0.6rem;">
-                    <span>💡</span>
-                    <span><strong>Viva Defense Strategy:</strong> Present this project as a 3-pillar system: <em>1. Cost-Sensitive ML Model</em>, <em>2. SHAP Explainability</em>, and <em>3. Cryptographic Blockchain Audit Ledger</em>.</span>
-                </div>
-
-                <div class="viva-grid">
-                    <!-- BOX 1: PROBLEM STATEMENT -->
-                    <div class="viva-card-box">
-                        <h4>1. Problem & Class Imbalance <span class="viva-badge-tag">0.17% Fraud</span></h4>
-                        <p>Standard ML accuracy is misleading due to severe class imbalance (only 492 fraud cases out of 284,807 transactions).</p>
-                        <ul>
-                            <li><strong>Primary Metric:</strong> Precision-Recall AUC (PR-AUC), not simple Accuracy.</li>
-                            <li><strong>Cost Optimization:</strong> Minimizes expected loss ($500 False Negative vs $10 False Positive).</li>
-                        </ul>
-                    </div>
-
-                    <!-- BOX 2: TEMPORAL SPLITTING -->
-                    <div class="viva-card-box">
-                        <h4>2. Data Pipeline & Leakage <span class="viva-badge-tag">No Time Leakage</span></h4>
-                        <p>Financial fraud patterns evolve over time. Random k-fold cross validation causes temporal data leakage.</p>
-                        <ul>
-                            <li><strong>Chronological Split:</strong> Train (70%), Validation (15%), Test (15%) based on timestamp.</li>
-                            <li><strong>Preprocessing:</strong> StandardScaler fitted strictly on training data only.</li>
-                        </ul>
-                    </div>
-
-                    <!-- BOX 3: ML MODEL & CALIBRATION -->
-                    <div class="viva-card-box">
-                        <h4>3. ML Ensemble & Calibration <span class="viva-badge-tag">Platt Calibrated</span></h4>
-                        <p>LightGBM & Random Forest ensemble with Platt Sigmoidal probability calibration.</p>
-                        <ul>
-                            <li><strong>ROC-AUC:</strong> 0.9844 | <strong>PR-AUC:</strong> 0.7533</li>
-                            <li><strong>Optimal Threshold:</strong> 0.0740 calibrated probability cut-off for instant block/approve.</li>
-                        </ul>
-                    </div>
-
-                    <!-- BOX 4: SHAP EXPLAINABILITY -->
-                    <div class="viva-card-box">
-                        <h4>4. SHAP Explainable AI <span class="viva-badge-tag">XAI Compliance</span></h4>
-                        <p>Banks require regulatory explainability. Why was a card transaction flagged?</p>
-                        <ul>
-                            <li><strong>Feature Drivers:</strong> Local Shapley additive values for V14, V17, and Amount.</li>
-                            <li><strong>Transparency:</strong> Visual bar charts show exact impact breakdown for every decision.</li>
-                        </ul>
-                    </div>
-
-                    <!-- BOX 5: BLOCKCHAIN AUDIT LEDGER -->
-                    <div class="viva-card-box">
-                        <h4>5. Cryptographic Blockchain <span class="viva-badge-tag">SHA-256 Ledger</span></h4>
-                        <p>Prevents insider database manipulation by financial institution staff or attackers.</p>
-                        <ul>
-                            <li><strong>Immutable Chain:</strong> Every prediction is signed into a SHA-256 block hash chain.</li>
-                            <li><strong>Live Cyber Attack Demo:</strong> Click "Simulate Tamper Attack" on the dashboard to prove tamper resistance live!</li>
-                        </ul>
-                    </div>
-
-                    <!-- BOX 6: EUROPEAN VS INDIAN ECOSYSTEM -->
-                    <div class="viva-card-box">
-                        <h4>6. Indian Ecosystem Adaptability <span class="viva-badge-tag">Domain Agnostic</span></h4>
-                        <p>Trained on European benchmark data, but fully adaptable to Indian payment systems.</p>
-                        <ul>
-                            <li><strong>UPI / RuPay / Cards:</strong> Pipelines & models work seamlessly on Indian ₹ INR transactions.</li>
-                            <li><strong>Deployment:</strong> Served via asynchronous FastAPI backend with &lt; 20ms latency.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 
 </html>
