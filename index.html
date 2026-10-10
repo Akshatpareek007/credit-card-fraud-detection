@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Credit Card Fraud Detection & Audit Ledger</title>
+    <title>Sentinel AI — Credit Card Fraud Detection & Audit Ledger</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <style>
         :root {
@@ -17,7 +19,7 @@
             --bg-card-hover: #ffffff;
             --border-subtle: rgba(226, 232, 240, 0.9);
             --border-hover: rgba(199, 210, 254, 0.8);
-            
+
             --accent-indigo: #4f46e5;
             --accent-indigo-light: #e0e7ff;
             --accent-indigo-hover: #4338ca;
@@ -56,7 +58,7 @@
 
         body {
             background-color: var(--bg-canvas);
-            background-image: 
+            background-image:
                 radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.07) 0px, transparent 40%),
                 radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.07) 0px, transparent 40%),
                 radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.04) 0px, transparent 50%);
@@ -201,9 +203,20 @@
         }
 
         @keyframes pulse-ring {
-            0% { transform: scale(0.95); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.5; }
-            100% { transform: scale(0.95); opacity: 1; }
+            0% {
+                transform: scale(0.95);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.3);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(0.95);
+                opacity: 1;
+            }
         }
 
         /* QUICK STATS SUMMARY BAR */
@@ -219,6 +232,7 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+
         @media (max-width: 640px) {
             .stats-summary-grid {
                 grid-template-columns: 1fr;
@@ -279,10 +293,25 @@
             font-size: 1.25rem;
         }
 
-        .stat-icon-indigo { background: var(--accent-indigo-light); color: var(--accent-indigo); }
-        .stat-icon-emerald { background: var(--accent-emerald-light); color: var(--accent-emerald); }
-        .stat-icon-cyan { background: var(--accent-cyan-light); color: var(--accent-cyan); }
-        .stat-icon-amber { background: var(--accent-amber-light); color: var(--accent-amber); }
+        .stat-icon-indigo {
+            background: var(--accent-indigo-light);
+            color: var(--accent-indigo);
+        }
+
+        .stat-icon-emerald {
+            background: var(--accent-emerald-light);
+            color: var(--accent-emerald);
+        }
+
+        .stat-icon-cyan {
+            background: var(--accent-cyan-light);
+            color: var(--accent-cyan);
+        }
+
+        .stat-icon-amber {
+            background: var(--accent-amber-light);
+            color: var(--accent-amber);
+        }
 
         /* PAGE TITLE BANNER */
         .page-header {
@@ -353,6 +382,7 @@
             border-color: #a7f3d0;
             color: var(--accent-emerald);
         }
+
         .btn-emerald:hover {
             background: #a7f3d0;
             color: #047857;
@@ -363,6 +393,7 @@
             border-color: #fecdd3;
             color: var(--accent-rose);
         }
+
         .btn-rose:hover {
             background: #fecdd3;
             color: #be123c;
@@ -375,6 +406,7 @@
             font-weight: 700;
             box-shadow: var(--shadow-glow-indigo);
         }
+
         .btn-primary:hover {
             background: linear-gradient(135deg, #4f46e5, #4338ca);
             color: #ffffff;
@@ -395,6 +427,7 @@
                 grid-template-columns: 1fr 1fr;
             }
         }
+
         @media (max-width: 800px) {
             .main-grid {
                 grid-template-columns: 1fr;
@@ -480,6 +513,7 @@
             border: 1px solid #e2e8f0;
             transition: border-color 0.2s;
         }
+
         .feature-item:focus-within {
             border-color: var(--accent-indigo);
             background: #ffffff;
@@ -600,7 +634,7 @@
             border: 1px solid #e2e8f0;
             border-radius: var(--radius-md);
             padding: 0.75rem 0.85rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
         }
 
         .shap-item-title {
@@ -691,6 +725,7 @@
             padding: 0.2rem 0.6rem;
             border-radius: 20px;
         }
+
         .status-tag.flagged {
             color: var(--accent-rose);
             background: var(--accent-rose-light);
@@ -713,8 +748,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-4px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* BENCHMARK TABLE */
@@ -764,7 +806,6 @@
             padding: 0.2rem 0.6rem;
             border-radius: 6px;
         }
-
     </style>
 </head>
 
@@ -774,13 +815,6 @@
         <!-- TOP NAVBAR HEADER -->
         <header>
             <div class="brand-section">
-                <a href="#" class="brand">
-                    <div class="brand-icon">🛡️</div>
-                    <div class="brand-text">
-                        <h1>Credit Card Fraud Detection</h1>
-                    </div>
-                </a>
-
                 <nav class="nav-tabs">
                     <a href="#" class="nav-tab active">Dashboard</a>
                     <a href="#" class="nav-tab">Real-Time Monitor</a>
@@ -790,6 +824,12 @@
                 </nav>
             </div>
 
+            <div class="header-right">
+                <div id="apiBadge" class="api-badge">
+                    <div class="pulse-dot"></div>
+                    <span id="apiStatusText">API Online • 14ms</span>
+                </div>
+            </div>
         </header>
 
         <!-- TOP STATS OVERVIEW BAR (DYNAMIC) -->
@@ -835,7 +875,8 @@
         <div class="page-header">
             <div class="page-title-group">
                 <h2 id="pageTitleText">Transaction Risk & Fraud Workbench</h2>
-                <p id="pageSubText">Real-Time ML Inference with Platt Probability Calibration & Cryptographic Logging</p>
+                <p id="pageSubText">Real-Time ML Inference with Platt Probability Calibration & Cryptographic Logging
+                </p>
             </div>
             <div class="preset-banner">
                 <span style="font-size:0.8rem; font-weight:700; color:var(--text-secondary)">Presets:</span>
@@ -873,12 +914,14 @@
 
                 <div class="form-group">
                     <label>Amount (€ EUR / $ USD)</label>
-                    <input type="number" id="inputAmount" class="form-control" value="45.20" step="0.01" onchange="predict()">
+                    <input type="number" id="inputAmount" class="form-control" value="45.20" step="0.01"
+                        onchange="predict()">
                 </div>
 
                 <div class="form-group">
                     <label>Time / Hour (0-23)</label>
-                    <input type="number" id="inputHour" class="form-control" value="14" min="0" max="23" onchange="predict()">
+                    <input type="number" id="inputHour" class="form-control" value="14" min="0" max="23"
+                        onchange="predict()">
                 </div>
 
                 <div class="form-group" style="margin-top:1.1rem;">
@@ -906,7 +949,8 @@
                     </div>
                 </div>
 
-                <button onclick="predict()" class="btn btn-primary" style="width:100%; margin-top:1rem; padding:0.8rem; justify-content:center; font-size:0.9rem;">
+                <button onclick="predict()" class="btn btn-primary"
+                    style="width:100%; margin-top:1rem; padding:0.8rem; justify-content:center; font-size:0.9rem;">
                     ⚡ Run Fraud Detection Model
                 </button>
             </div>
@@ -921,13 +965,16 @@
 
                     <div class="gauge-container">
                         <svg class="gauge-svg" viewBox="0 0 200 120">
-                            <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#e2e8f0" stroke-width="16" stroke-linecap="round"/>
-                            <path id="gaugeArc" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gaugeGrad)" stroke-width="16" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="206"/>
+                            <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#e2e8f0" stroke-width="16"
+                                stroke-linecap="round" />
+                            <path id="gaugeArc" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gaugeGrad)"
+                                stroke-width="16" stroke-linecap="round" stroke-dasharray="251.2"
+                                stroke-dashoffset="206" />
                             <defs>
                                 <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="#10b981"/>
-                                    <stop offset="50%" stop-color="#f59e0b"/>
-                                    <stop offset="100%" stop-color="#e11d48"/>
+                                    <stop offset="0%" stop-color="#10b981" />
+                                    <stop offset="50%" stop-color="#f59e0b" />
+                                    <stop offset="100%" stop-color="#e11d48" />
                                 </linearGradient>
                             </defs>
                         </svg>
@@ -950,33 +997,46 @@
 
                     <div id="shapDriversContainer" class="shap-cards-grid">
                         <div class="shap-item">
-                            <div class="shap-item-title"><span>Amount Signal</span> <span id="shapAmountTag">--</span></div>
+                            <div class="shap-item-title"><span>Amount Signal</span> <span id="shapAmountTag">--</span>
+                            </div>
                             <div class="shap-item-val" id="shapAmountVal">--</div>
-                            <div class="shap-progress"><div id="barAmount" class="shap-progress-fill" style="width: 25%;"></div></div>
+                            <div class="shap-progress">
+                                <div id="barAmount" class="shap-progress-fill" style="width: 25%;"></div>
+                            </div>
                         </div>
 
                         <div class="shap-item">
                             <div class="shap-item-title"><span>Merchant Profile</span> <span>Safe</span></div>
                             <div class="shap-item-val" id="shapMerchantVal">--</div>
-                            <div class="shap-progress"><div id="barMerchant" class="shap-progress-fill" style="width: 15%;"></div></div>
+                            <div class="shap-progress">
+                                <div id="barMerchant" class="shap-progress-fill" style="width: 15%;"></div>
+                            </div>
                         </div>
 
                         <div class="shap-item">
-                            <div class="shap-item-title"><span>PCA Signal V14</span> <span id="shapV14Tag">--</span></div>
+                            <div class="shap-item-title"><span>PCA Signal V14</span> <span id="shapV14Tag">--</span>
+                            </div>
                             <div class="shap-item-val" id="shapV14Val">--</div>
-                            <div class="shap-progress"><div id="barV14" class="shap-progress-fill" style="width: 12%;"></div></div>
+                            <div class="shap-progress">
+                                <div id="barV14" class="shap-progress-fill" style="width: 12%;"></div>
+                            </div>
                         </div>
 
                         <div class="shap-item">
-                            <div class="shap-item-title"><span>PCA Signal V17</span> <span id="shapV17Tag">--</span></div>
+                            <div class="shap-item-title"><span>PCA Signal V17</span> <span id="shapV17Tag">--</span>
+                            </div>
                             <div class="shap-item-val" id="shapV17Val">--</div>
-                            <div class="shap-progress"><div id="barV17" class="shap-progress-fill" style="width: 10%;"></div></div>
+                            <div class="shap-progress">
+                                <div id="barV17" class="shap-progress-fill" style="width: 10%;"></div>
+                            </div>
                         </div>
 
                         <div class="shap-item" style="grid-column: span 2;">
                             <div class="shap-item-title"><span>Time Window (Hour)</span> <span>Time Feature</span></div>
                             <div class="shap-item-val" id="shapTimeVal">--</div>
-                            <div class="shap-progress"><div id="barTime" class="shap-progress-fill" style="width: 8%;"></div></div>
+                            <div class="shap-progress">
+                                <div id="barTime" class="shap-progress-fill" style="width: 8%;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -987,9 +1047,11 @@
                 <div class="card-header">
                     <div>
                         <div style="font-size:1.05rem; font-weight:800;">Ed25519 Audit Ledger</div>
-                        <div style="font-size:0.75rem; color:var(--text-secondary); font-weight:600;">Cryptographic tamper-evident SQLite WAL</div>
+                        <div style="font-size:0.75rem; color:var(--text-secondary); font-weight:600;">Cryptographic
+                            tamper-evident SQLite WAL</div>
                     </div>
-                    <button onclick="simulateTamper()" class="btn btn-rose" style="padding:0.35rem 0.75rem; font-size:0.75rem;">
+                    <button onclick="simulateTamper()" class="btn btn-rose"
+                        style="padding:0.35rem 0.75rem; font-size:0.75rem;">
                         Simulate Attack
                     </button>
                 </div>
@@ -1011,7 +1073,8 @@
                         </thead>
                         <tbody id="ledgerTableBody">
                             <tr>
-                                <td colspan="5" style="text-align:center; color:var(--text-muted);">Loading live blockchain ledger...</td>
+                                <td colspan="5" style="text-align:center; color:var(--text-muted);">Loading live
+                                    blockchain ledger...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1023,7 +1086,9 @@
         <div class="card">
             <div class="card-header">
                 <span>Model Evaluation & Benchmark Leaderboard</span>
-                <span id="benchmarkHeaderSub" style="font-size:0.78rem; color:var(--text-secondary); font-weight:600;">Live Results from Training Reports</span>
+                <span id="benchmarkHeaderSub"
+                    style="font-size:0.78rem; color:var(--text-secondary); font-weight:600;">Live Results from Training
+                    Reports</span>
             </div>
             <div style="overflow-x:auto;">
                 <table class="comparison-table">
@@ -1040,7 +1105,8 @@
                     </thead>
                     <tbody id="benchmarkTableBody">
                         <tr>
-                            <td colspan="7" style="text-align:center; color:var(--text-muted);">Fetching dynamic evaluation metrics from API...</td>
+                            <td colspan="7" style="text-align:center; color:var(--text-muted);">Fetching dynamic
+                                evaluation metrics from API...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1076,7 +1142,7 @@
                         document.getElementById("statTxCount").innerText = r.dataset_deduplication.clean_rows.toLocaleString();
                         document.getElementById("statTxSub").innerText = `↑ ${r.dataset_deduplication.duplicates_removed.toLocaleString()} duplicates removed`;
                     }
-                    
+
                     if (r.best_config) {
                         document.getElementById("statPrAuc").innerText = (r.best_config.val_pr_auc || 0).toFixed(4);
                         document.getElementById("statModelName").innerText = `★ Winner: ${r.best_config.model_name}`;
@@ -1098,10 +1164,8 @@
                 }
             } catch (err) {
                 console.error("Health check error:", err);
-                const statusText = document.getElementById("apiStatusText");
-                const badge = document.getElementById("apiBadge");
-                if (statusText) statusText.innerText = "API Offline";
-                if (badge) badge.className = "api-badge offline";
+                document.getElementById("apiStatusText").innerText = "API Offline";
+                document.getElementById("apiBadge").className = "api-badge offline";
             }
         }
 
@@ -1112,7 +1176,7 @@
 
             // Sort by PR-AUC descending
             const sorted = [...comparisonList].sort((a, b) => (b.val_pr_auc || 0) - (a.val_pr_auc || 0));
-            
+
             sorted.forEach((item, index) => {
                 const isWinner = index === 0;
                 const row = document.createElement("tr");
@@ -1123,8 +1187,8 @@
                 const roc = (item.val_roc_auc || 0).toFixed(4);
                 const pr = (item.val_pr_auc || 0).toFixed(4);
                 const f1 = (item.val_f1 || 0).toFixed(4);
-                const cost = "$" + (item.val_cost || 0).toLocaleString(undefined, {minimumFractionDigits: 2});
-                
+                const cost = "$" + (item.val_cost || 0).toLocaleString(undefined, { minimumFractionDigits: 2 });
+
                 let badgeHtml = '<span class="badge-tag">Candidate</span>';
                 if (isWinner) badgeHtml = '<span class="badge-winner">★ Deployed Winner</span>';
                 else if (index === 1) badgeHtml = '<span class="badge-tag">Runner Up</span>';
@@ -1229,7 +1293,7 @@
 
                 if (res.ok) {
                     const result = await res.json();
-                    
+
                     // Update Latency Metric Stat Card
                     if (result.latency_ms !== undefined) {
                         document.getElementById("statLatency").innerText = `${result.latency_ms} ms`;
@@ -1305,7 +1369,7 @@
                 const res = await fetch(`/api/blockchain/chain`);
                 if (!res.ok) return;
                 const data = await res.json();
-                
+
                 const tbody = document.getElementById("ledgerTableBody");
                 tbody.innerHTML = "";
 
@@ -1327,7 +1391,7 @@
 
                 // Reverse chronological order
                 allTxs.reverse();
-                
+
                 if (allTxs.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No blockchain transactions yet.</td></tr>`;
                     return;
@@ -1364,12 +1428,12 @@
                 });
 
                 const data = await res.json();
-                
+
                 const alertBox = document.getElementById("tamperAlert");
                 alertBox.style.display = "flex";
 
                 if (data.validation_status) {
-                    document.getElementById("tamperAlertText").innerText = 
+                    document.getElementById("tamperAlertText").innerText =
                         `⚠️ CRYPTOGRAPHIC ATTACK DETECTED! ${data.validation_status.error || 'Chain Hash Mismatch Detected!'}`;
                 }
 
