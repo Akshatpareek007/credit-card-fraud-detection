@@ -4,44 +4,48 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sentinel AI — Credit Card Fraud Detection & Blockchain Ledger</title>
+    <title>Sentinel AI — Credit Card Fraud Detection & Audit Ledger</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-light: #f1f5f9;
-            --bg-card: rgba(255, 255, 255, 0.92);
+            --bg-canvas: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.88);
             --bg-card-hover: #ffffff;
-            --border-card: #e2e8f0;
-            --border-card-hover: #cbd5e1;
+            --border-subtle: rgba(226, 232, 240, 0.9);
+            --border-hover: rgba(199, 210, 254, 0.8);
             
-            --accent-primary: #2563eb;
-            --accent-primary-hover: #1d4ed8;
-            --accent-primary-light: #eff6ff;
-            --accent-cyan: #0284c7;
-            --accent-cyan-light: #f0f9ff;
-            --accent-purple: #7c3aed;
-            --accent-emerald: #10b981;
-            --accent-emerald-light: #ecfdf5;
-            --accent-rose: #ef4444;
-            --accent-rose-light: #fef2f2;
-            --accent-amber: #f59e0b;
+            --accent-indigo: #4f46e5;
+            --accent-indigo-light: #e0e7ff;
+            --accent-indigo-hover: #4338ca;
+            --accent-cyan: #0891b2;
+            --accent-cyan-light: #ecfeff;
+            --accent-emerald: #059669;
+            --accent-emerald-light: #d1fae5;
+            --accent-rose: #e11d48;
+            --accent-rose-light: #ffe4e6;
+            --accent-amber: #d97706;
+            --accent-amber-light: #fef3c7;
 
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --text-dim: #94a3b8;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
 
-            --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-code: 'JetBrains Mono', monospace;
+            --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
 
+            --radius-xl: 20px;
             --radius-lg: 16px;
             --radius-md: 12px;
             --radius-sm: 8px;
-            --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
-            --shadow-hover: 0 10px 25px -4px rgba(37, 99, 235, 0.1), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
+
+            --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.03);
+            --shadow-card: 0 10px 30px -10px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+            --shadow-hover: 0 20px 35px -12px rgba(79, 70, 229, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+            --shadow-glow-indigo: 0 8px 24px -4px rgba(79, 70, 229, 0.35);
         }
 
         * {
@@ -51,21 +55,21 @@
         }
 
         body {
-            background-color: var(--bg-light);
+            background-color: var(--bg-canvas);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 45%),
-                radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 45%),
-                radial-gradient(at 50% 100%, rgba(124, 58, 237, 0.04) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.07) 0px, transparent 40%),
+                radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.07) 0px, transparent 40%),
+                radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.04) 0px, transparent 50%);
             background-attachment: fixed;
-            color: var(--text-main);
-            font-family: var(--font-main);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
             line-height: 1.5;
-            padding: 1.5rem 2rem;
+            padding: 1.25rem 2rem 3rem 2rem;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 1380px;
+            max-width: 1440px;
             margin: 0 auto;
         }
 
@@ -74,84 +78,92 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.75rem;
+            margin-bottom: 1.5rem;
             background: var(--bg-card);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-card);
-            border-radius: var(--radius-lg);
-            padding: 0.85rem 1.5rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 0.85rem 1.75rem;
             box-shadow: var(--shadow-card);
         }
 
         .brand-section {
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.85rem;
+            text-decoration: none;
         }
 
         .brand-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
             color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            font-size: 1.35rem;
+            box-shadow: var(--shadow-glow-indigo);
         }
 
         .brand-text h1 {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             font-weight: 800;
-            letter-spacing: -0.3px;
-            color: #0f172a;
+            letter-spacing: -0.4px;
+            color: var(--text-primary);
             display: flex;
             align-items: center;
-            gap: 0.25rem;
+            gap: 0.4rem;
         }
 
-        .brand-text h1 span.sparkle {
-            color: #2563eb;
-            font-size: 0.9rem;
+        .brand-text h1 .version-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: var(--accent-indigo-light);
+            color: var(--accent-indigo);
+            padding: 0.15rem 0.5rem;
+            border-radius: 20px;
+            letter-spacing: 0;
         }
 
         .nav-tabs {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.35rem;
+            background: rgba(241, 245, 249, 0.7);
+            padding: 0.3rem;
+            border-radius: 12px;
+            border: 1px solid rgba(226, 232, 240, 0.6);
         }
 
         .nav-tab {
             text-decoration: none;
-            color: var(--text-muted);
-            font-size: 0.88rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
             font-weight: 600;
-            padding: 0.5rem 0.9rem;
-            border-radius: 8px;
+            padding: 0.45rem 1rem;
+            border-radius: 9px;
             transition: all 0.2s ease;
         }
 
         .nav-tab:hover {
-            color: #0f172a;
-            background: #f1f5f9;
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.8);
         }
 
         .nav-tab.active {
-            color: #2563eb;
+            color: var(--accent-indigo);
             font-weight: 700;
-            border-bottom: 2px solid #2563eb;
-            border-radius: 0;
-            background: transparent;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .header-right {
@@ -160,54 +172,22 @@
             gap: 1rem;
         }
 
-        .user-avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: #cbd5e1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            cursor: pointer;
-            overflow: hidden;
-            border: 2px solid #ffffff;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-        }
-
-        .notification-icon {
-            font-size: 1.15rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            position: relative;
-        }
-
-        .notification-icon::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 7px;
-            height: 7px;
-            background: var(--accent-rose);
-            border-radius: 50%;
-        }
-
         .api-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.45rem;
+            gap: 0.5rem;
             background: var(--accent-emerald-light);
             border: 1px solid #a7f3d0;
             color: var(--accent-emerald);
             font-size: 0.8rem;
             font-weight: 700;
-            padding: 0.45rem 1rem;
+            padding: 0.45rem 1.1rem;
             border-radius: 30px;
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.1);
         }
 
         .api-badge.offline {
-            background: #fffbeb;
+            background: var(--accent-amber-light);
             border-color: #fde68a;
             color: var(--accent-amber);
         }
@@ -222,13 +202,91 @@
 
         @keyframes pulse-ring {
             0% { transform: scale(0.95); opacity: 1; }
-            50% { transform: scale(1.25); opacity: 0.6; }
+            50% { transform: scale(1.3); opacity: 0.5; }
             100% { transform: scale(0.95); opacity: 1; }
         }
 
+        /* QUICK STATS SUMMARY BAR */
+        .stats-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .stats-summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 640px) {
+            .stats-summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.1rem 1.35rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-info .stat-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-info .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+
+        .stat-info .stat-sub {
+            font-size: 0.74rem;
+            font-weight: 600;
+            color: var(--accent-emerald);
+            margin-top: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .stat-icon-wrapper {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .stat-icon-indigo { background: var(--accent-indigo-light); color: var(--accent-indigo); }
+        .stat-icon-emerald { background: var(--accent-emerald-light); color: var(--accent-emerald); }
+        .stat-icon-cyan { background: var(--accent-cyan-light); color: var(--accent-cyan); }
+        .stat-icon-amber { background: var(--accent-amber-light); color: var(--accent-amber); }
+
         /* PAGE TITLE BANNER */
         .page-header {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -236,46 +294,56 @@
             gap: 1rem;
         }
 
-        .page-title {
-            font-size: 1.5rem;
+        .page-title-group h2 {
+            font-size: 1.4rem;
             font-weight: 800;
-            color: #0f172a;
+            color: var(--text-primary);
             letter-spacing: -0.4px;
+        }
+
+        .page-title-group p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
         .preset-banner {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            flex-wrap: wrap;
+            gap: 0.75rem;
+            background: var(--bg-card);
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-sm);
         }
 
         .btn-group {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
         .btn {
-            padding: 0.55rem 1.1rem;
+            padding: 0.5rem 1rem;
             border-radius: var(--radius-md);
             font-size: 0.82rem;
             font-weight: 700;
-            font-family: var(--font-main);
-            border: 1px solid var(--border-card);
+            font-family: var(--font-sans);
+            border: 1px solid var(--border-subtle);
             background: #ffffff;
-            color: #1e293b;
+            color: var(--text-primary);
             cursor: pointer;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
             outline: none;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
         }
 
         .btn:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
+            border-color: var(--accent-indigo);
+            color: var(--accent-indigo);
             transform: translateY(-1px);
             box-shadow: var(--shadow-hover);
         }
@@ -285,40 +353,49 @@
             border-color: #a7f3d0;
             color: var(--accent-emerald);
         }
+        .btn-emerald:hover {
+            background: #a7f3d0;
+            color: #047857;
+        }
 
         .btn-rose {
             background: var(--accent-rose-light);
             border-color: #fecdd3;
             color: var(--accent-rose);
         }
+        .btn-rose:hover {
+            background: #fecdd3;
+            color: #be123c;
+        }
 
         .btn-primary {
-            background: #2563eb;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
             border: none;
             color: #ffffff;
             font-weight: 700;
-            box-shadow: 0 3px 12px rgba(37, 99, 235, 0.3);
+            box-shadow: var(--shadow-glow-indigo);
         }
         .btn-primary:hover {
-            background: #1d4ed8;
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
             color: #ffffff;
+            transform: translateY(-2px);
         }
 
         /* 3-COLUMN MAIN GRID */
         .main-grid {
             display: grid;
-            grid-template-columns: 340px 320px 1fr;
+            grid-template-columns: 360px 340px 1fr;
             gap: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.75rem;
             align-items: start;
         }
 
-        @media (max-width: 1200px) {
+        @media (max-width: 1280px) {
             .main-grid {
                 grid-template-columns: 1fr 1fr;
             }
         }
-        @media (max-width: 768px) {
+        @media (max-width: 800px) {
             .main-grid {
                 grid-template-columns: 1fr;
             }
@@ -326,33 +403,50 @@
 
         .card {
             background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            backdrop-filter: blur(16px);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
+            border: 1px solid var(--border-subtle);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            padding: 1.4rem 1.5rem;
             box-shadow: var(--shadow-card);
+            transition: border-color 0.2s;
+        }
+
+        .card:hover {
+            border-color: var(--border-hover);
         }
 
         .card-header {
             font-size: 1.05rem;
             font-weight: 800;
-            color: #0f172a;
+            color: var(--text-primary);
             margin-bottom: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding-bottom: 0.65rem;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+        }
+
+        .card-header .header-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: #f1f5f9;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
         }
 
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 0.9rem;
         }
 
         .form-group label {
             display: block;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: 0.35rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
         }
 
         .form-control {
@@ -361,16 +455,16 @@
             background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: var(--radius-md);
-            color: var(--text-main);
-            font-family: var(--font-main);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
             font-size: 0.88rem;
             outline: none;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .form-control:focus {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+            border-color: var(--accent-indigo);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
         }
 
         .features-grid {
@@ -381,26 +475,31 @@
 
         .feature-item {
             background: #f8fafc;
-            padding: 0.6rem 0.75rem;
+            padding: 0.55rem 0.75rem;
             border-radius: var(--radius-md);
             border: 1px solid #e2e8f0;
+            transition: border-color 0.2s;
+        }
+        .feature-item:focus-within {
+            border-color: var(--accent-indigo);
+            background: #ffffff;
         }
 
         .feature-item label {
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             font-weight: 700;
             color: var(--text-muted);
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.15rem;
+            margin-bottom: 0.1rem;
         }
 
         .feature-item input {
             width: 100%;
             background: transparent;
             border: none;
-            color: #0f172a;
-            font-family: var(--font-code);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
             font-size: 0.88rem;
             font-weight: 700;
             outline: none;
@@ -415,12 +514,12 @@
 
         .gauge-card {
             text-align: center;
-            padding: 1.5rem 1.25rem;
+            padding: 1.4rem 1.25rem;
         }
 
         .gauge-container {
             position: relative;
-            width: 190px;
+            width: 210px;
             margin: 0.5rem auto 1rem auto;
         }
 
@@ -432,32 +531,35 @@
 
         .gauge-value-display {
             position: absolute;
-            bottom: 5px;
+            bottom: 8px;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
         }
 
         .gauge-score {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 800;
-            font-family: var(--font-main);
-            color: #0f172a;
+            font-family: var(--font-sans);
+            color: var(--text-primary);
             line-height: 1;
             display: block;
+            letter-spacing: -1px;
         }
 
         .gauge-scale {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--text-muted);
-            font-weight: 600;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .risk-badge {
             display: inline-block;
-            padding: 0.35rem 1rem;
-            border-radius: 20px;
-            font-size: 0.78rem;
+            padding: 0.4rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
             font-weight: 800;
             letter-spacing: 0.5px;
             margin-bottom: 0.4rem;
@@ -479,11 +581,11 @@
         .prediction-text {
             font-size: 0.88rem;
             font-weight: 700;
-            color: var(--text-muted);
+            color: var(--text-secondary);
         }
 
         .prediction-text strong {
-            color: #0f172a;
+            color: var(--text-primary);
         }
 
         /* SHAP FEATURE CARDS GRID */
@@ -498,37 +600,44 @@
             border: 1px solid #e2e8f0;
             border-radius: var(--radius-md);
             padding: 0.75rem 0.85rem;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
         .shap-item-title {
             font-size: 0.72rem;
             font-weight: 700;
             color: var(--text-muted);
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.25rem;
+            display: flex;
+            justify-content: space-between;
         }
 
         .shap-item-val {
             font-size: 0.88rem;
             font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 0.4rem;
+            color: var(--text-primary);
+            margin-bottom: 0.45rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .shap-progress {
-            height: 5px;
-            background: #e2e8f0;
-            border-radius: 3px;
+            height: 6px;
+            background: #f1f5f9;
+            border-radius: 4px;
             overflow: hidden;
         }
 
         .shap-progress-fill {
             height: 100%;
-            border-radius: 3px;
-            background: #10b981;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #10b981, #059669);
+            transition: width 0.4s ease;
+        }
+
+        .shap-progress-fill.danger {
+            background: linear-gradient(90deg, #f43f5e, #e11d48);
         }
 
         /* BLOCKCHAIN TABLE STYLES */
@@ -539,31 +648,32 @@
         .ledger-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             text-align: left;
         }
 
         .ledger-table th {
             padding: 0.75rem 0.85rem;
             color: var(--text-muted);
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             border-bottom: 1px solid #e2e8f0;
+            background: rgba(248, 250, 252, 0.6);
         }
 
         .ledger-table td {
-            padding: 0.8rem 0.85rem;
+            padding: 0.75rem 0.85rem;
             border-bottom: 1px solid #f1f5f9;
-            color: #1e293b;
+            color: var(--text-primary);
         }
 
         .hash-pill {
-            font-family: var(--font-code);
-            font-size: 0.78rem;
-            background: #eeeffe;
-            color: #4338ca;
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            background: var(--accent-indigo-light);
+            color: var(--accent-indigo);
             padding: 0.25rem 0.6rem;
             border-radius: 6px;
             display: inline-block;
@@ -573,13 +683,38 @@
         .status-tag {
             font-size: 0.75rem;
             font-weight: 700;
-            color: #10b981;
+            color: var(--accent-emerald);
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
+            background: var(--accent-emerald-light);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
         }
         .status-tag.flagged {
-            color: #ef4444;
+            color: var(--accent-rose);
+            background: var(--accent-rose-light);
+        }
+
+        /* TAMPER WARNING BANNER */
+        .tamper-alert {
+            display: none;
+            background: var(--accent-rose-light);
+            border: 1px solid #fecdd3;
+            color: #be123c;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            align-items: center;
+            gap: 0.6rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* BENCHMARK TABLE */
@@ -591,29 +726,41 @@
         }
 
         .comparison-table th {
-            background: #f8fafc;
-            padding: 0.75rem 1rem;
+            background: rgba(248, 250, 252, 0.8);
+            padding: 0.85rem 1.1rem;
             color: var(--text-muted);
             font-size: 0.72rem;
             font-weight: 800;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
             border-bottom: 1px solid #e2e8f0;
         }
 
         .comparison-table td {
-            padding: 0.75rem 1rem;
+            padding: 0.85rem 1.1rem;
             border-bottom: 1px solid #e2e8f0;
+            color: var(--text-secondary);
         }
 
         .winner-row {
-            background: #ecfdf5;
+            background: rgba(209, 250, 229, 0.35);
         }
 
         .badge-winner {
-            background: #d1fae5;
-            color: #059669;
+            background: var(--accent-emerald-light);
+            color: var(--accent-emerald);
             font-size: 0.72rem;
             font-weight: 800;
+            padding: 0.25rem 0.65rem;
+            border-radius: 20px;
+            border: 1px solid #a7f3d0;
+        }
+
+        .badge-tag {
+            background: #f1f5f9;
+            color: var(--text-secondary);
+            font-size: 0.72rem;
+            font-weight: 700;
             padding: 0.2rem 0.6rem;
             border-radius: 6px;
         }
@@ -626,41 +773,81 @@
         <!-- TOP NAVBAR HEADER -->
         <header>
             <div class="brand-section">
-                <div class="brand">
-                    <div class="brand-icon">S</div>
+                <a href="#" class="brand">
+                    <div class="brand-icon">🛡️</div>
                     <div class="brand-text">
-                        <h1>Sentinel AI <span class="sparkle">✦</span></h1>
+                        <h1>Sentinel AI <span class="version-tag">v2.0 Live</span></h1>
                     </div>
-                </div>
+                </a>
 
                 <nav class="nav-tabs">
                     <a href="#" class="nav-tab active">Dashboard</a>
-                    <a href="#" class="nav-tab">Transactions</a>
-                    <a href="#" class="nav-tab">Models</a>
-                    <a href="#" class="nav-tab">Analytics</a>
-                    <a href="#" class="nav-tab">Settings</a>
+                    <a href="#" class="nav-tab">Real-Time Monitor</a>
+                    <a href="#" class="nav-tab">Audit Ledger</a>
+                    <a href="#" class="nav-tab">Model Benchmarks</a>
+                    <a href="#" class="nav-tab">API Specs</a>
                 </nav>
             </div>
 
             <div class="header-right">
-                <div class="user-avatar" title="User Profile">👤</div>
-                <div class="notification-icon" title="Notifications"></div>
                 <div id="apiBadge" class="api-badge">
                     <div class="pulse-dot"></div>
-                    <span id="apiStatusText">Live API</span>
+                    <span id="apiStatusText">API Online • 14ms</span>
                 </div>
             </div>
         </header>
 
+        <!-- TOP STATS OVERVIEW BAR (DYNAMIC) -->
+        <div class="stats-summary-grid">
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-label">Transactions Scanned</div>
+                    <div class="stat-value" id="statTxCount">--</div>
+                    <div class="stat-sub" id="statTxSub">Loading dataset metrics...</div>
+                </div>
+                <div class="stat-icon-wrapper stat-icon-indigo">💳</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-label">Best PR-AUC Score</div>
+                    <div class="stat-value" id="statPrAuc">--</div>
+                    <div class="stat-sub" id="statModelName">★ ML Pipeline Benchmark</div>
+                </div>
+                <div class="stat-icon-wrapper stat-icon-emerald">🎯</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-label">Inference Latency</div>
+                    <div class="stat-value" id="statLatency">-- ms</div>
+                    <div class="stat-sub">⚡ Real-Time ML Backend</div>
+                </div>
+                <div class="stat-icon-wrapper stat-icon-cyan">⚡</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-label">Ledger Integrity</div>
+                    <div class="stat-value" id="statLedgerStatus">--</div>
+                    <div class="stat-sub" id="statLedgerSub">🔒 Tamper-Evident WAL</div>
+                </div>
+                <div class="stat-icon-wrapper stat-icon-amber">🔗</div>
+            </div>
+        </div>
+
         <!-- PAGE TITLE & PRESETS BANNER -->
         <div class="page-header">
-            <h2 class="page-title">Transaction Prediction Workbench</h2>
+            <div class="page-title-group">
+                <h2 id="pageTitleText">Transaction Risk & Fraud Workbench</h2>
+                <p id="pageSubText">Real-Time ML Inference with Platt Probability Calibration & Cryptographic Logging</p>
+            </div>
             <div class="preset-banner">
-                <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted)">Presets:</span>
+                <span style="font-size:0.8rem; font-weight:700; color:var(--text-secondary)">Presets:</span>
                 <div class="btn-group">
                     <button onclick="loadPreset('legit')" class="btn btn-emerald">🟢 Normal Tx</button>
-                    <button onclick="loadPreset('fraud')" class="btn btn-rose">🔴 High Risk</button>
-                    <button onclick="loadRealSample()" class="btn">🎲 Random Sample</button>
+                    <button onclick="loadPreset('fraud')" class="btn btn-rose">🔴 High Risk Fraud</button>
+                    <button onclick="loadRealSample()" class="btn">🎲 Dataset Sample</button>
                 </div>
             </div>
         </div>
@@ -670,7 +857,8 @@
             <!-- COLUMN 1: ANALYZE NEW TRANSACTION FORM -->
             <div class="card">
                 <div class="card-header">
-                    <span>Analyze New Transaction</span>
+                    <span>Transaction Parameters</span>
+                    <span class="header-tag">Live Input</span>
                 </div>
 
                 <div class="form-group">
@@ -679,56 +867,52 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Card Number</label>
+                    <label>Card Number (Masked)</label>
                     <input type="text" id="inputCard" class="form-control" value="•••• •••• •••• 4821">
                 </div>
 
                 <div class="form-group">
-                    <label>Merchant</label>
+                    <label>Merchant Name</label>
                     <input type="text" id="inputMerchant" class="form-control" value="Starbucks Coffee">
                 </div>
 
                 <div class="form-group">
-                    <label>Amount ($ USD)</label>
+                    <label>Amount (€ EUR / $ USD)</label>
                     <input type="number" id="inputAmount" class="form-control" value="45.20" step="0.01" onchange="predict()">
                 </div>
 
                 <div class="form-group">
-                    <label>Time</label>
-                    <input type="text" id="inputHour" class="form-control" value="14:06:00" onchange="predict()">
+                    <label>Time / Hour (0-23)</label>
+                    <input type="number" id="inputHour" class="form-control" value="14" min="0" max="23" onchange="predict()">
                 </div>
 
-                <div class="form-group">
-                    <label>Location (IP/City)</label>
-                    <input type="text" id="inputLocation" class="form-control" value="User Home City">
-                </div>
-
-                <div class="form-group" style="margin-top:1.2rem;">
+                <div class="form-group" style="margin-top:1.1rem;">
                     <label style="display:flex; justify-content:space-between;">
-                        <span>Key Driver Features (PCA)</span>
+                        <span>Key Driver Features (PCA Signals)</span>
+                        <span style="color:var(--accent-indigo); font-size:0.7rem;">Interactive</span>
                     </label>
                     <div class="features-grid">
                         <div class="feature-item">
-                            <label>V14 (Driver)</label>
-                            <input type="number" id="input_V14" value="0.00" step="0.1" onchange="predict()">
+                            <label>V14 (Primary)</label>
+                            <input type="number" id="input_V14" value="0.10" step="0.1" onchange="predict()">
                         </div>
                         <div class="feature-item">
                             <label>V17 (Deviation)</label>
-                            <input type="number" id="input_V17" value="0.00" step="0.1" onchange="predict()">
+                            <input type="number" id="input_V17" value="-0.20" step="0.1" onchange="predict()">
                         </div>
                         <div class="feature-item">
                             <label>V12 (Spike)</label>
-                            <input type="number" id="input_V12" value="0.00" step="0.1" onchange="predict()">
+                            <input type="number" id="input_V12" value="0.05" step="0.1" onchange="predict()">
                         </div>
                         <div class="feature-item">
-                            <label>V10 (Corr)</label>
-                            <input type="number" id="input_V10" value="0.00" step="0.1" onchange="predict()">
+                            <label>V10 (Correlation)</label>
+                            <input type="number" id="input_V10" value="0.10" step="0.1" onchange="predict()">
                         </div>
                     </div>
                 </div>
 
-                <button onclick="predict()" class="btn btn-primary" style="width:100%; margin-top:0.5rem; padding:0.75rem; justify-content:center;">
-                    Analyze Transaction
+                <button onclick="predict()" class="btn btn-primary" style="width:100%; margin-top:1rem; padding:0.8rem; justify-content:center; font-size:0.9rem;">
+                    ⚡ Run Fraud Detection Model
                 </button>
             </div>
 
@@ -748,55 +932,56 @@
                                 <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                                     <stop offset="0%" stop-color="#10b981"/>
                                     <stop offset="50%" stop-color="#f59e0b"/>
-                                    <stop offset="100%" stop-color="#ef4444"/>
+                                    <stop offset="100%" stop-color="#e11d48"/>
                                 </linearGradient>
                             </defs>
                         </svg>
                         <div class="gauge-value-display">
-                            <span class="gauge-score" id="probScore">18</span>
-                            <span class="gauge-scale">0 to 100</span>
+                            <span class="gauge-score" id="probScore">--</span>
+                            <span class="gauge-scale">Fraud Score</span>
                         </div>
                     </div>
 
-                    <div id="riskBadge" class="risk-badge low">LOW RISK</div>
-                    <div class="prediction-text">Prediction: <strong id="predictionOutcome" style="color:#10b981;">APPROVED</strong></div>
+                    <div id="riskBadge" class="risk-badge low">ANALYZING</div>
+                    <div class="prediction-text">Decision: <strong id="predictionOutcome">Processing...</strong></div>
                 </div>
 
                 <!-- SHAP FEATURE IMPACT CARDS -->
                 <div class="card">
                     <div class="card-header">
-                        <span>SHAP Feature Impact Cards</span>
+                        <span>SHAP Feature Drivers</span>
+                        <span class="header-tag">Dynamic Model Drivers</span>
                     </div>
 
-                    <div class="shap-cards-grid">
+                    <div id="shapDriversContainer" class="shap-cards-grid">
                         <div class="shap-item">
-                            <div class="shap-item-title">Amount</div>
-                            <div class="shap-item-val" id="shapAmountVal">$45.20</div>
-                            <div class="shap-progress"><div class="shap-progress-fill" style="width: 25%;"></div></div>
+                            <div class="shap-item-title"><span>Amount Signal</span> <span id="shapAmountTag">--</span></div>
+                            <div class="shap-item-val" id="shapAmountVal">--</div>
+                            <div class="shap-progress"><div id="barAmount" class="shap-progress-fill" style="width: 25%;"></div></div>
                         </div>
 
                         <div class="shap-item">
-                            <div class="shap-item-title">Merchant</div>
-                            <div class="shap-item-val">Starbucks</div>
-                            <div class="shap-progress"><div class="shap-progress-fill" style="width: 15%;"></div></div>
+                            <div class="shap-item-title"><span>Merchant Profile</span> <span>Safe</span></div>
+                            <div class="shap-item-val" id="shapMerchantVal">--</div>
+                            <div class="shap-progress"><div id="barMerchant" class="shap-progress-fill" style="width: 15%;"></div></div>
                         </div>
 
                         <div class="shap-item">
-                            <div class="shap-item-title">Location</div>
-                            <div class="shap-item-val">User Home City</div>
-                            <div class="shap-progress"><div class="shap-progress-fill" style="width: 10%;"></div></div>
+                            <div class="shap-item-title"><span>PCA Signal V14</span> <span id="shapV14Tag">--</span></div>
+                            <div class="shap-item-val" id="shapV14Val">--</div>
+                            <div class="shap-progress"><div id="barV14" class="shap-progress-fill" style="width: 12%;"></div></div>
                         </div>
 
                         <div class="shap-item">
-                            <div class="shap-item-title">IP Address</div>
-                            <div class="shap-item-val">Known Device</div>
-                            <div class="shap-progress"><div class="shap-progress-fill" style="width: 12%;"></div></div>
+                            <div class="shap-item-title"><span>PCA Signal V17</span> <span id="shapV17Tag">--</span></div>
+                            <div class="shap-item-val" id="shapV17Val">--</div>
+                            <div class="shap-progress"><div id="barV17" class="shap-progress-fill" style="width: 10%;"></div></div>
                         </div>
 
                         <div class="shap-item" style="grid-column: span 2;">
-                            <div class="shap-item-title">Card Type</div>
-                            <div class="shap-item-val">Visa •••• 4821</div>
-                            <div class="shap-progress"><div class="shap-progress-fill" style="width: 8%;"></div></div>
+                            <div class="shap-item-title"><span>Time Window (Hour)</span> <span>Time Feature</span></div>
+                            <div class="shap-item-val" id="shapTimeVal">--</div>
+                            <div class="shap-progress"><div id="barTime" class="shap-progress-fill" style="width: 8%;"></div></div>
                         </div>
                     </div>
                 </div>
@@ -806,12 +991,16 @@
             <div class="card">
                 <div class="card-header">
                     <div>
-                        <div style="font-size:1.05rem; font-weight:800;">Blockchain Audit Ledger</div>
-                        <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Ed25519 tamper-evident ledger</div>
+                        <div style="font-size:1.05rem; font-weight:800;">Ed25519 Audit Ledger</div>
+                        <div style="font-size:0.75rem; color:var(--text-secondary); font-weight:600;">Cryptographic tamper-evident SQLite WAL</div>
                     </div>
                     <button onclick="simulateTamper()" class="btn btn-rose" style="padding:0.35rem 0.75rem; font-size:0.75rem;">
-                        Simulate Tamper
+                        Simulate Attack
                     </button>
+                </div>
+
+                <div id="tamperAlert" class="tamper-alert">
+                    <span id="tamperAlertText">⚠️ CRYPTOGRAPHIC INTEGRITY VIOLATION! Hash mismatch detected.</span>
                 </div>
 
                 <div class="ledger-table-container">
@@ -819,40 +1008,15 @@
                         <thead>
                             <tr>
                                 <th>Timestamp</th>
-                                <th>Transaction ID</th>
-                                <th>Risk Score</th>
-                                <th>Decision</th>
-                                <th>Audit Hash</th>
+                                <th>Tx Hash</th>
+                                <th>Score</th>
+                                <th>Status</th>
+                                <th>Block / Status</th>
                             </tr>
                         </thead>
                         <tbody id="ledgerTableBody">
                             <tr>
-                                <td>10:06:27</td>
-                                <td>6e8f...2a1c</td>
-                                <td>18</td>
-                                <td><span class="status-tag">Approved</span></td>
-                                <td><span class="hash-pill">6e8f...2a1c</span></td>
-                            </tr>
-                            <tr>
-                                <td>10:05:42</td>
-                                <td>b3d0...7f4e</td>
-                                <td>18</td>
-                                <td><span class="status-tag">Approved</span></td>
-                                <td><span class="hash-pill">b3d0...7f4e</span></td>
-                            </tr>
-                            <tr>
-                                <td>10:04:19</td>
-                                <td>9a1c...e8f6</td>
-                                <td>18</td>
-                                <td><span class="status-tag">Approved</span></td>
-                                <td><span class="hash-pill">9a1c...e8f6</span></td>
-                            </tr>
-                            <tr>
-                                <td>10:02:05</td>
-                                <td>4f12...3a9b</td>
-                                <td>84</td>
-                                <td><span class="status-tag flagged">Flagged</span></td>
-                                <td><span class="hash-pill">4f12...3a9b</span></td>
+                                <td colspan="5" style="text-align:center; color:var(--text-muted);">Loading live blockchain ledger...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -860,52 +1024,28 @@
             </div>
         </div>
 
-        <!-- BOTTOM BENCHMARK METRICS TABLE -->
-        <div class="card" style="margin-bottom: 2rem;">
+        <!-- BOTTOM BENCHMARK METRICS TABLE (DYNAMIC) -->
+        <div class="card">
             <div class="card-header">
-                <span>Model Benchmark Performance</span>
-                <span style="font-size:0.78rem; color:var(--text-muted); font-weight:600;">Evaluated on 56,962 Held-Out Test Transactions</span>
+                <span>Model Evaluation & Benchmark Leaderboard</span>
+                <span id="benchmarkHeaderSub" style="font-size:0.78rem; color:var(--text-secondary); font-weight:600;">Live Results from Training Reports</span>
             </div>
             <div style="overflow-x:auto;">
                 <table class="comparison-table">
                     <thead>
                         <tr>
-                            <th>Model</th>
-                            <th>ROC-AUC</th>
-                            <th>PR-AUC</th>
-                            <th>F1-Score</th>
-                            <th>Recall</th>
-                            <th>Precision</th>
+                            <th>Classifier Strategy</th>
+                            <th>Imbalance Strategy</th>
+                            <th>Val ROC-AUC</th>
+                            <th>Val PR-AUC</th>
+                            <th>Val F1-Score</th>
+                            <th>Val Cost ($)</th>
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="winner-row">
-                            <td><strong style="color:#0f172a">LightGBM Classifier</strong></td>
-                            <td>0.9857</td>
-                            <td><strong style="color:var(--accent-emerald)">0.8784</strong></td>
-                            <td>0.8710</td>
-                            <td>81.6%</td>
-                            <td>93.4%</td>
-                            <td><span class="badge-winner">★ Deployed Best</span></td>
-                        </tr>
+                    <tbody id="benchmarkTableBody">
                         <tr>
-                            <td>XGBoost Classifier</td>
-                            <td>0.9857</td>
-                            <td>0.8778</td>
-                            <td>0.8696</td>
-                            <td>81.6%</td>
-                            <td>93.0%</td>
-                            <td><span class="badge-tag">Runner Up</span></td>
-                        </tr>
-                        <tr>
-                            <td>Random Forest</td>
-                            <td>0.9782</td>
-                            <td>0.8540</td>
-                            <td>0.8420</td>
-                            <td>78.4%</td>
-                            <td>91.0%</td>
-                            <td><span class="badge-tag">Baseline</span></td>
+                            <td colspan="7" style="text-align:center; color:var(--text-muted);">Fetching dynamic evaluation metrics from API...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -913,131 +1053,345 @@
         </div>
     </div>
 
-    <!-- SCRIPT LOGIC -->
+    <!-- SCRIPT LOGIC (100% DYNAMIC API-DRIVEN) -->
     <script>
-        const API_URL = "http://localhost:8000";
+        const API_URL = "";  // Same origin API endpoint
 
-        // PRESETS DATA
-        const presets = {
-            legit: {
-                amount: 45.20,
-                hour: 14,
-                v14: 0.1,
-                v17: -0.2,
-                v12: 0.05,
-                v10: 0.1,
-                merchant: "Starbucks Coffee",
-                card: "•••• •••• •••• 4821"
-            },
-            fraud: {
-                amount: 980.00,
-                hour: 3,
-                v14: -8.5,
-                v17: -12.4,
-                v12: -6.2,
-                v10: -7.1,
-                merchant: "Unknown Offshore FX",
-                card: "•••• •••• •••• 9102"
-            }
+        // Dynamic sample store
+        let sampleData = {
+            legitimate: [],
+            fraudulent: []
         };
 
+        // 1. Fetch System Health & Reports on Load
+        async function fetchSystemHealth() {
+            try {
+                const res = await fetch(`/api/health`);
+                if (!res.ok) return;
+                const data = await res.json();
+
+                // Update API status badge
+                document.getElementById("apiStatusText").innerText = `API Online (${data.model_name})`;
+                document.getElementById("apiBadge").className = "api-badge";
+
+                // Update Stat Cards dynamically
+                if (data.reports) {
+                    const r = data.reports;
+                    if (r.dataset_deduplication && r.dataset_deduplication.clean_rows) {
+                        document.getElementById("statTxCount").innerText = r.dataset_deduplication.clean_rows.toLocaleString();
+                        document.getElementById("statTxSub").innerText = `↑ ${r.dataset_deduplication.duplicates_removed.toLocaleString()} duplicates removed`;
+                    }
+                    
+                    if (r.best_config) {
+                        document.getElementById("statPrAuc").innerText = (r.best_config.val_pr_auc || 0).toFixed(4);
+                        document.getElementById("statModelName").innerText = `★ Winner: ${r.best_config.model_name}`;
+                    } else if (r.test_metrics) {
+                        document.getElementById("statPrAuc").innerText = (r.test_metrics.pr_auc || 0).toFixed(4);
+                    }
+
+                    // Populate Benchmark Leaderboard Table dynamically
+                    if (r.benchmark_comparison && Array.isArray(r.benchmark_comparison)) {
+                        renderBenchmarkTable(r.benchmark_comparison, r.best_config);
+                    }
+                }
+
+                // Update Ledger Stat
+                if (data.blockchain_summary) {
+                    const bc = data.blockchain_summary;
+                    document.getElementById("statLedgerStatus").innerText = bc.is_valid ? "Ed25519 Valid" : "Tamper Alert";
+                    document.getElementById("statLedgerSub").innerText = `Chain Length: ${bc.chain_length} blocks`;
+                }
+            } catch (err) {
+                console.error("Health check error:", err);
+                document.getElementById("apiStatusText").innerText = "API Offline";
+                document.getElementById("apiBadge").className = "api-badge offline";
+            }
+        }
+
+        // 2. Render Benchmark Leaderboard Dynamically
+        function renderBenchmarkTable(comparisonList, bestConfig) {
+            const tbody = document.getElementById("benchmarkTableBody");
+            tbody.innerHTML = "";
+
+            // Sort by PR-AUC descending
+            const sorted = [...comparisonList].sort((a, b) => (b.val_pr_auc || 0) - (a.val_pr_auc || 0));
+            
+            sorted.forEach((item, index) => {
+                const isWinner = index === 0;
+                const row = document.createElement("tr");
+                if (isWinner) row.className = "winner-row";
+
+                const modelName = item.model_name || "Classifier";
+                const strategy = item.strategy ? item.strategy.replace('_', ' ') : "none";
+                const roc = (item.val_roc_auc || 0).toFixed(4);
+                const pr = (item.val_pr_auc || 0).toFixed(4);
+                const f1 = (item.val_f1 || 0).toFixed(4);
+                const cost = "$" + (item.val_cost || 0).toLocaleString(undefined, {minimumFractionDigits: 2});
+                
+                let badgeHtml = '<span class="badge-tag">Candidate</span>';
+                if (isWinner) badgeHtml = '<span class="badge-winner">★ Deployed Winner</span>';
+                else if (index === 1) badgeHtml = '<span class="badge-tag">Runner Up</span>';
+
+                row.innerHTML = `
+                    <td><strong style="color:var(--text-primary);">${modelName}</strong></td>
+                    <td><span style="text-transform:capitalize;">${strategy}</span></td>
+                    <td>${roc}</td>
+                    <td><strong style="color:${isWinner ? 'var(--accent-emerald)' : 'inherit'}">${pr}</strong></td>
+                    <td>${f1}</td>
+                    <td>${cost}</td>
+                    <td>${badgeHtml}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 3. Fetch Real Sample Dataset Transactions
+        async function fetchSampleData() {
+            try {
+                const res = await fetch(`/api/sample`);
+                if (res.ok) {
+                    sampleData = await res.json();
+                }
+            } catch (err) {
+                console.log("Could not load sample dataset directly from backend.");
+            }
+        }
+
         function loadPreset(type) {
-            const data = presets[type];
-            if (!data) return;
-            document.getElementById("inputAmount").value = data.amount;
-            document.getElementById("input_V14").value = data.v14;
-            document.getElementById("input_V17").value = data.v17;
-            document.getElementById("input_V12").value = data.v12;
-            document.getElementById("input_V10").value = data.v10;
-            if (data.merchant) document.getElementById("inputMerchant").value = data.merchant;
-            if (data.card) document.getElementById("inputCard").value = data.card;
+            let data = null;
+            if (type === 'legit' && sampleData.legitimate && sampleData.legitimate.length > 0) {
+                data = sampleData.legitimate[Math.floor(Math.random() * sampleData.legitimate.length)];
+            } else if (type === 'fraud' && sampleData.fraudulent && sampleData.fraudulent.length > 0) {
+                data = sampleData.fraudulent[Math.floor(Math.random() * sampleData.fraudulent.length)];
+            }
+
+            if (data) {
+                document.getElementById("inputAmount").value = data.Amount || 45.20;
+                document.getElementById("inputHour").value = data.Hour !== undefined ? data.Hour : 14;
+                document.getElementById("input_V14").value = (data.V14 || 0).toFixed(2);
+                document.getElementById("input_V17").value = (data.V17 || 0).toFixed(2);
+                document.getElementById("input_V12").value = (data.V12 || 0).toFixed(2);
+                document.getElementById("input_V10").value = (data.V10 || 0).toFixed(2);
+                document.getElementById("inputMerchant").value = type === 'fraud' ? "Offshore Forex Exchange" : "Supermarket Retail";
+                document.getElementById("inputCard").value = type === 'fraud' ? "•••• •••• •••• 9102" : "•••• •••• •••• 4821";
+            } else {
+                // Fallback preset values if sample not ready
+                if (type === 'legit') {
+                    document.getElementById("inputAmount").value = 45.20;
+                    document.getElementById("inputHour").value = 14;
+                    document.getElementById("input_V14").value = 0.10;
+                    document.getElementById("input_V17").value = -0.20;
+                } else {
+                    document.getElementById("inputAmount").value = 980.00;
+                    document.getElementById("inputHour").value = 3;
+                    document.getElementById("input_V14").value = -8.50;
+                    document.getElementById("input_V17").value = -12.40;
+                }
+            }
             predict();
         }
 
         function loadRealSample() {
-            const isFraud = Math.random() < 0.3;
+            const isFraud = Math.random() < 0.35;
             loadPreset(isFraud ? 'fraud' : 'legit');
         }
 
+        // 4. Real ML Prediction Call to FastAPI Backend
         async function predict() {
-            const amount = parseFloat(document.getElementById("inputAmount").value) || 45.2;
-            const hour = parseInt(document.getElementById("inputHour").value) || 14;
+            const amount = parseFloat(document.getElementById("inputAmount").value) || 0.0;
+            const hour = parseInt(document.getElementById("inputHour").value) || 12;
             const v14 = parseFloat(document.getElementById("input_V14").value) || 0.0;
             const v17 = parseFloat(document.getElementById("input_V17").value) || 0.0;
+            const v12 = parseFloat(document.getElementById("input_V12").value) || 0.0;
+            const v10 = parseFloat(document.getElementById("input_V10").value) || 0.0;
+            const merchant = document.getElementById("inputMerchant").value || "Merchant";
 
+            // Update UI elements immediately
             document.getElementById("shapAmountVal").innerText = "$" + amount.toFixed(2);
+            document.getElementById("shapMerchantVal").innerText = merchant;
+            document.getElementById("shapV14Val").innerText = v14.toFixed(2);
+            document.getElementById("shapV17Val").innerText = v17.toFixed(2);
+            document.getElementById("shapTimeVal").innerText = `${hour}:00 (${hour < 12 ? 'AM' : 'PM'})`;
 
-            // Calculate Risk Score
-            let risk = 10;
-            if (v14 < -2.0 || v17 < -2.0) risk += 50;
-            if (amount > 500) risk += 25;
-            if (hour < 5) risk += 15;
-            risk = Math.min(Math.max(risk, 5), 98);
+            const payload = {
+                Amount: amount,
+                Time: hour * 3600,
+                Hour: hour,
+                V14: v14,
+                V17: v17,
+                V12: v12,
+                V10: v10
+            };
 
-            updateGauge(risk);
+            try {
+                const res = await fetch(`/api/predict`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
 
-            // Add to Ledger table
-            addLedgerEntry(risk);
+                if (res.ok) {
+                    const result = await res.json();
+                    
+                    // Update Latency Metric Stat Card
+                    if (result.latency_ms !== undefined) {
+                        document.getElementById("statLatency").innerText = `${result.latency_ms} ms`;
+                    }
+
+                    // Update Risk Score Gauge with real probability
+                    const score = Math.round(result.fraud_percentage || (result.fraud_probability * 100));
+                    updateGauge(score, result.is_fraud, result.risk_level);
+
+                    // Update SHAP Drivers dynamically from backend calculation
+                    if (result.top_feature_drivers && result.top_feature_drivers.length > 0) {
+                        updateShapDrivers(result.top_feature_drivers);
+                    }
+
+                    // Refresh Blockchain Chain Table
+                    fetchBlockchainChain();
+                }
+            } catch (err) {
+                console.error("Prediction API error:", err);
+            }
         }
 
-        function updateGauge(score) {
+        // 5. Update SVG Risk Gauge Display
+        function updateGauge(score, isFraud, riskLevel) {
             document.getElementById("probScore").innerText = score;
             const badge = document.getElementById("riskBadge");
             const outcome = document.getElementById("predictionOutcome");
             const arc = document.getElementById("gaugeArc");
 
-            // Calculate SVG dashoffset (251.2 max arc length)
+            // SVG arc length calculation (251.2 max)
             const offset = 251.2 - (251.2 * (score / 100));
             arc.style.strokeDashoffset = offset;
 
-            if (score > 50) {
+            if (isFraud || score > 50) {
                 badge.className = "risk-badge high";
-                badge.innerText = "HIGH RISK";
-                outcome.innerText = "FLAGGED FOR REVIEW";
-                outcome.style.color = "#ef4444";
+                badge.innerText = `${riskLevel || 'HIGH'} RISK FRAUD`;
+                outcome.innerText = "BLOCK & QUARANTINE";
+                outcome.style.color = "#e11d48";
             } else {
                 badge.className = "risk-badge low";
-                badge.innerText = "LOW RISK";
-                outcome.innerText = "APPROVED";
-                outcome.style.color = "#10b981";
+                badge.innerText = `${riskLevel || 'LOW'} RISK`;
+                outcome.innerText = "APPROVE INSTANTLY";
+                outcome.style.color = "#059669";
             }
         }
 
-        function addLedgerEntry(score) {
-            const tbody = document.getElementById("ledgerTableBody");
-            const now = new Date();
-            const timeStr = now.toTimeString().split(' ')[0];
-            const hash = Math.random().toString(36).substring(2, 10) + "..." + Math.random().toString(36).substring(2, 6);
-            const isApproved = score <= 50;
+        // 6. Update SHAP Driver Bars
+        function updateShapDrivers(drivers) {
+            const barV14 = document.getElementById("barV14");
+            const barV17 = document.getElementById("barV17");
+            const barAmount = document.getElementById("barAmount");
 
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${timeStr}</td>
-                <td>${hash.substring(0, 8)}</td>
-                <td>${score}</td>
-                <td><span class="status-tag ${isApproved ? '' : 'flagged'}">${isApproved ? 'Approved' : 'Flagged'}</span></td>
-                <td><span class="hash-pill">${hash}</span></td>
-            `;
-            tbody.insertBefore(row, tbody.firstChild);
-            if (tbody.children.length > 5) {
-                tbody.removeChild(tbody.lastChild);
+            const v14Driver = drivers.find(d => d.feature === "V14");
+            if (v14Driver) {
+                const impactPct = Math.min(Math.round(v14Driver.impact * 100), 100);
+                barV14.style.width = Math.max(impactPct, 10) + "%";
+                barV14.className = v14Driver.raw_value < -2.0 ? "shap-progress-fill danger" : "shap-progress-fill";
+                document.getElementById("shapV14Tag").innerText = v14Driver.raw_value < -2.0 ? "High Impact" : "Normal";
+            }
+
+            const v17Driver = drivers.find(d => d.feature === "V17");
+            if (v17Driver) {
+                const impactPct = Math.min(Math.round(v17Driver.impact * 100), 100);
+                barV17.style.width = Math.max(impactPct, 10) + "%";
+                barV17.className = v17Driver.raw_value < -2.0 ? "shap-progress-fill danger" : "shap-progress-fill";
+                document.getElementById("shapV17Tag").innerText = v17Driver.raw_value < -2.0 ? "High Impact" : "Normal";
             }
         }
 
-        function simulateTamper() {
-            alert("⚠️ Tamper simulation triggered! Verification hash mismatch detected on block entry. Cryptographic audit chain invalidated!");
-            const tbody = document.getElementById("ledgerTableBody");
-            if (tbody.firstChild) {
-                const tag = tbody.firstChild.querySelector(".status-tag");
-                if (tag) {
-                    tag.className = "status-tag flagged";
-                    tag.innerText = "CORRUPTED (TAMPERED)";
+        // 7. Fetch Live Blockchain Ledger Entries
+        async function fetchBlockchainChain() {
+            try {
+                const res = await fetch(`/api/blockchain/chain`);
+                if (!res.ok) return;
+                const data = await res.json();
+                
+                const tbody = document.getElementById("ledgerTableBody");
+                tbody.innerHTML = "";
+
+                // Flatten transactions from chain
+                let allTxs = [];
+                if (data.chain) {
+                    data.chain.forEach(block => {
+                        if (block.transactions) {
+                            block.transactions.forEach(tx => {
+                                allTxs.push({
+                                    ...tx,
+                                    block_index: block.index,
+                                    timestamp: block.timestamp
+                                });
+                            });
+                        }
+                    });
                 }
+
+                // Reverse chronological order
+                allTxs.reverse();
+                
+                if (allTxs.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No blockchain transactions yet.</td></tr>`;
+                    return;
+                }
+
+                allTxs.slice(0, 5).forEach(tx => {
+                    const row = document.createElement("tr");
+                    const dateStr = new Date(tx.timestamp * 1000).toTimeString().split(' ')[0];
+                    const hashShort = tx.tx_hash ? tx.tx_hash.substring(0, 8) + "..." : "hash";
+                    const isFraud = tx.is_fraud;
+                    const score = Math.round((tx.fraud_probability || 0) * 100);
+
+                    row.innerHTML = `
+                        <td>${dateStr}</td>
+                        <td><span class="hash-pill">${hashShort}</span></td>
+                        <td><strong>${score}</strong></td>
+                        <td><span class="status-tag ${isFraud ? 'flagged' : ''}">${isFraud ? 'Flagged' : 'Approved'}</span></td>
+                        <td><span style="font-size:0.75rem; font-weight:700; color:var(--text-secondary)">Block #${tx.block_index}</span></td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (err) {
+                console.error("Blockchain fetch error:", err);
             }
         }
 
-        // Initialize on load
+        // 8. Real Cyber Attack / Tamper Simulation Call
+        async function simulateTamper() {
+            try {
+                const res = await fetch(`/api/blockchain/tamper`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ block_index: 1, transaction_index: 0, new_amount: 9999.0, flip_fraud: true })
+                });
+
+                const data = await res.json();
+                
+                const alertBox = document.getElementById("tamperAlert");
+                alertBox.style.display = "flex";
+
+                if (data.validation_status) {
+                    document.getElementById("tamperAlertText").innerText = 
+                        `⚠️ CRYPTOGRAPHIC ATTACK DETECTED! ${data.validation_status.error || 'Chain Hash Mismatch Detected!'}`;
+                }
+
+                // Update status card
+                document.getElementById("statLedgerStatus").innerText = "TAMPER DETECTED";
+                document.getElementById("statLedgerStatus").style.color = "var(--accent-rose)";
+
+                // Refresh table
+                fetchBlockchainChain();
+            } catch (err) {
+                console.error("Tamper simulation error:", err);
+            }
+        }
+
+        // Initialize on DOM ready
         window.addEventListener("DOMContentLoaded", () => {
+            fetchSystemHealth();
+            fetchSampleData();
+            fetchBlockchainChain();
             predict();
         });
     </script>

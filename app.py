@@ -157,6 +157,17 @@ def compute_feature_contributions(raw_vector: np.ndarray, scaled_vector: np.ndar
 
 @app.get("/api/health")
 def get_health():
+    results_path = os.path.join(os.path.dirname(__file__), "reports", "results.json")
+    artifacts_path = os.path.join(os.path.dirname(__file__), "models", "model_artifacts.json")
+    
+    results_data = {}
+    if os.path.exists(results_path):
+        with open(results_path, "r") as f:
+            results_data = json.load(f)
+    elif os.path.exists(artifacts_path):
+        with open(artifacts_path, "r") as f:
+            results_data = json.load(f)
+
     return {
         "status": "online",
         "model_loaded": model is not None,
@@ -164,8 +175,15 @@ def get_health():
         "model_name": model_info.get("best_model", "LightGBM"),
         "optimal_threshold": OPTIMAL_THRESHOLD,
         "features": FEATURE_NAMES,
-        "metrics": model_info.get("metrics", {})
+        "metrics": model_info.get("metrics", {}),
+        "reports": results_data,
+        "blockchain_summary": {
+            "chain_length": len(blockchain.chain),
+            "pending_count": len(blockchain.pending_transactions),
+            "is_valid": blockchain.validate_chain().get("is_valid", True)
+        }
     }
+
 
 
 @app.post("/api/predict")
